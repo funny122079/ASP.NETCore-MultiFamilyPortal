@@ -1,0 +1,33 @@
+﻿@page "/admin/properties/assets-under-management"
+@using MultiFamilyPortal.Dtos.Portfolio
+
+<SiteTitle Title="Assets Under Management"/>
+<Animation OptionsName="Page">
+  <h3>Portfolio</h3>
+  <h4>Assets Under Management</h4>
+  <br />
+  <TelerikGrid Data=@_portfolio
+               Pageable=@true
+               PageSize=@(15)>
+    <GridColumns>
+      <GridColumn Field="Name" />
+      <GridColumn Field="City" />
+      <GridColumn Field="State" />
+      <GridColumn Field="PurchasePrice" DisplayFormat="{0:C0}" TextAlign=@ColumnTextAlign.Center />
+      <GridColumn Field="Units" TextAlign=@ColumnTextAlign.Center />
+      <GridColumn Field="Status" TextAlign=@ColumnTextAlign.Center>
+        <Template>
+          @{ var asset = context as PortfolioSummary; }
+          <span>@asset.Status.Humanize(LetterCasing.Title)</span>
+        </Template>
+      </GridColumn>
+      <GridColumn Field="InvestorState" Title="Investor State" TextAlign=@ColumnTextAlign.Center />
+    </GridColumns>
+    <NoDataTemplate>
+      <div class="text-center">
+        <h2>No Properties</h2>
+        <img src="/_content/MultiFamilyPortal.AdminTheme/img/our_neighborhood.svg" class="img-fluid" style="max-width:550px" />
+      </div>
+    </NoDataTemplate>
+  </TelerikGrid>
+</Animation>

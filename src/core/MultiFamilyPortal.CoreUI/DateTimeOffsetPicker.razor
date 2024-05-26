@@ -1,0 +1,37 @@
+﻿<TelerikDatePicker Value=@_date
+                   ValueChanged=@OnDateChanged
+                   T=@DateTime
+                   Min=@Min.Date
+                   Enabled=@Enabled
+                   Class=@Class />
+
+@code {
+    [Parameter]
+    public DateTimeOffset Value { get; set; }
+
+    [Parameter]
+    public EventCallback<DateTimeOffset> ValueChanged { get; set; }
+
+    [Parameter]
+    public DateTimeOffset Min { get; set; }
+
+    [Parameter]
+    public bool Enabled { get; set; } = true;
+
+    [Parameter]
+    public string Class { get; set; } = "form-control";
+
+    private DateTime _date;
+
+    protected override void OnParametersSet()
+    {
+        if (_date != Value.Date)
+            _date = Value.Date;
+    }
+
+    private async Task OnDateChanged(DateTime date)
+    {
+        if (date != Value.Date)
+            await ValueChanged.InvokeAsync(new DateTimeOffset(date, Value.Offset));
+    }
+}

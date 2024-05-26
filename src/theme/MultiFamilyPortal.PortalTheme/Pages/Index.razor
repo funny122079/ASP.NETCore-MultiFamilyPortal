@@ -1,0 +1,80 @@
+﻿@page "/"
+@page "/account/login"
+
+<SiteTitle Title="Login" />
+
+<div>
+  <h1><img src="/theme/branding/logo" alt="Logo" class="img img-fluid logo" /></h1>
+</div>
+
+<div class="container">
+  <h3>Login</h3>
+  <div class="row">
+    <div class="col-md-12">
+      <section>
+        <form method="post" action="/api/authentication/login?returnUrl=@_encodedUrl" @ref="submitForm">
+          <input type="hidden" name="Email" @bind-value=@Input.Email />
+          <input type="hidden" name="Password" @bind-value=@Input.Password />
+          <input type="hidden" name="RememberMe" @bind-value=@Input.RememberMe />
+        </form>
+
+        <EditForm Model=@Input
+                  OnValidSubmit=@SignInAsync>
+          <DataAnnotationsValidator />
+          <ServerSideValidator @ref="serverSideValidator" />
+          <ValidationSummary />
+          <div class="form-floating my-2">
+            <InputText @bind-Value=@Input.Email class="form-control" autocomplete="username" aria-required="true" />
+            <label for="Email" class="form-label">Email</label>
+            <ValidationMessage For="() => Input.Email" />
+          </div>
+          <div class="form-floating my-2">
+            <InputText type="password" @bind-Value=@Input.Password class="form-control" autocomplete="current-password" aira-required="true" />
+            <label for="Password" class="form-label">Password</label>
+            <ValidationMessage For="() => Input.Password" />
+          </div>
+          <div class="my-2">
+            <div class="checkbox">
+              <label for="RememberMe" class="form-label">Remember Me
+                <TelerikCheckBox AriaLabelledBy="Remember Me"
+                                @bind-Value=@Input.RememberMe
+                                Class="form-check-input"/>
+              </label>
+            </div>
+          </div>
+          <div class="my-2">
+            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+          </div>
+          <div>
+            <p>
+              <NavLink href="/account/forgot-password">Forgot your password</NavLink>
+            </p>
+          </div>
+        </EditForm>
+      </section>
+    </div>
+    <div class="col-md-12">
+      @if(_micrsoftScheme != null || _googleScheme != null)
+      {
+        <section>
+          <h3>Or use an existing account.</h3>
+          <div>
+            <p>
+              @if(_micrsoftScheme != null)
+              {
+                <OAuthLoginButton Scheme=@_micrsoftScheme />
+              }
+              @if(_googleScheme != null)
+              {
+                <OAuthLoginButton Scheme=@_googleScheme />
+              }
+            </p>
+          </div>
+        </section>
+      }
+    </div>
+  </div>
+</div>
+
+
+

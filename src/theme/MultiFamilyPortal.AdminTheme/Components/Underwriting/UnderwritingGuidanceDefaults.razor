@@ -1,0 +1,85 @@
+﻿<TelerikGrid Data=@_guidance
+             Groupable="false"
+             FilterMode="GridFilterMode.None"
+             Sortable="false"
+             ShowColumnMenu="false"
+             @ref="grid">
+  <GridToolBar>
+    <AuthorizedPolicy Policy=@PortalPolicy.Underwriter>
+      <TelerikButton ButtonType=@ButtonType.Button
+                     ThemeColor="primary"
+                     IconClass="fa-duotone fa-copy"
+                     OnClick="@OnAddGuidance"
+                     Title="Add Market">Add Market</TelerikButton>
+    </AuthorizedPolicy>
+  </GridToolBar>
+  <GridColumns>
+    <GridColumn Field="Market" Groupable="true">
+      <GroupHeaderTemplate>
+        <div class="d-flex justify-content-between w-100">
+           <div>Market : @(context.Value ?? "Default")</div>
+           @if(_editable)
+           {
+             <div>
+               <button class="btn btn-success btn-sm"
+                       @onclick=@(()=>EditAddGuidance(context.Value?.ToString())) >
+                Edit
+               </button>
+             </div>
+           }
+        </div>
+      </GroupHeaderTemplate>
+      <Template>
+        @{ var guidance = context as Data.Models.UnderwritingGuidance; }
+        @if(string.IsNullOrEmpty(guidance.Market))
+        {
+          <span>Default</span>
+        }
+        else
+        {
+          <span>@guidance.Market</span>
+        }
+      </Template>
+    </GridColumn>
+    <GridColumn Field="Category" Groupable="false">
+      <Template>
+        @{ var guidance = context as Data.Models.UnderwritingGuidance; }
+          <span>@guidance.Category.Humanize(LetterCasing.Title)</span>
+      </Template>
+    </GridColumn>
+    <GridColumn Title="Amount">
+      <Template>
+        @{ var guidance = context as Data.Models.UnderwritingGuidance; }
+        @if(guidance.Type == Data.Models.CostType.PerDoor)
+        {
+          <span>@guidance.Min.ToString("C") - @guidance.Max.ToString("C") Per Door</span>
+        }
+        else if(guidance.Type == Data.Models.CostType.PercentOfPurchase)
+        {
+          <span>@guidance.Max.ToString("P") of Purchase</span>
+        }
+        else
+        {
+          <span>@guidance.Max.ToString("C")</span>
+        }
+      </Template>
+    </GridColumn>
+  </GridColumns>
+</TelerikGrid>
+
+<TelerikWindow @bind-Visible="@_windowVisibility"
+               Centered ="true"
+               Modal="true"
+               Class="responsive-window-lg">
+  <WindowTitle>
+    <strong>@(string.IsNullOrEmpty(_marketTitle)?"Add": "Edit") Market</strong>
+  </WindowTitle>
+  <WindowActions>
+      <WindowAction Name="Close"></WindowAction>
+  </WindowActions>
+    <WindowContent>
+      <UnderwritingMarketAddition Guidance="@(_guidance.Where(x => x.Market == _marketTitle))"
+                                  Editable="@_editIntent"
+                                  UpdateGuidance=@RefreshGuidance />
+  </WindowContent>
+</TelerikWindow>

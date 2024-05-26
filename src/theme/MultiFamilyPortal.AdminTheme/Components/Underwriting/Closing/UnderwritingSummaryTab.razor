@@ -1,0 +1,97 @@
+﻿<div class="table-responsive">
+  <table>
+    <tr>
+      <th width="30%"></th>
+      <th style="min-width:25%" class="py-2">Pro Forma</th>
+      <th></th>
+      <th style="min-width:25%" class="py-2">Stated In Place</th>
+    </tr>
+    <tr>
+      <td class="py-2"><strong>Net Operating Income</strong></td>
+      <td class="py-2">@Property.NOI.ToString("C")</td>
+      <td class="py-2"></td>
+      <td class="py-2">@Property.SellerNOI.ToString("C")</td>
+    </tr>
+
+    <tr>
+      <td class="py-2"><strong>Capital Expenditures</strong></td>
+      <td class="py-2">@Property.CapXTotal.ToString("C")</td>
+      <td class="py-2">
+        <CapXInput Property="@Property" />
+      </td>
+      <td class="py-2">@Property.CapXTotal.ToString("C")</td>
+    </tr>
+
+    <tr>
+      <td class="py-2"><strong>NOI after CapX</strong></td>
+      <td class="py-2">@ourNOIAfterCapX.ToString("C")</td>
+      <td></td>
+      <td class="py-2">@sellerNOIAfterCapX.ToString("C")</td>
+    </tr>
+
+    <tr>
+      <td class="py-2">Primary Debt Service</td>
+      <td class="py-2">@debtService.ToString("C")</td>
+      <td></td>
+      <td class="py-2">@debtService.ToString("C")</td>
+    </tr>
+
+    <tr>
+      <td class="py-2">Secondary Debt Service</td>
+      <td class="py-2">@secondaryDebtService.ToString("C")</td>
+      <td></td>
+      <td class="py-2">@secondaryDebtService.ToString("C")</td>
+    </tr>
+
+    <tr>
+      <td class="py-2"><strong>Cash Flow Before Taxes</strong></td>
+      <td class="py-2">@ourCashFlow.ToString("C")</td>
+      <td></td>
+      <td class="py-2">@sellerCashFlow.ToString("C")</td>
+    </tr>
+
+    <tr>
+      <td class="py-2"><strong>Cash on Cash Return</strong></td>
+      <td class="py-2">@Property.CashOnCash.ToString("P")</td>
+      <td></td>
+      <td class="py-2">@Property.CashOnCash.ToString("P")</td>
+    </tr>
+
+    <tr>
+      <td class="py-2"><strong>Debt Coverage Ratio</strong></td>
+      <td class="py-2">@Property.DebtCoverage.ToString("N2")</td>
+      <td></td>
+      <td class="py-2">@Property.DebtCoverage.ToString("N2")</td>
+    </tr>
+
+    <tr>
+      <td class="py-2"><strong>Cap Rate</strong></td>
+      <td class="py-2">@Property.CapRate.ToString("P")</td>
+      <td></td>
+      <td class="py-2">@Property.SellerCapRate.ToString("P")</td>
+    </tr>
+
+    <tr>
+      <td class="py-2"><strong>Our Equity of CF</strong></td>
+      <td class="py-2">@ourEquityCF.ToString("C")</td>
+      <td>
+        <PercentageInput @bind-Value=@Property.OurEquityOfCF Enabled=@_editable Id="OurEquityOfCF" />
+      </td>
+      <td class="py-2">@sellerCashFlow.ToString("C")</td>
+    </tr>
+
+    <tr>
+      <td class="py-2"><strong>Equity Partners Cash Flow</strong></td>
+      <td class="py-2">@ourEquityPartnerCF.ToString("C")</td>
+      <td></td>
+      <td class="py-2">@sellerEquityPartnerCF.ToString("C")</td>
+    </tr>
+
+    <tr>
+      <td class="py-2"><strong>COC Return Equity Partners</strong></td>
+      <td class="py-2">@ourEquityPartnerCoC.ToString("P")</td>
+      <td></td>
+      <td class="py-2">@sellerEquityPartnerCoC.ToString("P")</td>
+    </tr>
+  </table>
+</div>

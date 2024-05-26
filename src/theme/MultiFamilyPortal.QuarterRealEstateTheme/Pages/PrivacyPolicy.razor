@@ -1,0 +1,11 @@
+﻿@page "/privacy-policy"
+
+<ThemeBreadcrumbTitle Title="@_content?.Title" />
+
+<ThemeSection>
+  @((MarkupString)_content?.HtmlContent)
+
+  <p>Last Modified: @_content?.LastUpdated.ToString("MMMM dd, yyyy")</p>
+</ThemeSection>
+
+

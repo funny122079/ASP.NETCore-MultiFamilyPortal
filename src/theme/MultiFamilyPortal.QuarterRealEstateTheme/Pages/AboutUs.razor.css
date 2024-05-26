@@ -1,0 +1,9 @@
+﻿div.user-bio > h3 {
+  color: var(--ltn__primary-color-3);
+  padding-bottom: 0;
+  margin-bottom: 8px;
+}
+
+div.user-bio > h4 {
+  color: var(--ltn__secondary-color);
+}

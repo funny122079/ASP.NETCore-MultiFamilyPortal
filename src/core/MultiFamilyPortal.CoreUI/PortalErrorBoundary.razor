@@ -1,0 +1,51 @@
+﻿<ErrorBoundary @ref="_errorBoundary" Context="ex">
+  <ChildContent>
+    @ChildContent
+  </ChildContent>
+  <ErrorContent>
+    @{
+      HandleError(ex);
+    }
+    <div class="container my-5">
+      <div class="row">
+        <div class="col d-flex justify-content-center">
+          <Animation Effect="@Effect.JackInTheBox" Speed="@Speed.Fast">
+            <div class="card shadow-sm" style="width: 20rem;">
+              <div class="card-body mx-auto">
+                <div class="card-title text-center">
+                  <div class="my-5">
+                    <img src="_content/MultiFamilyPortal.CoreUI/warning_cyit.svg" style="width: 240px; height: auto;" />
+                  </div>
+                </div>
+                @if (_retryTimes < 3)
+                {
+                  <div class="my-3">
+                    <span class="text-warning lead">
+                      We seem to have encountered an unexpected issue. Please refresh to try again.
+                    </span>
+                  </div>
+                  <div class="col-12 text-center my-2">
+                    <TelerikButton ThemeColor="primary" Title="Refresh" OnClick=@RecoverFromError>Refresh</TelerikButton>
+                  </div>
+                }
+                else
+                {
+                  <div class="my-3">
+                    <Animation Effect="@Effect.ZoomIn" Speed="@Speed.Slow">
+                      <span class="text-danger lead">
+                       We seem to have encountered an unexpected issue. Please contact us for support.
+                      </span>
+                    </Animation>
+                  </div>
+                  <div class="col-12 text-center my-2">
+                    <TelerikButton ThemeColor="info" Title="Refresh" OnClick=@RecoverFromError>Report</TelerikButton>
+                  </div>
+                }
+              </div>
+            </div>
+          </Animation>
+        </div>
+      </div>
+    </div>
+  </ErrorContent>
+</ErrorBoundary>

@@ -1,0 +1,11 @@
+@page "/"
+@namespace MultiFamilyPortal.Themes
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Authentication
+@{
+    Layout = "_Layout";
+    var accessToken = await HttpContext.GetTokenAsync("access_token");
+    var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
+}
+
+<component type="typeof(ThemeApp)" render-mode="Server" />

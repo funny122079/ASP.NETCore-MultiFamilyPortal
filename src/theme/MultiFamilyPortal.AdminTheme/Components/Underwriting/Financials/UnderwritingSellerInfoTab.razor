@@ -1,0 +1,58 @@
+﻿<div class="row g-3">
+  <label for="Units" class="col-sm-2 col-form col-form-label">Units</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.Units
+                    Min="2"
+                    Max="1500"
+                    Arrows=@false
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+
+  <label for="GrossPotentialRent" class="col-sm-2 col-form col-form-label">Gross Potential Rent</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.GrossPotentialRent
+                    Min="0"
+                    Format="C"
+                    Enabled=@_editable
+                    Arrows=@false
+                    Class="form-control" />
+  </div>
+
+  <label for="MarketVacancy" class="col-sm-2 col-form col-form-label">Market Vacancy</label>
+  <div class="col-sm-4">
+    <PercentageInput @bind-Value=@Property.MarketVacancy
+                     Enabled=@_editable
+                     Id="MarketVacancy" />
+  </div>
+
+  <label for="PhysicalVacancy" class="col-sm-2 col-form col-form-label">Physical Vacancy</label>
+  <div class="col-sm-4">
+    <PercentageInput @bind-Value=@Property.PhysicalVacancy
+                     Enabled=@_editable
+                     Id="PhysicalVacancy" />
+  </div>
+
+  <label for="Management" class="col-sm-2 col-form col-form-label">Management</label>
+  <div class="col-sm-4">
+    <PercentageInput @bind-Value=@Property.Management
+                     Enabled=@_editable
+                     Id="Management"/>
+  </div>
+</div>
+
+<div class="row gt-3 mt-3 mb-2">
+  <div class="col-12">
+    <UnderwritingSection Column="Data.Models.UnderwritingColumn.Sellers"
+                         Type="Data.Models.UnderwritingType.Income"
+                         Property=@Property />
+  </div>
+</div>
+
+<div class="row gt-3 mt-3 mb-2">
+  <div class="col-12">
+    <UnderwritingSection Column="Data.Models.UnderwritingColumn.Sellers"
+                         Type="Data.Models.UnderwritingType.Expense"
+                         Property=@Property />
+  </div>
+</div>

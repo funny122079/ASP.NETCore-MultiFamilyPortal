@@ -1,0 +1,26 @@
+﻿@using MultiFamilyPortal.AdminTheme.Components.Underwriting.PropertyInfo
+
+<PortalErrorBoundary>
+  <LoaderContainer Context=@Property>
+    <TelerikTabStrip Class="res-tabstrip">
+      <TabStripTab Title="Basics">
+        <UnderwritingPropertyInfoTab Property=@Property />
+      </TabStripTab>
+      @*<TabStripTab Title="RE Indicator">
+        <UnderwritingREIndicatorViewPort Property=@Property />
+      </TabStripTab>*@
+      <TabStripTab Title="Notes">
+        <UnderwritingNotesTab Property=@Property />
+      </TabStripTab>
+      <TabStripTab Title="Document Vault">
+        <UnderwritingFilesTab Property=@Property />
+      </TabStripTab>
+      <TabStripTab Title="Capital Improvements">
+        <UnderwritingCapitalImprovementsTab Property=@Property />
+      </TabStripTab>
+      <TabStripTab Title="Deal Analysis">
+        <UnderwritingDealAnalysisTab Property=@Property />
+      </TabStripTab>
+    </TelerikTabStrip>
+  </LoaderContainer>
+</PortalErrorBoundary>

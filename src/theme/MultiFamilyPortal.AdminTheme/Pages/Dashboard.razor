@@ -1,0 +1,98 @@
+﻿@page "/admin"
+@using MultiFamilyPortal.AdminTheme.Components.Dashboard
+
+<SiteTitle Title="Dashboard" />
+<Animation OptionsName="Page">
+  <div class="container-fluid">
+    <div class="row mb-3">
+
+      <div class="col-lg-2 col-6 mb-3">
+          <SingleInfo Title="Underwriting"
+                      TimeFrame="Monthly"
+                      TimeFrameColor="primary"
+                      Number=@_underwriting.MonthlyReports.ToString()
+                      IndicatorTitle="Reports"
+                      IndicatorPercentage=@_underwriting.MonthlyPercent.ToString("P0")
+                      IsPositiveChange=@(_underwriting.MonthlyReports > (_underwriting.WeeklyGoal*4))/>
+      </div>
+
+      <div class="col-lg-2 col-6 mb-3">
+        <SingleInfo Title="Underwriting"
+                    TimeFrame="Weekly"
+                    TimeFrameColor="info"
+                    Number=@_underwriting.WeeklyReports.ToString()
+                    IndicatorTitle="Reports"
+                    IndicatorPercentage=@_underwriting.WeeklyPercent.ToString("P0")
+                    IsPositiveChange=@(_underwriting.WeeklyReports > _underwriting.WeeklyGoal) />
+      </div>
+
+      <div class="col-lg-4 mb-3">
+        <CounterInfo Title="Underwriting Status" 
+                     TimeFrame="Monthly" 
+                     TimeFrameColor="primary"
+                     Underwriting=@_underwriting/>
+      </div>
+
+      <div class="col-lg-4 mb-2">
+        <InvestorList Title="Investor List" 
+                      Investors="@_investors.Investors"
+                      OnInvestorUpdated="RefreshAsync" />
+    
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-lg-8 col-12" style="height: 500px">
+        <div class="bg-light text-dark h-100 text-center">
+          Graph Component #98
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-12" style="height: 500px">
+       <ActivityChart UserActivity=@_activity />
+      </div>
+    </div>
+
+    <div class="row mb-5">
+      <div class="col-lg-4">
+        <div class="row">
+          <div class="col-md-6 col-12 mb-5">
+             <TimelessInfo Title="Investors"
+                     UpperTitle="Lifetime"
+                     UpperNumber=@_investors.Total
+                     MiddleTitle="Contacted"
+                     MiddleNumber=@_investors.Contacted
+                     LowerTitle="Waiting"
+                     LowerNumber=@(_investors.Total - _investors.Contacted)/>
+          </div>
+          <div class="col-md-6 col-12 mb-5">
+             <TimelessInfo Title="Blog Subscribers"
+                     UpperTitle="Lifetime"
+                     UpperNumber=@_blog.Total
+                     MiddleTitle="Monthly"
+                     MiddleNumber=@_blog.Monthly
+                     LowerTitle="Weelky"
+                     LowerNumber=@_blog.Weekly/>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <Reminders/>
+      </div>
+
+        <div class="col-md-12 col-lg-4 col-12 mt-1 mb-2" style="min-height: 330px">
+        <div class="bg-light text-dark h-100 text-center h-100">
+          <div class="my-auto">
+             Another Component
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    
+  </div>
+</Animation>
+
+<PortalNotification @ref="notification" />

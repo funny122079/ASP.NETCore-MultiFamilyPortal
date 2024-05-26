@@ -1,0 +1,7 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+
+<AuthorizeView Policy=@Policy>
+  <Authorized>
+    @ChildContent
+  </Authorized>
+</AuthorizeView>

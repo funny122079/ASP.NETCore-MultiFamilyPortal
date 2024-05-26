@@ -1,0 +1,30 @@
+﻿<div class="col-lg-4">
+  <div class="ltn__testimonial-item ltn__testimonial-item-7 ltn__testimonial-item-8">
+    <div class="ltn__testimoni-info">
+      <div class="ltn__testimoni-author-ratting">
+        <div class="ltn__testimoni-info-inner">
+          <div class="ltn__testimoni-img">
+            @if(string.IsNullOrEmpty(InvestorPhoto))
+            {
+              <Gravatar Default="DefaultGravatar.MysteryPerson" />
+            }
+            else
+            {
+              <img src="@InvestorPhoto" alt="#" />
+            }
+            
+          </div>
+          <div class="ltn__testimoni-name-designation">
+            <h5>@Name</h5>
+            <label>@Title</label>
+          </div>
+        </div>
+        <div class="ltn__testimoni-rating">
+          <StarRating Stars="@Stars" />
+        </div>
+      </div>
+      <p>@Testimonial</p>
+    </div>
+  </div>
+</div>
+

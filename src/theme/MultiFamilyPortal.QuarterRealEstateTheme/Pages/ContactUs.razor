@@ -1,0 +1,125 @@
+﻿@page "/contact"
+
+<ThemeBreadcrumbTitle Title="Contact Us" />
+
+<!-- CONTACT MESSAGE AREA START -->
+<div class="ltn__contact-message-area mb-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ltn__form-box contact-form-box box-shadow white-bg">
+          @if(submitted)
+          {
+            <h4 class="title-2">Success</h4>
+            <p>Your contact request has been successfully submitted. A member of our team will reach out shortly.</p>
+          }
+          else
+          {
+            <h4 class="title-2">How can we help?</h4>
+            <p>To find out more about how to partner with us or if you have any questions about how passive income and multi-family investing might make sense for your investment portfolio, please contact us using the form on this page.</p>
+            <p>We look forward to connecting with you!</p>
+            <EditForm Model=@form
+                      id="contact-form"
+                      OnValidSubmit=@SubmitForm>
+              <DataAnnotationsValidator />
+              <ServerSideValidator @ref="serverSideValidator" />
+              <ValidationSummary />
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="input-item input-item-name ltn__custom-icon">
+                    <InputText type="text" placeholder="Enter your first name" @bind-Value=@form.FirstName />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-item input-item-name ltn__custom-icon">
+                    <InputText type="text" placeholder="Enter your last name" @bind-Value=@form.LastName />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-item input-item-phone ltn__custom-icon">
+                    <TelerikMaskedTextBox PlaceHolder="Enter phone number"
+                                          @bind-Value=@form.Phone
+                                          MaskOnFocus=@true
+                                          Class="w-100 mb-4"
+                                          Id="home-size"
+                                          Mask="(000) 000-0000" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-item input-item-email ltn__custom-icon">
+                    <InputText type="email" name="email" placeholder="Enter email address" @bind-Value=@form.Email />
+                  </div>
+                </div>
+              </div>
+              <div class="input-item input-item-textarea ltn__custom-icon">
+                <InputTextArea @bind-Value=@form.Comments placeholder="Enter message" />
+              </div>
+              <div class="col-md-12 mb-4">
+                <GoogleCaptcha @ref="captcha" />
+              </div>
+              <div class="btn-wrapper mt-0">
+                <button class="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit">Submit</button>
+              </div>
+              <p class="form-messege mb-0 mt-20"></p>
+            </EditForm>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- CONTACT MESSAGE AREA END -->
+
+@*<!-- CONTACT ADDRESS AREA START -->
+<div class="ltn__contact-address-area mb-90">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="ltn__contact-address-item ltn__contact-address-item-3 box-shadow">
+          <div class="ltn__contact-address-icon">
+            <img src="img/icons/10.png" alt="Icon Image">
+          </div>
+          <h3>Email Address</h3>
+          <p>@SiteInfo.PublicEmail <br>
+              <span>&nbsp;</span></p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="ltn__contact-address-item ltn__contact-address-item-3 box-shadow">
+          <div class="ltn__contact-address-icon">
+              <img src="img/icons/11.png" alt="Icon Image">
+          </div>
+          <h3>Phone Number</h3>
+          <p>@SiteInfo.ContactPhone <br> <span>&nbsp;</span></p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="ltn__contact-address-item ltn__contact-address-item-3 box-shadow">
+          <div class="ltn__contact-address-icon">
+            <img src="img/icons/12.png" alt="Icon Image">
+          </div>
+          <h3>Office Address</h3>
+          <p>@SiteInfo.Address <br>
+              @SiteInfo.City, @SiteInfo.State @SiteInfo.ZipCode</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- CONTACT ADDRESS AREA END -->*@
+
+<PortalNotification @ref="notification" />
+
+@* TODO : move to a separate file : _main.scss , nbundle doesn't support Apple Silicon yet*@
+<style>
+#home-size {
+    border-radius: 0px;
+    height: 65px;
+    border: 2px solid var(--ltn__primary-color);
+    border-color: #E4ECF2 !important;
+}
+
+.input-item.ltn__custom-icon::before {
+    z-index: 1;
+}
+</style>

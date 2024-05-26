@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 mb-1">
+      <div class="form-floating">
+        <TelerikTextBox class="form-control w-100"
+                  Id="contactAddress1"
+                  @bind-Value="@Address.Address1" />
+        <label for="address1">Address</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-1">
+      <TelerikTextBox class="form-control w-100"
+                      Id="contactAddress2"
+                      @bind-Value="@Address.Address2" />
+      
+    </div>
+
+    <div class="col-12 mb-1">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-floating">
+            <input type="text"
+                   class="form-control"
+                   id="contactCity"
+                   @bind-value="@Address.City" 
+                   @onblur="@(() => UpdateParent())"/>
+            <label for="contactCity">City</label>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-floating">
+            <input type="text"
+                   class="form-control"
+                   id="contactState"
+                   @bind-value="@Address.State"
+                   @onblur="@(() => UpdateParent())"/>
+            <label for="contactState">State</label>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-floating">
+            <input type="text"
+                   class="form-control"
+                   id="contactZip"
+                   @bind-value="@Address.PostalCode"
+                   @onblur="@(() => UpdateParent())"/>
+            <label for="contactZip">Postal Code</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

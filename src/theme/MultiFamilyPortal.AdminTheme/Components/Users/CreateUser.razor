@@ -1,0 +1,76 @@
+﻿<TelerikWindow Visible="@(User != null)"
+               Modal="true"
+               Width="650px">
+  <WindowTitle>
+    New User
+  </WindowTitle>
+  <WindowActions>
+    <WindowAction Name="Close" OnClick="() => User = null"/>
+  </WindowActions>
+  <WindowContent>
+    <div class="row px-3 py-1">
+      <div class="col-12 form-floating">
+        <TelerikTextBox @bind-Value=@User.FirstName Class="form-control"/>
+        <label for="FirstName" class="form-label">First Name</label>
+      </div>
+    </div>
+    <div class="row px-3 py-1">
+      <div class="col-12 form-floating">
+        <TelerikTextBox @bind-Value=@User.LastName Class="form-control"/>
+        <label for="LastName" class="form-label">Last Name</label>
+      </div>
+    </div>
+    <div class="row px-3 py-1">
+      <div class="col-12 form-floating">
+        <TelerikTextBox @bind-Value=@User.Email Class="form-control"/>
+        <label for="Email" class="form-label">Email</label>
+      </div>
+    </div>
+    <div class="row px-3 py-1">
+      <div class="col-12 form-floating">
+        <TelerikMaskedTextBox @bind-Value=@User.Phone
+                              Mask="(000) 000-0000"
+                              Class="form-control"/>
+        <label for="Phone" class="form-label">Phone</label>
+      </div>
+    </div>
+    <div class="row px-3 py-1">
+      <div class="col-12 form-group">
+        <TelerikMultiSelect Data=@Roles
+                            @bind-Value=@User.Roles
+                            TextField=@nameof(SelectableRole.Display)
+                            ValueField=@nameof(SelectableRole.Role)
+                            Filterable=@true
+                            Class="form-control"
+                            Placeholder="Roles" />
+      </div>
+    </div>
+    <div class="row px-3 py-1">
+      <div class="col-12 form-group">
+        <TelerikSwitch @bind-Value=@User.UseLocalAccount
+                        OffLabel="Use Google / Microsoft Account"
+                        OnLabel="Use Local Account"/>
+        <label for="UseLocalAccount" class="form-label">
+          &nbsp;&nbsp;
+          @if(User.UseLocalAccount)
+          {
+            <span>Use Local Account</span>
+          }
+          else
+          {
+            <span>Use Google / Microsoft Account</span>
+          }
+        </label>
+      </div>
+    </div>
+    <div class="row text-center p-3">
+      <TelerikButton Title="Create User"
+                      ThemeColor="primary"
+                      IconClass="fa-duotone fa-plus"
+                      Enabled=@CanCreateNewUser()
+                      OnClick=@OnCreateNewUser>Create User</TelerikButton>
+    </div>
+  </WindowContent>
+</TelerikWindow>
+
+<PortalNotification @ref="notification" />

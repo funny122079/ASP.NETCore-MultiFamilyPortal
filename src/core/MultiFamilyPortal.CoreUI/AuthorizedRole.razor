@@ -1,0 +1,7 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+
+<AuthorizeView Roles=@GetRoles()>
+  <Authorized>
+    @ChildContent
+  </Authorized>
+</AuthorizeView>

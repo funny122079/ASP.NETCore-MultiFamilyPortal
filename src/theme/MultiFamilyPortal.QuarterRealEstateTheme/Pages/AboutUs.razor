@@ -1,0 +1,79 @@
+﻿@page "/about"
+
+<ThemeBreadcrumbTitle Title="About" />
+
+<ThemeSection>
+  <!-- TEAM AREA START (Team - 3) -->
+  <div class="ltn__team-area pt-115 pb-90">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-title-area ltn__section-title-2--- text-center">
+            <h6 class="section-subtitle section-subtitle-2 ltn__secondary-color">Team</h6>
+            <h1 class="section-title">Our Team</h1>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        @for(int i = 0; i < HighlightedUsers?.Count(); i++)
+        {
+          var user = HighlightedUsers.ElementAt(i);
+          @if(i % 2 == 0)
+          {
+            <div class="col-lg-4 col-sm-6">
+              <div class="ltn__team-item ltn__team-item-3---">
+                <div class="team-img py-3">
+                  <Gravatar Email=@user.Email Size=240 Default="DefaultGravatar.MysteryPerson" />
+                </div>
+                @*<div class="team-info">
+                  <h4><a href="team-details.html">@user.DisplayName</a></h4>
+                  <h6 class="ltn__secondary-color">@user.Title</h6>
+                  <div class="ltn__social-media">
+                    <ul>
+                      @foreach(var socialLink in user.Links)
+                      {
+                        <li>
+                          <a href="@socialLink.Uri" target="_blank"><i class="@(socialLink.SocialProvider.Icon)"></i></a>
+                        </li>
+                      }
+                    </ul>
+                  </div>
+                </div>*@
+              </div>
+            </div>
+          }
+          <div class="col-lg-8 col-sm-6 gt-3">
+            <div class="inline-block user-bio">
+              <h3>@user.DisplayName</h3>
+              <h4>@user.Title</h4>
+              @((MarkupString)user.Bio)
+            </div>
+          </div>
+          @if(i % 2 == 1)
+          {
+            <div class="col-lg-4 col-sm-6">
+              <div class="ltn__team-item ltn__team-item-3---">
+                <div class="team-img py-3">
+                  <Gravatar Email=@user.Email Size=240 Default="DefaultGravatar.MysteryPerson" />
+                </div>
+              </div>
+            </div>
+          }
+          <div class="col-lg-12 gt-3">
+            <div class="ltn__social-media text-center pb-5">
+              <ul>
+                @foreach(var socialLink in user.SocialLinks)
+                {
+                  <li>
+                    <a href="@socialLink.Uri" target="_blank"><i class="@(socialLink.SocialProvider.Icon)"></i></a>
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+  <!-- TEAM AREA END -->
+</ThemeSection>

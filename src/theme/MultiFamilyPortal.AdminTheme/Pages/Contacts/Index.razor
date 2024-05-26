@@ -1,0 +1,23 @@
+﻿@page "/admin/contacts"
+@using MultiFamilyPortal.AdminTheme.Components.Contacts
+
+<SiteTitle Title="Contacts" />
+
+<TelerikTabStrip Class="res-tabstrip">
+  <TabStripTab >
+    <HeaderTemplate>
+      <i class="fa-duotone fa-address-book" aria-hidden="true"></i>&nbsp;&nbsp;Contacts
+    </HeaderTemplate>
+    <Content>
+      <CrmContactsTab />
+    </Content>
+  </TabStripTab>
+  <TabStripTab>
+    <HeaderTemplate>
+      <i class="fa-duotone fa-pen-ruler" aria-hidden="true"></i>&nbsp;&nbsp;Contact Types
+    </HeaderTemplate>
+    <Content>
+      <CrmRolesTab />
+    </Content>
+  </TabStripTab>
+</TelerikTabStrip>

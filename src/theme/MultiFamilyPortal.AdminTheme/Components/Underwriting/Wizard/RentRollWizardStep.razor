@@ -1,0 +1,17 @@
+﻿@using MultiFamilyPortal.AdminTheme.Components.Underwriting.RentRoll
+
+<PortalErrorBoundary>
+  <LoaderContainer Context=@Property>
+    <TelerikTabStrip TabPosition="TabPosition.Top" Class="res-tabstrip">
+      <TabStripTab Title="Floor Plans">
+        <UnderwritingFloorPlansTab Property=@Property />
+      </TabStripTab>
+      @if(Property.Models.Any())
+      {
+        <TabStripTab Title="Units">
+          <UnderwritingRollUnitsTab Property=@Property />
+        </TabStripTab>
+      }
+    </TelerikTabStrip>
+  </LoaderContainer>
+</PortalErrorBoundary>

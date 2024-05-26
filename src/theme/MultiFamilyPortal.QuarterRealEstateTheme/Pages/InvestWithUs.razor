@@ -1,0 +1,112 @@
+﻿@page "/invest-with-us"
+
+<ThemeBreadcrumbTitle Title="Invest with Us" />
+
+<!-- CONTACT MESSAGE AREA START -->
+<div class="ltn__contact-message-area mb-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ltn__form-box contact-form-box box-shadow white-bg">
+          @if(submitted)
+          {
+            <h4 class="title-2">Thanks for your interest</h4>
+            <p>We have recieved your request. A member of our team will reach out shortly to discuss how we can work together.</p>
+          }
+          else
+          {
+            <h4 class="title-2">Ready to invest with us?</h4>
+            <p>If you're ready to get off the sidelines and start putting your money to work for you, then come join us today!</p>
+            <EditForm Model=@_form
+                      id="contact-form"
+                      OnValidSubmit=@SubmitForm>
+              <DataAnnotationsValidator />
+              <ServerSideValidator @ref="serverSideValidator" />
+              <ValidationSummary />
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="input-item input-item-name ltn__custom-icon">
+                    <InputText type="text" placeholder="Enter your first name" @bind-Value=@_form.FirstName />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-item input-item-name ltn__custom-icon">
+                    <InputText type="text" placeholder="Enter your last name" @bind-Value=@_form.LastName />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-item input-item-phone ltn__custom-icon">
+                    <TelerikMaskedTextBox Mask="(000) 000-0000"  
+                                          Class="w-100 mb-4"
+                                          MaskOnFocus=@true
+                                          Id="home-size" 
+                                          placeholder="Enter phone number" 
+                                          @bind-Value=@_form.Phone />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-item input-item-email ltn__custom-icon">
+                    <InputText type="email" name="email" placeholder="Enter email address" @bind-Value=@_form.Email />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-item input-item-dollar ltn__custom-icon">
+                    <TelerikNumericTextBox Decimals="0"
+                                           @bind-Value=@_form.LookingToInvest
+                                           Min="25000"
+                                           Arrows=@false
+                                           Class="w-100 mb-4"
+                                           Id="home-size"
+                                           Format="C" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-item input-item-date ltn__custom-icon">
+                    <InputText type="text" list="timezoneList" name="Timezone" placeholder="Enter your timezone" @bind-Value=@_form.Timezone />
+                    <datalist id="timezoneList">
+                      @foreach (var zone in _timeZoneService.Timezones)
+                      {
+                           <option value="@zone.Name"/>
+                      }
+                    </datalist>
+                  </div>
+                </div>
+              </div>
+              <div class="input-item input-item-textarea ltn__custom-icon">
+                <InputTextArea @bind-Value=@_form.Comments placeholder="Enter message" />
+              </div>
+              <div class="col-md-12 mb-4">
+                <GoogleCaptcha @ref="captcha" />
+              </div>
+              <div class="btn-wrapper mt-0">
+                <button class="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit">Submit</button>
+              </div>
+              <p class="form-messege mb-0 mt-20"></p>
+            </EditForm>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- CONTACT MESSAGE AREA END -->
+
+<PortalNotification @ref="notification" />
+
+
+@* TODO : Remove this as it is not needed, after we have a proper addition to SASS *@
+<style>
+#home-size {
+    border-radius: 0px;
+    height: 65px;
+    border: 2px solid var(--ltn__primary-color);
+    border-color: #E4ECF2 !important;
+}
+.input-item.ltn__custom-icon::before {
+    z-index: 1;
+}
+
+.input-item-dollar.ltn__custom-icon::before{
+  content:"\24"
+  }
+</style>

@@ -1,0 +1,25 @@
+﻿@using MultiFamilyPortal.AdminTheme.Components.Underwriting.Financials
+<PortalErrorBoundary>
+  <LoaderContainer Context=@Property>
+    <TelerikTabStrip TabPosition="TabPosition.Top" Class="res-tabstrip">
+      <TabStripTab Title="Underwriting Notes">
+        <UnderwritingBucketlistTab Property=@Property />
+      </TabStripTab>
+      <TabStripTab Title="Stated In Place">
+        <UnderwritingSellerInfoTab Property=@Property />
+      </TabStripTab>
+      <TabStripTab Title="Pro Forma">
+        <UnderwritingOurInfoTab Property=@Property ExpensesUpdated=@OnExpensesUpdated />
+      </TabStripTab>
+      @if(Property.OurExpense.Any())
+      {
+        <TabStripTab Title="Rule of Thumb">
+          <UnderwritingMarketRuleOfThumb Property=@Property />
+        </TabStripTab>
+        <TabStripTab Title="Income Forecast">
+          <UnderwritingIncomeForecast Property=@Property />
+        </TabStripTab>
+      }
+    </TelerikTabStrip>
+  </LoaderContainer>
+</PortalErrorBoundary>

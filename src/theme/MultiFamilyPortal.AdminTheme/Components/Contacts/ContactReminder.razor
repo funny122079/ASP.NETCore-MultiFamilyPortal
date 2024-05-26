@@ -1,0 +1,30 @@
+<td scope="row">
+  @Reminder.Date.ToString("MMM dd, yyyy")
+</td>
+<td class="text-secondary">
+  @Reminder.Description
+</td>
+<td>
+  @if (Reminder.SystemGenerated == true)
+  {
+    <span class="text-primary">
+      <i class="fa-solid fa-message-bot"></i>
+    </span>
+  }
+  else
+  {
+    <span class="text-success">
+      <i class="fa-solid fa-user-hair"></i>
+    </span>
+  }
+</td>
+<td>
+  @if (Reminder.Date.Date != DateTime.Now.Date)
+  {
+    <span class="text-muted">@Reminder.Date.Humanize()</span>
+  }
+  else
+  {
+    <span class="text-muted">Today</span>
+  }
+</td>

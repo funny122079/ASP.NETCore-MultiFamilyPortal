@@ -1,0 +1,15 @@
+﻿<div style="border-bottom:1px inset rgba(0,0,0,0.15);padding:4px 7px;box-shadow:0px 2px 4px 0px rgba(0,0,0,0.03), 0px 4px 5px 0px rgba(0,0,0,0.04)">
+  @if (Values is null)
+  {
+    <small><em>Loading...</em></small>
+  }
+  else
+  {
+    @foreach (var value in Values)
+    {
+      <BadgeView Value="@value" ValueDeleted="OnValueDeleted" />
+    }
+
+    <TelerikAutoComplete TItem="string" Value="@NewValue" Data="@AutocompleteData" OnChange="OnValueChanged" Filterable="true" Placeholder="@Placeholder" Class="tag-component" />
+  }
+</div>

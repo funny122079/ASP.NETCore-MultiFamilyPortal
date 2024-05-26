@@ -1,0 +1,77 @@
+﻿<LoaderContainer Context=@Contact?.Emails>
+  <div class="row gt-3 mt-2 mb-3">
+    <div class="col-md-12">
+      <h5>Addresses</h5>
+    </div>
+  </div>
+  <div class="mt-2 mb-3 col-12">
+      @foreach(var address in Contact.Addresses)
+      {
+        <div class="row mb-3">
+          <div class="col-md-1 text-center my-auto">
+            <span class="clickable" @onclick=@(() => SetPrimaryAddress(address))>
+              @if(address.Primary)
+              {
+                <span><i class="fa-duotone fa-badge-check" style="color: var(--bs-primary);"></i></span>
+              }
+              else
+              {
+                <span><i class="fa-duotone fa-badge"></i></span>
+              }
+            </span>
+          </div>
+          <div class="col-md-2 my-auto">
+            <TelerikDropDownList Data=_addressTypes
+                                 @bind-Value=@address.Type
+                                 Class="form-control">
+              <ItemTemplate>
+                @{ var type = (Data.Models.CRMContactAddressType)context; }
+                @type.GetDisplayName()
+              </ItemTemplate>
+              <ValueTemplate>
+                @{ var type = (Data.Models.CRMContactAddressType)context; }
+                @type.GetDisplayName()
+              </ValueTemplate>
+            </TelerikDropDownList>
+          </div>
+          <div class="col-md-8">
+            <CrmContactAddress Address=@address />
+          </div>
+          <div class="col-md-1 text-center my-auto">
+            <span class="clickable-button" @onclick=@(() => OnDeleteAddress(address))>
+              <i class="fa-solid fa-circle-minus" style="color: red;"></i>
+            </span>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="row">
+        <div class="col-md-2 offset-md-1 my-auto">
+          <TelerikDropDownList Data=_addressTypes
+                               @bind-Value=@_newAddress.Type
+                               Class="form-control">
+            <ItemTemplate>
+              @{ var type = (Data.Models.CRMContactAddressType)context; }
+              @type.GetDisplayName()
+            </ItemTemplate>
+            <ValueTemplate>
+              @{ var type = (Data.Models.CRMContactAddressType)context; }
+              @type.GetDisplayName()
+            </ValueTemplate>
+          </TelerikDropDownList>
+        </div>
+        <div class="col-md-8">
+          <CrmContactAddress @bind-Address=@_newAddress />
+        </div>
+        <div class ="col-md-1 text-center my-auto">
+          @if(CanAddAddress())
+          {
+            <span class="clickable-button" @onclick=@AddAddress>
+              <i class="fa-duotone fa-plus" style="color:green;"></i>
+            </span>
+          }
+        </div>
+      </div>
+</LoaderContainer>
+
+<PortalNotification @ref="notification" />

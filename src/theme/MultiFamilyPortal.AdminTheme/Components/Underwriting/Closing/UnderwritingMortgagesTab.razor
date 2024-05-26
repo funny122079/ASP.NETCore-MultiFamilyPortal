@@ -1,0 +1,160 @@
+﻿@inherits ResponsiveComponent
+
+@{ base.BuildRenderTree(__builder); }
+<div class="row g-3">
+  <label for="PurchasePrice" class="col-sm-2 col-form col-form-label">Purchase Price</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.PurchasePrice
+                    Min="0"
+                    Format="C"
+                    Arrows=@false
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+</div>
+
+<div class="row gt-3 mt-3 mb-2">
+  <label for="LoanType" class="col-sm-2 col-form col-form-label">Loan Type</label>
+  <div class="col-sm-4">
+    <TelerikDropDownList Data=@(Enum.GetValues<Data.Models.UnderwritingLoanType>())
+                         @bind-Value=@Property.LoanType
+                         Enabled=@_editable
+                         Class="form-control">
+      <ItemTemplate>
+        @{ var value = (Data.Models.UnderwritingLoanType)context; }
+        @value.Humanize(LetterCasing.Title)
+      </ItemTemplate>
+      <ValueTemplate>
+        @{ var value = (Data.Models.UnderwritingLoanType)context; }
+        @value.Humanize(LetterCasing.Title)
+      </ValueTemplate>
+    </TelerikDropDownList>
+  </div>
+
+  @if(Property.LoanType == Data.Models.UnderwritingLoanType.Automatic)
+  {
+    <label for="LTV" class="col-sm-2 col-form col-form-label">Loan to Value</label>
+    <div class="col-sm-4">
+      <PercentageInput @bind-Value=@Property.LTV
+                       Enabled=@_editable
+                       Id="LTV"/>
+    </div>
+  }
+</div>
+
+<div class="row gt-3 mt-3 mb-2">
+  <div class="col-md-12">
+    <TelerikGrid Data=@Mortgages
+                 ConfirmDelete="true"
+                 OnDelete=@OnDelete>
+      <GridToolBar>
+        @if(Property.LoanType != MultiFamilyPortal.Data.Models.UnderwritingLoanType.Automatic)
+        {
+          <AuthorizedPolicy Policy=@PortalPolicy.Underwriter>
+            <div class="flex" style="margin-left: auto;">
+              <GridCommandButton Command="CreateMortgage"
+                                 Icon="add"
+                                 Title="Add"
+                                 ThemeColor="primary"
+                                 OnClick=@OnCreate>
+                Add
+              </GridCommandButton>
+            </div>
+          </AuthorizedPolicy>
+        }
+      </GridToolBar>
+      <GridColumns>
+        <GridColumn Field="@(nameof(UnderwritingAnalysisMortgage.LoanAmount))"
+                    TextAlign="ColumnTextAlign.Center"
+                    Title="Loan Amount"
+                    Width=@(IsSmallScreen ? "150px" : "20%")
+                    DisplayFormat="{0:C}">
+          <FooterTemplate>
+            <div class="text-center">
+              @Mortgages.Sum(x => x.LoanAmount).ToString("C")
+            </div>
+          </FooterTemplate>
+        </GridColumn>
+        <GridColumn Field="@(nameof(UnderwritingAnalysisMortgage.InterestRate))"
+                    TextAlign="ColumnTextAlign.Center"
+                    Width=@(IsSmallScreen ? "150px" : "20%")
+                    Title="Rate"
+                    DisplayFormat="{0:P3}" />
+        <GridColumn Field="@(nameof(UnderwritingAnalysisMortgage.TermInYears))"
+                    Width="180px"
+                    Title="Term (years)">
+          <Template>
+            @{ var mortgage = context as UnderwritingAnalysisMortgage; }
+            <div class="text-center">
+              @if(mortgage.InterestOnly)
+              {
+                <span>@mortgage.TermInYears I/O</span>
+              }
+              else if(mortgage.BalloonMonths > 0)
+              {
+                <span>@mortgage.TermInYears / @(mortgage.BalloonMonths / 12) Balloon</span>
+              }
+              else
+              {
+                <span>@mortgage.TermInYears</span>
+              }
+            </div>
+          </Template>
+        </GridColumn>
+        <GridColumn Field="@(nameof(UnderwritingAnalysisMortgage.PointCost))"
+                    TextAlign="ColumnTextAlign.Center"
+                    Width=@(IsSmallScreen ? "150px" : "20%")
+                    Title="Point Cost"
+                    DisplayFormat="{0:C}">
+          <FooterTemplate>
+            <div class="text-center">
+              @Mortgages.Sum(x => x.PointCost).ToString("C")
+            </div>
+          </FooterTemplate>
+        </GridColumn>
+        <GridColumn Field="@(nameof(UnderwritingAnalysisMortgage.BalloonMonths))"
+                    TextAlign="ColumnTextAlign.Center"
+                    Width=@(IsSmallScreen ? "150px" : "20%")
+                    Title="Balloon Months"
+                    DisplayFormat="{0:G}" />
+        <GridColumn Field="@(nameof(UnderwritingAnalysisMortgage.AnnualDebtService))"
+                    TextAlign="ColumnTextAlign.Center"
+                    Title="Annual Debt Service"
+                    DisplayFormat="{0:C}">
+          <FooterTemplate>
+            <div class="text-center">
+              @Mortgages.Sum(x => x.AnnualDebtService).ToString("C")
+            </div>
+          </FooterTemplate>
+        </GridColumn>
+        <AuthorizedPolicy Policy=@PortalPolicy.Underwriter>
+          <GridCommandColumn Width=@(IsSmallScreen ? "150px" : "20%")>
+            <div class="text-center">
+              <GridCommandButton Command="CustomEdit" Icon="edit" Title="Edit" OnClick=@OnEdit>Edit</GridCommandButton>
+              @if(Property.LoanType != Data.Models.UnderwritingLoanType.Automatic)
+              {
+                <GridCommandButton Command="Delete" Icon="delete" Title="Delete">Delete</GridCommandButton>
+              }
+            </div>
+          </GridCommandColumn>
+        </AuthorizedPolicy>
+      </GridColumns>
+    </TelerikGrid>
+  </div>
+</div>
+
+<AuthorizedPolicy Policy=@PortalPolicy.Underwriter>
+  @if (Property.LoanType == Data.Models.UnderwritingLoanType.NewLoan)
+  {
+    <UnderwritingMortgageDialog Title="Add Mortgage"
+                                LoanType=@Property.LoanType
+                                @bind-Mortgage=@AddMortgage
+                                OnSave=@OnSaveNewMortage />
+  }
+
+  <UnderwritingMortgageDialog Title="Edit Mortgage"
+                              LoanType=@Property.LoanType
+                              @bind-Mortgage=@EditMortgage
+                              Update="true"
+                              OnSave=@OnUpdateMortgage />
+</AuthorizedPolicy>

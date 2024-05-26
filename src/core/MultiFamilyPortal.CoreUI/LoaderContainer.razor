@@ -1,0 +1,16 @@
+﻿@if(Context is null)
+{
+  <TelerikLoader />
+}
+else
+{
+  @ChildContent
+}
+
+@code {
+    [Parameter]
+    public object Context { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

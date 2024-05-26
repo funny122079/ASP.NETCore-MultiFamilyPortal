@@ -1,0 +1,11 @@
+﻿@inherits LayoutComponentBase
+
+<div class="middle-box text-center animated fadeInDown">
+  <CascadingValue Value=@User>
+    <TelerikRootComponent>
+      @Body
+    </TelerikRootComponent>
+  </CascadingValue>
+
+  <p class="m-t"> <small>@_siteInfo.Title &copy; @now.Year | Powered by <a href="https://avantipoint.com">AvantiPoint</a></small> </p>
+</div>

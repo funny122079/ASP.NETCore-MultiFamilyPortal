@@ -1,0 +1,129 @@
+﻿@inherits ResponsiveComponent
+
+@{ base.BuildRenderTree(__builder); }
+<TelerikGrid Data=@_files
+             ConfirmDelete=@true
+             Width="100%"
+             OnDelete=@OnDelete>
+  <GridToolBar>
+    <AuthorizedPolicy Policy=@PortalPolicy.Underwriter>
+      <div class="float-right">
+        <TelerikButton ButtonType=@ButtonType.Button
+                       ThemeColor="primary"
+                       IconClass="fa-duotone fa-plus"
+                       OnClick=@(() => showUploadFile = true)>Upload File</TelerikButton>
+      </div>
+    </AuthorizedPolicy>
+  </GridToolBar>
+  <GridColumns>
+    <GridColumn Field=@nameof(UnderwritingAnalysisFile.Icon)
+                Title=" "
+                TextAlign=@ColumnTextAlign.Center
+                Width="10%">
+      <Template>
+        @{ var file = context as UnderwritingAnalysisFile; }
+        <i class="@file.Icon" aria-hidden="true" style="color: @FileTypeLookup.GetColorFromIcon(file.Icon);"></i>
+      </Template>
+    </GridColumn>
+    <GridColumn Field=@nameof(UnderwritingAnalysisFile.Type) />
+    <GridColumn Field=@nameof(UnderwritingAnalysisFile.Name) />
+      @if(!IsSmallScreen)
+      {
+        <GridColumn Field=@nameof(UnderwritingAnalysisFile.Description) />
+      }
+    <GridCommandColumn>
+      <div class="text-center">
+        @{
+          var fileInfo = context as UnderwritingAnalysisFile;
+          var extension = Path.GetExtension(fileInfo.Name).ToLower();
+        }
+        @if(extension == ".pdf" || extension == ".jpeg" || extension == ".png" || extension == ".jpg")
+        {
+          <GridCommandButton Title="Preview"
+                             IconClass="fa-duotone fa-eye"
+                             ThemeColor="primary"
+                             Class="my-1"
+                             OnClick=@OnPreview> 
+                             @if(!IsSmallScreen)
+                             {
+                              <span>Preview</span>
+                             }
+          </GridCommandButton>
+        }
+
+        @{ var file = context as UnderwritingAnalysisFile; }
+        <a href="@file.DownloadLink" target="_blank" role="button" class="btn btn-secondary text-center my-1">
+          <span style="color: #FFFFFF;">
+            <i class="fa-duotone fa-download"></i>
+             @if(!IsSmallScreen)
+             {
+               <span>Download</span>
+             }
+          </span>  
+        </a>
+        <AuthorizedPolicy Policy=@PortalPolicy.Underwriter>
+          <GridCommandButton Command="Delete" Title="Delete" Class="my-1" Icon="delete">
+              @if(!IsSmallScreen)
+              {
+                <span>Delete</span>
+              }
+            </GridCommandButton>
+        </AuthorizedPolicy>
+      </div>
+    </GridCommandColumn>
+  </GridColumns>
+</TelerikGrid>
+
+<ResponsiveWindow Visible=@showUploadFile>
+  <WindowTitle>Upload</WindowTitle>
+  <WindowActions>
+    <WindowAction Name="Close" OnClick=@CloseUpload />
+  </WindowActions>
+  <WindowContent>
+    <div class="row my-3">
+      <div class="col-3">
+        File Type
+      </div>
+      <div class="col-9">
+        <TelerikDropDownList Data=@fileTypes
+                             Class="w-100"
+                             @bind-Value=@selectedFileType />
+      </div>
+    </div>
+    <div class="row my-3">
+      <div class="col-3">
+        Description
+      </div>
+      <div class="col-9">
+        <TelerikTextBox Class="form-control"
+                        @bind-Value=@description />
+      </div>
+    </div>
+    <TelerikUpload SaveUrl="@SaveUrl"
+               SaveField="file"
+               AllowedExtensions="@( new List<string>() { ".jpg", ".png", ".jpeg", ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".zip", ".rar" } )"
+               MaxFileSize="64000000" 
+               MinFileSize="1024"
+               AutoUpload=@false
+               OnSelect="@OnSelectHandler"
+               OnSuccess=@OnFileUploaded>
+</TelerikUpload>
+  </WindowContent>
+</ResponsiveWindow>
+
+<PortalNotification @ref="notification" />
+
+<TelerikWindow Visible="@(_selectedFile != null)"
+               Size="800px"
+               State="WindowState.Maximized"
+               Modal="true">
+    <WindowActions>
+      <WindowAction Name="Close" OnClick=@(() => _selectedFile = null) />
+    </WindowActions>
+    <WindowTitle>
+        <strong>@_selectedFile.Name</strong>
+    </WindowTitle>
+    <WindowContent>
+      <DocumentViewer Link="@_selectedFile.DownloadLink" Type=@(Path.GetExtension(_selectedFile.Name).ToLower() == ".pdf" ? DocumentType.PDF : DocumentType.Image) />
+    </WindowContent>
+</TelerikWindow>

@@ -1,0 +1,39 @@
+﻿<TelerikGrid Data=@_roles
+             Sortable=@true
+             ConfirmDelete="true"
+             OnCreate=@OnCreate
+             OnUpdate=@OnUpdate
+             OnDelete=@OnDelete>
+  <GridToolBar>
+    <span class="k-toolbar-spacer"></span>
+    <GridCommandButton Command="Add" IconClass="fa-duotone fa-plus" Title="Add" ThemeColor="primary">Add</GridCommandButton>
+  </GridToolBar>
+  <GridColumns>
+    <GridColumn Field="Name" />
+    <GridColumn Field="CoreTeam" Title="Core Team" TextAlign=@ColumnTextAlign.Center>
+      <Template>
+        @{ var role = context as Data.Models.CRMContactRole; }
+        @if(role.CoreTeam)
+        {
+          <i class="fa-duotone fa-apple-core"></i>
+        }
+      </Template>
+      <EditorTemplate>
+        @{ var role = context as Data.Models.CRMContactRole; }
+        <TelerikSwitch @bind-Value=@role.CoreTeam />
+      </EditorTemplate>
+    </GridColumn>
+    <GridCommandColumn>
+      <div class="text-center">
+        @{ var role = context as Data.Models.CRMContactRole; }
+        @if(!role.SystemDefined)
+        {
+          <GridCommandButton Command="Edit" Icon="edit" Title="Edit">Edit</GridCommandButton>
+          <GridCommandButton Command="Delete" Icon="delete" Title="Delete">Delete</GridCommandButton>
+          <GridCommandButton Command="Cancel" Icon="cancel" Title="Cancel" ShowInEdit=@true>Cancel</GridCommandButton>
+          <GridCommandButton Command="Save" Icon="save" Title="Save" ShowInEdit=@true>Save</GridCommandButton>
+        }
+      </div>
+    </GridCommandColumn>
+  </GridColumns>
+</TelerikGrid>

@@ -1,0 +1,23 @@
+﻿<TelerikGrid Data=@_themes>
+  <GridColumns>
+    <GridColumn Field=@nameof(Data.Models.SiteTheme.Id) Title="Name" />
+    <GridColumn Field=@nameof(Data.Models.SiteTheme.IsDefault) Title="Default Theme">
+      <Template>
+        @{ var template = context as Data.Models.SiteTheme; }
+        @if(template.IsDefault)
+        {
+          <span>Default</span>
+        }
+      </Template>
+    </GridColumn>
+    <GridCommandColumn>
+      @{ var template = context as Data.Models.SiteTheme; }
+      @if(!template.IsDefault)
+      {
+        <GridCommandButton Command="SetDefault" Title="Set Default" OnClick=@SetDefault>Set Default</GridCommandButton>
+      }
+    </GridCommandColumn>
+  </GridColumns>
+</TelerikGrid>
+
+<PortalNotification @ref="notification" />

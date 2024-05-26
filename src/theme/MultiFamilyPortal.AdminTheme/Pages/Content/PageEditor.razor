@@ -1,0 +1,49 @@
+﻿@page "/admin/pages/editor/{id}"
+
+<Animation OptionsName="Page">
+  @if (_content != null)
+  {
+    <SiteTitle Title=@(_content.Title) />
+    <div class="row g-3 p-3">
+      <label for="name" class="col-sm-2 col-form-label">Title <span style="color:red">*</span></label>
+      <div class="col-sm-5">
+        <TelerikTextBox @bind-Value=@_content.Title
+                        Class="form-control" />
+      </div>
+    </div>
+    <div class="row g-3 p-3">
+      <div class="col-md-12">
+        <PortalWysiwyg @bind-Value=@_content.HtmlContent
+                       Class="page-editor" />
+      </div>
+    </div>
+    <div class="row g-3 p-3">
+      <div class="col-md-2 offset-md-4">
+        <TelerikButton ButtonType=@ButtonType.Button
+                       Title="Back"
+                       IconClass="fa-duotone fa-arrow-left"
+                       OnClick=@OnNavigateBack>
+          Back
+        </TelerikButton>
+      </div>
+      <div class="col-md-2 text-center">
+        <TelerikButton ButtonType=@ButtonType.Button
+                       ThemeColor="primary"
+                       Title="Update"
+                       IconClass="fa-duotone fa-save"
+                       OnClick=@OnUpdate>
+          Update
+        </TelerikButton>
+      </div>
+    </div>
+  }
+  else if(notFound)
+  {
+    <_404 />
+  }
+  else
+  {
+    <TelerikLoader />
+  }
+</Animation>
+<PortalNotification @ref="_notification" />

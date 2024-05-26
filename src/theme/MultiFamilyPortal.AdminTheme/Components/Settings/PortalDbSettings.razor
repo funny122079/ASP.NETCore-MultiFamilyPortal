@@ -1,0 +1,210 @@
+﻿@if(Model is null)
+{
+  <TelerikLoader />
+}
+else
+{
+<TelerikWizard @bind-Value=@step ShowPager=@false>
+  <WizardSteps>
+    <WizardStep Label="Site Info" IconClass="fa-duotone fa-browser">
+      <Content>
+        <div class="m-4">
+          <p>Let's get to know a bit about what we should show for your branding on the website.</p>
+          <div class="row py-4 px-2">
+            <label for="SiteTitle" class="col-sm-2 col-form-label">Site Title</label>
+            <div class="col-sm-10">
+              <TelerikTextBox @bind-Value=@Model.SiteTitle
+                              Class="form-control"
+                              PlaceHolder="Site Title" />
+            </div>
+          </div>
+          <div class="row pb-5 px-2">
+            <label for="Email" class="col-sm-2 col-form-label my-1">Sender Email</label>
+            <div class="col-sm-5 my-1">
+              <TelerikTextBox @bind-Value=@Model.SenderEmailName
+                              Class="form-control"
+                              PlaceHolder="Display Name" />
+            </div>
+            <div class="col-sm-5 my-1">
+              <TelerikTextBox @bind-Value=@Model.SenderEmail
+                              Class="form-control"
+                              PlaceHolder="no-reply@website.com" />
+            </div>
+          </div>
+          <h3>Icon Theme</h3>
+          <div class="row pb-5 px-2">
+            <label for="BackgroundColor" class="col-sm-2 col-form-label">Background Color</label>
+            <div class="col-sm-4">
+              <TelerikColorPicker @bind-Value=@Model.BackgroundColor
+                                  ValueFormat=@ColorFormat.Hex />
+            </div>
+            <label for="ThemeColor" class="col-sm-2 col-form-label">Theme Color</label>
+            <div class="col-sm-4">
+              <TelerikColorPicker @bind-Value=@Model.ThemeColor
+                                  ValueFormat=@ColorFormat.Hex />
+            </div>
+          </div>
+          <h3>Social Profiles <small>(Optional)</small></h3>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input-group flex-nowrap mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon3">https://facebook.com/</span>
+                </div>
+                <TelerikTextBox @bind-Value=@Model.Facebook Class="form-control" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group flex-nowrap mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon3">https://twitter.com/</span>
+                </div>
+                <TelerikTextBox @bind-Value=@Model.Twitter Class="form-control" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group flex-nowrap mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon3">https://linkedin.com/in/</span>
+                </div>
+                <TelerikTextBox @bind-Value=@Model.LinkedIn Class="form-control" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group flex-nowrap mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon3">https://instagram.com/</span>
+                </div>
+                <TelerikTextBox @bind-Value=@Model.Instagram Class="form-control" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Content>
+    </WizardStep>
+    <WizardStep Label="Blog" IconClass="fa-duotone fa-blog">
+      <Content>
+        <div class="m-4">
+          <p>Be sure to optimize your website's blog if you are using it. This will help tailor the metadata and display settings for the blog.</p>
+          <div class="row py-4 px-2">
+            <label for="ManagingEditor" class="col-sm-2 col-form-label">Managing Editor</label>
+            <div class="col-sm-10">
+              <TelerikTextBox @bind-Value=@Model.ManagingEditor
+                              Class="form-control"
+                              PlaceHolder="Managing Editor" />
+            </div>
+          </div>
+          <div class="row py-4 px-2">
+            <label for="Webmaster" class="col-sm-2 col-form-label">Webmaster</label>
+            <div class="col-sm-10">
+              <TelerikTextBox @bind-Value=@Model.Webmaster
+                              Class="form-control"
+                              PlaceHolder="Webmaster" />
+            </div>
+          </div>
+          <div class="row py-4 px-2">
+            <label for="PageSize" class="col-sm-2 col-form-label">Page Size</label>
+            <div class="col-sm-10">
+              <TelerikNumericTextBox @bind-Value=@Model.BlogPageLimit
+                                     Arrows=@false
+                                     Class="form-control" />
+            </div>
+          </div>
+          <div class="row py-4 px-2">
+            <label for="BlogDefaultImage" class="col-sm-2 col-form-label">Default Image</label>
+            <div class="col-sm-7">
+              <TelerikTextBox @bind-Value=@Model.BlogDefaultImage
+                              Class="form-control"
+                              PlaceHolder="Default Image: https://domain/img/file.png" />
+            </div>
+            <div class="col-sm-3">
+              @if(!string.IsNullOrEmpty(Model.BlogDefaultImage))
+              {
+                <img src="@Model.BlogDefaultImage" class="img-fluid" />
+              }
+            </div>
+          </div>
+          <div class="row py-4 px-2">
+            <label for="RssDescription" class="col-sm-2 col-form-label">Rss Description</label>
+            <div class="col-sm-10">
+              <TelerikTextArea @bind-Value=@Model.RssDescription
+                               Class="form-control"
+                               PlaceHolder="A short description for your blog." />
+              <small style="color:@(Model.RssDescription.Length < 40 ? "black": Model.RssDescription.Length < 155 ? "green" : "red")">
+                @Model.RssDescription.Length / 155
+              </small>
+            </div>
+          </div>
+        </div>
+      </Content>
+    </WizardStep>
+    <WizardStep Label="Company Info" IconClass="fa-duotone fa-city">
+      <Content>
+        <div class="m-4">
+          <p>Let's get some basics about the legal business & contact information for your business. This may be displayed on various parts of the website including the Terms and Conditions, as well as the Privacy Policy.</p>
+          <div class="row g-3 mt-1">
+            <label for="LegalName" class="col-sm-2 col-form-label">Legal Business Name</label>
+            <div class="col-sm-10">
+              <TelerikTextBox @bind-Value=@Model.LegalName
+                              Class="form-control"
+                              PlaceHolder="Legal Business Name" />
+            </div>
+            <label for="PublicEmail" class="col-sm-2 col-form-label">Public Email</label>
+            <div class="col-sm-10">
+              <TelerikTextBox @bind-Value=@Model.PublicEmail
+                              Class="form-control"
+                              PlaceHolder="hello@website.com" />
+            </div>
+            <label for="LegalName" class="col-sm-2 col-form-label">Phone</label>
+            <div class="col-sm-10">
+              <TelerikMaskedTextBox @bind-Value=@Model.Phone
+                                    Class="form-control"
+                                    Mask="(000) 000-0000" />
+            </div>
+          </div>
+          <div class="row g-3 mt-1 mb-3">
+            <label for="address" class="col-sm-2 col-form-label">Address</label>
+            <div class="col-sm-10">
+              <TelerikTextBox @bind-Value=@Model.Address
+                              Class="form-control"
+                              PlaceHolder="Address" />
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-5">
+              <TelerikTextBox @bind-Value=@Model.City
+                              Class="form-control"
+                              PlaceHolder="City" />
+            </div>
+            <div class="col-sm">
+              <TelerikTextBox @bind-Value=@Model.State
+                              Class="form-control"
+                              PlaceHolder="State" />
+            </div>
+            <div class="col-sm">
+              <TelerikTextBox @bind-Value=@Model.PostalCode
+                              Class="form-control"
+                              PlaceHolder="Zip" />
+            </div>
+          </div>
+          <div class="mb-3"></div>
+        </div>
+      </Content>
+    </WizardStep>
+  </WizardSteps>
+  <WizardButtons>
+    @if(showPrevious)
+    {
+      <TelerikButton ButtonType="ButtonType.Button" OnClick=@Previous>Previous</TelerikButton>
+    }
+    @if(showNext)
+    {
+      <TelerikButton ButtonType="ButtonType.Button" ThemeColor="primary" OnClick=@Next>Next</TelerikButton>
+    }
+    <TelerikButton ButtonType="ButtonType.Button" ThemeColor="primary" OnClick=@UpdateSettings>Update</TelerikButton>
+  </WizardButtons>
+</TelerikWizard>
+}
+
+<PortalNotification @ref="notification" />

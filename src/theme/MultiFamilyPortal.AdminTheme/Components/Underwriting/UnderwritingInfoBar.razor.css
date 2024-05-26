@@ -1,0 +1,19 @@
+﻿.underwriting-success {
+  background-color: var(--portal-underwriting-success);
+  color: var(--bs-light)
+}
+
+.underwriting-warning {
+  background-color: var(--portal-underwriting-warning);
+  color: var(--bs-dark)
+}
+
+.underwriting-danger {
+  background-color: var(--portal-underwriting-danger);
+  color: var(--bs-light)
+}
+
+.underwriting-info {
+  background-color: var(--portal-underwriting-info);
+  color: var(--bs-dark)
+}

@@ -1,0 +1,243 @@
+﻿@page "/admin/activity-log"
+
+<SiteTitle Title="Activity Logs" />
+<Animation OptionsName="Page">
+  <div class="row">
+    <div class="col-lg-10">
+      <h3>Activity Logs</h3>
+    </div>
+  </div>
+
+  <div class="row pt-3 pb-4" style="margin-left: auto">
+    <div class="col-8"></div>
+    <div class="col-4 flex">
+      <TelerikDropDownList Data=@_underwriters
+                           @bind-Value=@_profileId
+                           OnChange=@Update
+                           TextField=@(nameof(UnderwriterResponse.DisplayName))
+                           ValueField=@(nameof(UnderwriterResponse.Id)) />
+    </div>
+    <div class="col-8"></div>
+    <div class="col-4 flex">
+      <TelerikDateRangePicker @bind-StartValue=@_start
+                              @bind-EndValue=@_end
+                              OnChange=@Update/>
+    </div>
+  </div>
+
+  <TelerikGrid Data=@_activities
+               OnDelete="@OnDeleteItem"
+               ConfirmDelete="true">
+    <GridToolBar>
+      <div class="flex" style="margin-left: auto;">
+        @if(_user.IsInAnyRole(PortalRoles.PortalAdministrator, PortalRoles.Underwriter))
+        {
+          <GridCommandButton Command="NewProperty"
+                             Icon="add"
+                             ThemeColor="primary"
+                             Class="float-right"
+                             OnClick=@CreateActivityAsync>
+            Add
+          </GridCommandButton>
+        }
+      </div>
+    </GridToolBar>
+    <GridColumns>
+      <GridColumn Field="UserEmail" Title="User">
+        <Template>
+          @{ var activity = context as ActivityResponse; }
+          <div class="row text-center">
+            <div class="col-12">
+              <Gravatar Email=@activity.UserEmail />
+            </div>
+            <div class="col-12">
+              <small>@activity.UserName</small>
+            </div>
+          </div>
+        </Template>
+      </GridColumn>
+      <GridColumn Field="Type">
+        <Template>
+          @{ var activity = context as ActivityResponse; }
+          <span>@activity.Type.Humanize(LetterCasing.Title)</span>
+        </Template>
+      </GridColumn>
+      <GridColumn Field="Description">
+        <Template>
+          @{ var activity = context as ActivityResponse; }
+          <div><b>@activity.Description</b></div>
+          <div>@((MarkupString)activity.Notes)</div>
+        </Template>
+      </GridColumn>
+      <GridColumn Field="Date" TextAlign=@ColumnTextAlign.Center>
+        <Template>
+          @{ var activity = context as ActivityResponse; }
+          <PortalLocalizedTime Date=@activity.Date Format="MMMM dd, yyyy"/>
+        </Template>
+      </GridColumn>
+      <GridColumn Field="Total" TextAlign=@ColumnTextAlign.Center Width="100px" />
+      <GridCommandColumn>
+        @{ var activity = context as ActivityResponse; }
+        @if(_user.FindFirstValue(ClaimTypes.Email) == activity.UserEmail)
+        {
+          <GridCommandButton Command="CustomEdit" Title="Edit" Icon="edit" OnClick=@OnEditItem>Edit</GridCommandButton>
+          <GridCommandButton Command="Delete" Title="Delete" Icon="delete" Class="btn-danger">Delete</GridCommandButton>
+        }
+      </GridCommandColumn>
+    </GridColumns>
+  </TelerikGrid>
+
+  <TelerikWindow Visible=@(_newActivity != null)
+                 Modal="true"
+                 Width="600px"
+                 Height="650px">
+    <WindowTitle>
+      <h3>Add Activity</h3>
+    </WindowTitle>
+    <WindowActions>
+      <WindowAction Name="Close" OnClick="@(() => _newActivity = null)" />
+    </WindowActions>
+    <WindowContent>
+        <form>
+         <div class="row mb-1">
+          <label for="ActivityType" class="form-label col-sm-4 my-auto">Activity Type</label>
+          <div class="col-sm-8">
+            <TelerikDropDownList Data=@_activityTypes
+                                 @bind-Value=@_newActivity.Type
+                                 Id="ActivityType"
+                                 Class="form-control w-100">
+              <ValueTemplate>
+                @context.Humanize(LetterCasing.Title)
+              </ValueTemplate>
+              <ItemTemplate>
+                @context.Humanize(LetterCasing.Title)
+              </ItemTemplate>
+            </TelerikDropDownList>
+          </div>
+         </div>
+
+         <div class="row mb-1">
+          <label for="Description" class="form-label col-sm-4 my-auto">Description</label>
+          <div class="col-sm-8">
+            <div class="mx-2">
+              <TelerikTextBox @bind-Value=@_newActivity.Description
+                              Id="Description"
+                              Class="form-control w-100"/>
+            </div>
+            </div>
+          </div>
+
+           <div class="row mb-1">
+             <label for="Note" class="form-label col-sm-12">Notes</label>
+             <div class="col-sm-12">
+               <PortalWysiwyg @bind-Value=@_newActivity.Notes
+                              Width="556px"
+                              Height="250px"
+                              Id="Note"/>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <label for="Total" class="form-label col-sm-4">Time</label>
+          <div class="col-sm-8">
+            <TimeSpanPicker @bind-TimeSpan=@_newActivity.Total
+                            Id="Total"
+                            ClassName="form-control w-100"/>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <label for="Date" class="form-label col-sm-4">Date</label>
+          <div class="col-sm-8">
+            <TelerikDatePicker @bind-Value=@_newActivity.Date
+                               Class="form-control w-100"
+                               Id="Date" />
+          </div>
+        </div>
+         <div class="row text-center mt-2 mx-2">
+        <TelerikButton ButtonType=@ButtonType.Button
+                       ThemeColor="primary"
+                       Title="Save"
+                       OnClick=@OnSaveActivity>
+          Save
+        </TelerikButton>
+      </div>
+        </form>
+    </WindowContent>
+  </TelerikWindow>
+
+  <TelerikWindow Visible=@(_updateActivity != null)
+                 Modal="true"
+                 Width="600px"
+                 Height="650px">
+    <WindowTitle>
+      <h3>Update Activity</h3>
+    </WindowTitle>
+    <WindowActions>
+      <WindowAction Name="Close" OnClick="@(() => _updateActivity = null)" />
+    </WindowActions>
+    <WindowContent>
+      <form>
+        <div class="row mb-1">
+          <label for="ActivityTypeEdit" class="form-label col-sm-4 my-auto">Activity Type</label>
+          <div class="col-sm-8">
+            <TelerikDropDownList Data=@_activityTypes
+                                 @bind-Value=@_updateActivity.Type
+                                 Id="ActivityTypeEdit"
+                                 Class="form-control">
+              <ValueTemplate>
+                @context.Humanize(LetterCasing.Title)
+              </ValueTemplate>
+              <ItemTemplate>
+                @context.Humanize(LetterCasing.Title)
+              </ItemTemplate>
+            </TelerikDropDownList>
+          </div>
+        </div>
+         <div class="row mb-1">
+          <label for="DescriptionEdit" class="form-label col-sm-4 my-auto">Description</label>
+          <div class="col-sm-8">
+            <div class="mx-2">
+              <TelerikTextBox @bind-Value=@_updateActivity.Description
+                              Id="DescriptionEdit"
+                              Class="form-control"/>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <label for="NoteEdit" class="form-label col-sm-12">Notes</label>
+          <div class="col-sm-12">
+            <PortalWysiwyg @bind-Value=@_updateActivity.Notes
+                           Width="556px"
+                           Height="250px"
+                           Id="NotesEdit"/>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <label for="TimeEdit" class="form-label col-sm-4">Time</label>
+          <div class="col-sm-8">
+            <TimeSpanPicker @bind-TimeSpan=@_updateActivity.Total
+                            Id="TimeEdit"
+                            ClassName="form-control w-100" />
+          </div>
+        </div>
+        <div class="row mb-1">
+          <label for="DateEdit" class="form-label col-sm-4">Date</label>
+          <div class="col-sm-8">
+          <TelerikDatePicker @bind-Value=@_updateActivity.Date
+                             Class="form-control"
+                             Id="DateEdit"/>
+          </div>
+       </div>
+        <div class="row text-center mt-2 mx-2">
+          <TelerikButton ButtonType=@ButtonType.Button
+                         ThemeColor="primary"
+                         Title="Update"
+                         OnClick=@OnUpdateActivity>
+            Update
+          </TelerikButton>
+        </div>
+      </form>
+    </WindowContent>
+  </TelerikWindow>
+</Animation>
+
+<PortalNotification @ref="_notification" />

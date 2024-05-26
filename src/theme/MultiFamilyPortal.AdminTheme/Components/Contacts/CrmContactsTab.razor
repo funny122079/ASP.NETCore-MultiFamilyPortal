@@ -1,0 +1,57 @@
+﻿<Animation OptionsName="Page">
+  @if(_newContact is null)
+  {
+    <div class="row gt-3 mt-2">
+      <div class="col-md-3">
+        <span class="clickable" @onclick=@(() => HandleViewAsync(true)) style="color: @(_showList ? string.Empty : "var(--bs-primary)");">
+          <i class="fa-duotone fa-table-list"></i> List
+        </span> |
+        <span class="clickable" @onclick=@(() => HandleViewAsync(false)) style="color: @(_showList ? "var(--bs-primary)" : string.Empty);">
+          <i class="fa-duotone fa-address-card"></i> Cards
+        </span>
+      </div>
+      <div class="col-md-6"></div>
+      <div class="col-md-3">
+        <TelerikDropDownList Data=@_markets
+                             @bind-Value=@_selectedMarket
+                             OnChange=@FilterResults
+                             Width="100%" />
+      </div>
+    </div>
+    <div class="row gt-3 my-3">
+      <div class="col-md-4">
+        <TelerikTextBox Value=@_query
+                        ValueChanged=@OnQueryChanged
+                        Class="form-control" />
+      </div>
+      <div class="col-md-6"></div>
+      <div class="col-md-2">
+        <TelerikDropDownList Data=@_roles
+                             @bind-Value=@_selectedRole
+                             OnChange=@FilterResults
+                             TextField="Name"
+                             ValueField="Name"
+                             Width="100%">
+        </TelerikDropDownList>
+      </div>
+    </div>
+  }
+
+  @if(_newContact != null)
+  {
+    <CrmCreateContact Contact=@_newContact
+                      ContactChanged=@OnNewContactSaved />
+  }
+  else @if(_showList)
+  {
+    <CrmContactList Contacts=@_contacts
+                    AddContact=@AddNewContact
+                    ShowContactDetails=@ShowContactDetails />
+  }
+  else
+  {
+    <CrmContactCardList Contacts=@_contacts
+                        AddContact=@AddNewContact
+                        ShowContactDetails=@ShowContactDetails />
+  }
+</Animation>

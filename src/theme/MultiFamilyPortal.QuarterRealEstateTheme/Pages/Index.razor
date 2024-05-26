@@ -1,0 +1,147 @@
+﻿@page "/"
+
+<PageTitle>@SiteInfo.Title</PageTitle>
+
+
+<!-- ABOUT US AREA START -->
+<div class="ltn__about-us-area section-bg-1 bg-image-right-before pt-120 pb-90">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 align-self-center">
+        <div class="about-us-info-wrap">
+          <div class="section-title-area ltn__section-title-2--- mb-20">
+            <h6 class="section-subtitle section-subtitle-2--- ltn__secondary-color">Building Facilities</h6>
+            <h1 class="section-title">Multi-Family Property Investing</h1>
+            <p>We are a privately held investment company that focuses on acquiring and managing opportunistic and value-add multi-family properties. We specialize in repositioning well-located assets in emerging markets to protect investor capital and provide high yield returns.</p>
+            <p>Our success and reputation have been built on conservatism, ethics, passion, attention to detail, responsibility, and our belief that trust starts and ends with honesty and integrity.</p>
+          </div>
+          <ul class="ltn__list-item-half ltn__list-item-half-2 clearfix">
+            @*<li>
+                <i class="icon-done"></i>
+                Living rooms are pre-wired for Surround
+            </li>*@
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-6 align-self-center">
+        <div class="about-us-img-wrap about-img-left">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ABOUT US AREA END -->
+
+<!-- FEATURE AREA START ( Feature - 6) -->
+<div class="ltn__feature-area section-bg-1--- pt-115 pb-90 mb-120---">
+  <div class="container">
+@*    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title-area ltn__section-title-2--- text-center">
+          <h6 class="section-subtitle section-subtitle-2--- ltn__secondary-color">Our Services</h6>
+          <h1 class="section-title">Our Main Focus</h1>
+        </div>
+      </div>
+    </div>*@
+    <div class="row ltn__custom-gutter---  justify-content-center">
+      <div class="col-lg-4 col-sm-6 col-12">
+        <div class="ltn__feature-item ltn__feature-item-6 text-center bg-white  box-shadow-1">
+          <div class="ltn__feature-icon">
+            <span><i class="flaticon-house"></i></span>
+            <img src="/_content/MultiFamilyPortal.QuarterRealEstateTheme/img/garden-1.jpg" alt="#">
+          </div>
+          <div class="ltn__feature-info">
+            <h3><a href="/about">About Us</a></h3>
+            <p>Learn more about our company and team members.</p>
+            <a class="ltn__service-btn" href="/about">Read more <i class="flaticon-right-arrow"></i></a>
+          </div>
+        </div>
+      </div>
+        <div class="col-lg-4 col-sm-6 col-12">
+          <div class="ltn__feature-item ltn__feature-item-6 text-center bg-white  box-shadow-1 active">
+            <div class="ltn__feature-icon">
+              <span><i class="flaticon-house-3"></i></span>
+              <img src="/_content/MultiFamilyPortal.QuarterRealEstateTheme/img/garden-2.jpg" alt="#">
+            </div>
+            <div class="ltn__feature-info">
+              <h3><a href="/strategy">Our Strategy</a></h3>
+              <p>Learn more about our investing strategy.</p>
+              <a class="ltn__service-btn" href="/strategy">Read More <i class="flaticon-right-arrow"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 col-12">
+          <div class="ltn__feature-item ltn__feature-item-6 text-center bg-white  box-shadow-1">
+            <div class="ltn__feature-icon">
+              <span><i class="flaticon-deal-1"></i></span>
+              <img src="/_content/MultiFamilyPortal.QuarterRealEstateTheme/img/garden-3.jpg" alt="#">
+            </div>
+            <div class="ltn__feature-info">
+              <h3><a href="service-details.html">Invest With Us</a></h3>
+              <p>Stop sitting on the sidelines. Invest with us to get above average returns.</p>
+              <a class="ltn__service-btn" href="/invest-with-us">Read More <i class="flaticon-right-arrow"></i></a>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- FEATURE AREA END -->
+
+@if(testimonials.Any())
+{
+  <!-- TESTIMONIAL AREA START (testimonial-8) -->
+  <div class="ltn__testimonial-area section-bg-1--- bg-image-top pt-115 pb-65" data-bs-bg="img/bg/23.jpg">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-title-area ltn__section-title-2--- text-center---">
+            <h6 class="section-subtitle section-subtitle-2--- ltn__secondary-color--- white-color">Testimonials</h6>
+            <h1 class="section-title white-color">See What Our Investors <br>
+                Say About Us</h1>
+          </div>
+        </div>
+      </div>
+      <div class="row ltn__testimonial-slider-6-active slick-arrow-3">
+        @foreach(var testimonial in testimonials)
+        {
+          <InvestorTestimonial Name=@testimonial.Name
+                                Title=@testimonial.Title
+                                InvestorPhoto=@testimonial.PhotoUrl
+                                Stars=@testimonial.Stars
+                                Testimonial=@testimonial.Testimonial />
+        }
+        <!--  -->
+      </div>
+    </div>
+  </div>
+  <!-- TESTIMONIAL AREA END -->
+}
+
+@if(recentPosts.Any())
+{
+  <!-- BLOG AREA START (blog-3) -->
+  <div class="ltn__blog-area pt-115--- pb-70">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-title-area ltn__section-title-2--- text-center">
+            <h6 class="section-subtitle section-subtitle-2--- ltn__secondary-color">News & Blogs</h6>
+            <h1 class="section-title">Leatest News Feeds</h1>
+          </div>
+        </div>
+      </div>
+      <div class="row  ltn__blog-slider-one-active slick-arrow-1 ltn__blog-item-3-normal">
+        @foreach(var recentPost in recentPosts)
+        {
+          <HomeRecentPostWidget Post=@recentPost />
+        }
+        <!--  -->
+      </div>
+    </div>
+  </div>
+  <!-- BLOG AREA END -->
+}
+
+

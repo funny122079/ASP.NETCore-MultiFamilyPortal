@@ -1,0 +1,66 @@
+﻿<Animation OptionsName="Page">
+  <div class="row gt-3 pb-4">
+    <div class="col-md-12 mt-2">
+      <p>Enter Market Notes</p>
+    </div>
+    <div class="col-md-8 py-2">
+      <PortalWysiwyg @bind-Value=@Contact.MarketNotes />
+    </div>
+    <div class="col-md-4 pt-2">
+      <LoaderContainer Context=@Contact?.Markets>
+        <TelerikGrid Data=@Contact.Markets
+                     Pageable=@true
+                     PageSize="8"
+                     EditMode=@GridEditMode.Inline
+                     OnCreate=@OnMarketAdded
+                     OnDelete=@OnMarketDeleted
+                     OnEdit=@OnMarketEditing
+                     OnUpdate=@OnMarketUpdated>
+          <GridToolBar>
+            <span class="k-toolbar-spacer"></span>
+            <GridCommandButton ThemeColor="primary"
+                               Command="Add"
+                               IconClass="fa-duotone fa-plus"
+                               Title="Add">Add</GridCommandButton>
+          </GridToolBar>
+          <GridColumns>
+            <GridColumn Field="Name">
+              <EditorTemplate>
+                 @{ var market = context as Data.Models.CRMContactMarket; }
+                <TelerikAutoComplete Data=@_markets
+                                     @bind-Value=@market.Name
+                                     Filterable=@true
+                                     Class="form-control" />
+              </EditorTemplate>
+            </GridColumn>
+            <GridCommandColumn Width="100px">
+              @{ var market = context as Data.Models.CRMContactMarket; }
+              <div class="text-center">
+                <GridCommandButton Command="Edit"
+                                   IconClass="fa-duotone fa-pencil"
+                                   Title="Edit" />
+                <GridCommandButton Command="Delete"
+                                   IconClass="fa-duotone fa-trash"
+                                   Title="Delete" />
+                <GridCommandButton Command="Cancel"
+                                   Icon="cancel"
+                                   Title="Cancel"
+                                   ShowInEdit=@true />
+                <GridCommandButton Command="Save"
+                                   IconClass="fa-duotone fa-floppy-disk"
+                                   Title="Save"
+                                   ShowInEdit=@true
+                                   Enabled=@(!string.IsNullOrEmpty(market.Name)) />
+              </div>
+            </GridCommandColumn>
+          </GridColumns>
+          <NoDataTemplate>
+            <div class="text-center py-5">
+              <strong>No Markets</strong>
+            </div>
+          </NoDataTemplate>
+        </TelerikGrid>
+      </LoaderContainer>
+      </div>
+    </div>
+</Animation>

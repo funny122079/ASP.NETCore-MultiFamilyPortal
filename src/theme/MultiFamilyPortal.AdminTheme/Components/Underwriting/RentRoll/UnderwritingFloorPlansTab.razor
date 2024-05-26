@@ -1,0 +1,72 @@
+@inherits ResponsiveComponent
+
+@{ base.BuildRenderTree(__builder); }
+<TelerikGrid Data="@Property.Models"
+             Height="600px"
+             Sortable="true"
+             Resizable="true"
+             Reorderable="true">
+  <GridToolBar>
+    <span class="k-toolbar-spacer"></span>
+    @if(_editable)
+    {
+      <GridCommandButton ThemeColor="primary"
+                         IconClass="fa-duotone fa-plus"
+                         OnClick="@OnAddFloor">Add</GridCommandButton>
+    }
+  </GridToolBar>
+  <GridColumns>
+    <GridColumn Field="@(nameof(UnderwritingAnalysisModel.Name))" Title="Name" Width=@(IsSmallScreen ? "150px" : "10%") />
+    <GridColumn Field="@(nameof(UnderwritingAnalysisModel.Beds))" Title="Bed" Width=@(IsSmallScreen ? "150px" : "10%")/>
+    <GridColumn Field="@(nameof(UnderwritingAnalysisModel.Baths))" Title="Bath" Width=@(IsSmallScreen ? "150px" : "10%") />
+    <GridColumn Field="@(nameof(UnderwritingAnalysisModel.Area))" Title="Sqft" Width=@(IsSmallScreen ? "150px" : "10%") />
+    <GridColumn Field="@(nameof(UnderwritingAnalysisModel.Upgraded))" Title="Upgraded" Width=@(IsSmallScreen ? "150px" : "10%")>
+      <Template>
+        @{ var model = context as UnderwritingAnalysisModel; }
+        <span>@(model.Upgraded ? "Yes" : "No")</span>
+      </Template>
+    </GridColumn>
+    <GridColumn Field="@(nameof(UnderwritingAnalysisModel.Units))" Title="Rent Roll / Total Units" Width=@(IsSmallScreen ? "150px" : "10%")>
+      <Template>
+        @{ var model = context as UnderwritingAnalysisModel; }
+        <span>@((model.Units == null? 0 : model.Units.Count) + "/" + model.TotalUnits)</span>
+      </Template>
+    </GridColumn>
+    <GridColumn Field="@(nameof(UnderwritingAnalysisModel.CurrentRent))" Title="Current Rent ($)" Width=@(IsSmallScreen ? "150px" : "10%")>
+      <Template>
+        @{ var model = context as UnderwritingAnalysisModel; }
+        <span>@(model.CurrentRent.ToString("N2"))</span>
+      </Template>
+    </GridColumn>
+     <GridColumn Field="@(nameof(UnderwritingAnalysisModel.AverageRent))" Title="Average Rent ($)" Width=@(IsSmallScreen ? "150px" : "10%")>
+      <Template>
+        @{ var model = context as UnderwritingAnalysisModel; }
+        <span>@(model.AverageRent.ToString("N2"))</span>
+      </Template>
+    </GridColumn>
+    <GridColumn Field="@(nameof(UnderwritingAnalysisModel.MarketRent))" Title="Market Rent ($)" Width=@(IsSmallScreen ? "150px" : "10%")>
+      <Template>
+        @{ var model = context as UnderwritingAnalysisModel; }
+        <span>@(model.MarketRent.ToString("N2"))</span>
+      </Template>
+    </GridColumn>
+    <GridCommandColumn Width=@(IsSmallScreen ? "150px" : "10%")>
+      <div class="text-center">
+        @if(_editable)
+        {
+          <GridCommandButton Icon="edit"
+                             ShowInEdit="false"
+                             OnClick="@OnEditFloor">
+            Edit
+          </GridCommandButton>
+        }
+      </div>
+    </GridCommandColumn>
+  </GridColumns>
+</TelerikGrid>
+
+@if(_floorPlan is not null)
+{
+  <UnderwritingFloorPlansEditWindow Property=@Property
+                                    @bind-FloorPlan=@_floorPlan />
+}

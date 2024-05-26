@@ -1,0 +1,41 @@
+﻿<TelerikGrid Data=@Contacts
+             Sortable=@true
+             OnRowClick=@OnRowClicked>
+  <GridToolBar>
+    <span class="k-toolbar-spacer"></span>
+    <GridCommandButton IconClass="fa-duotone fa-plus"
+                       Title="Add"
+                       ThemeColor="primary"
+                       OnClick=@AddContact>Add</GridCommandButton>
+  </GridToolBar>
+  <GridColumns>
+    <GridColumn Field="Company" />
+    <GridColumn Field="Title" />
+    <GridColumn Field="FirstName" Title="First Name" />
+    <GridColumn Field="LastName" Title="Last Name" />
+    <GridColumn Title="Email">
+      <Template>
+        @{
+          var contact = context as Data.Models.CRMContact;
+          var email = contact?.Emails?.FirstOrDefault(x => x.Primary);
+        }
+        @if(!string.IsNullOrEmpty(email?.Email))
+        {
+          <span>@email.Email <small>(@email.Type.GetDisplayName())</small></span>
+        }
+      </Template>
+    </GridColumn>
+    <GridColumn Title="Phone" Sortable=@false>
+      <Template>
+        @{
+          var contact = context as Data.Models.CRMContact;
+          var phone = contact?.Phones?.FirstOrDefault(x => x.Primary);
+        }
+        @if(!string.IsNullOrEmpty(phone?.Number))
+        {
+          <span>@phone.Number.ToPhoneNumberMask() <small>(@phone.Type.GetDisplayName())</small></span>
+        }
+      </Template>
+    </GridColumn>
+  </GridColumns>
+</TelerikGrid>

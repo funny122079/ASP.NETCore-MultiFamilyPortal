@@ -1,0 +1,18 @@
+﻿@page "/admin/users"
+@using MultiFamilyPortal.AdminTheme.Components.Users
+
+<Animation OptionsName="Page">
+  <TelerikTabStrip Class="res-tabstrip">
+    <TabStripTab Title="Internal Users">
+      <UserList AllowEditing=@true
+                Model=@_internalUsers
+                Roles=@_roles
+                OnUpdated=@RefreshUsers />
+    </TabStripTab>
+    <TabStripTab Title="External Users">
+      <UserList Model=@_externalUsers
+                Roles=@_roles />
+    </TabStripTab>
+  </TelerikTabStrip>
+</Animation>
+

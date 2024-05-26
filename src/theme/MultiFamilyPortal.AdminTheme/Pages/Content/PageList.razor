@@ -1,0 +1,27 @@
+﻿@page "/admin/pages"
+@using MultiFamilyPortal.Data.Models
+
+<SiteTitle Title="Pages" />
+<Animation OptionsName="Page">
+  <TelerikGrid Data=@_content>
+    <GridColumns>
+      <GridColumn Field=@nameof(CustomContent.Id) Width="150px" />
+      <GridColumn Field=@nameof(CustomContent.Title) />
+      <GridColumn Field=@nameof(CustomContent.LastUpdated)
+                  TextAlign=@ColumnTextAlign.Center>
+        <Template>
+          @{ var content = context as CustomContent; }
+          <PortalLocalizedTime Date=@content.LastUpdated />
+        </Template>
+      </GridColumn>
+      <GridCommandColumn Width="150px">
+        @{ var content = context as CustomContent; }
+        <div class="text-center">
+          <NavLink class="btn btn-light" href="@($"/admin/pages/editor/{content.Id}")" title="Edit">
+            <i class="fa-duotone fa-pencil" aria-hidden="true"></i> Edit
+          </NavLink>
+        </div>
+      </GridCommandColumn>
+    </GridColumns>
+  </TelerikGrid>
+</Animation>

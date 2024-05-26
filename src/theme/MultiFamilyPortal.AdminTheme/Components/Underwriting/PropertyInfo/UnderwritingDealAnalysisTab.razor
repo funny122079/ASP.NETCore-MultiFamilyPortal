@@ -1,0 +1,95 @@
+﻿<div class="row g-3 mt-1">
+  <label for="Summary" class="col-sm-2 col-form-label">Summary</label>
+  <div class="col-sm-10">
+    <TelerikTextArea @bind-Value=@Property.DealAnalysis.Summary
+                    Class="form-control"
+                    Enabled=@_editable
+                    PlaceHolder="Summary" />
+  </div>
+</div>
+<div class="row g-3 mt-1">
+  <label for="ValuePlays" class="col-sm-2 col-form-label">Value Plays</label>
+  <div class="col-sm-10">
+    <TelerikTextArea @bind-Value=@Property.DealAnalysis.ValuePlays
+                    Class="form-control"
+                    Enabled=@_editable
+                    PlaceHolder="Value Plays" />
+  </div>
+</div>
+<div class="row g-3 mt-1">
+  <label for="ConstructionType" class="col-sm-2 col-form-label">Construction Type</label>
+  <div class="col-sm-10">
+    <TelerikTextArea @bind-Value=@Property.DealAnalysis.ConstructionType
+                    Class="form-control"
+                    Enabled=@_editable
+                    PlaceHolder="Construction Type (Siding, Roof, Heating System, etc)" />
+  </div>
+</div>
+<div class="row g-3 mt-1">
+  <label for="Utilities" class="col-sm-2 col-form-label">Utilities</label>
+  <div class="col-sm-10">
+    <TelerikTextArea @bind-Value=@Property.DealAnalysis.UtilityNotes
+                    Class="form-control"
+                    Enabled=@_editable
+                    PlaceHolder="Utilities (All Bills Paid, Rub System, or Bill Back)" />
+  </div>
+</div>
+<div class="row g-3 mt-1">
+  <label for="PropertyClass" class="col-sm-2 col-form-label">Property Type</label>
+  <div class="col-sm-10">
+    <TelerikDropDownList Data=@Classes
+                         @bind-Value=@propertyClass
+                         Enabled=@_editable
+                         OnChange=@UpdateProperty
+                         Class="form-control" />
+  </div>
+</div>
+<div class="row g-3 mt-1">
+  <label for="NeighborhoodClass" class="col-sm-2 col-form-label">Neighborhood Type</label>
+  <div class="col-sm-10">
+    <TelerikDropDownList Data=@Classes
+                         @bind-Value=@neighborhoodClass
+                         Enabled=@_editable
+                         OnChange=@UpdateNeighborhood
+                         Class="form-control" />
+  </div>
+</div>
+
+<div class="row g-3 mt-1">
+  <label for="MarketPricePerUnit" class="col-sm-2 col-form col-form-label">Market Price/Unit</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.DealAnalysis.MarketPricePerUnit
+                    Min="0"
+                    Step="1000"
+                    Format="C"
+                    Arrows=@false
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+
+  <label for="MarketCapRate" class="col-sm-2 col-form col-form-label">Market Cap Rate</label>
+  <div class="col-sm-4">
+    <PercentageInput @bind-Value=@Property.DealAnalysis.MarketCapRate
+                     Enabled=@_editable
+                     Id="MarketCapRate" />
+  </div>
+</div>
+
+<div class="row g-3 mt-1">
+  <label for="CompetitionRents" class="col-sm-2 col-form-label">Competition Rents</label>
+  <div class="col-sm-10">
+    <TelerikTextArea @bind-Value=@Property.DealAnalysis.CompetitionNotes
+                    Class="form-control"
+                    Enabled=@_editable
+                    PlaceHolder="Competition Rents (3 Closest Competitors): You can ask broker for nearest Competition" />
+  </div>
+</div>
+<div class="row g-3 mt-1">
+  <label for="HowUnderwritingWasDetermined" class="col-sm-2 col-form-label">Where did you get the numbers that you used</label>
+  <div class="col-sm-10">
+    <TelerikTextArea @bind-Value=@Property.DealAnalysis.HowUnderwritingWasDetermined
+                    Class="form-control"
+                    Enabled=@_editable
+                    PlaceHolder=@HowUnderwritingWasDeterminedPlaceholder />
+  </div>
+</div>

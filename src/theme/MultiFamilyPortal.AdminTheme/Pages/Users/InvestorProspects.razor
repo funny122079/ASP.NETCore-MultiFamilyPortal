@@ -1,0 +1,44 @@
+﻿@page "/admin/investors-prospects"
+@using MultiFamilyPortal.Data.Models
+<Animation OptionsName="Page">
+  <h3>Investor Prospects</h3>
+
+  <p>These users have submitted an inquiry on the website and should be followed up with.</p>
+
+  <TelerikGrid Data=@_data>
+    <GridColumns>
+      <GridColumn>
+        <Template>
+          @{ var model = context as InvestorProspect; }
+          <div class="text-center">
+            <Gravatar Email=@model.Email />
+          </div>
+        </Template>
+      </GridColumn>
+      <GridColumn Field=@nameof(InvestorProspect.FirstName) />
+      <GridColumn Field=@nameof(InvestorProspect.LastName) />
+      <GridColumn Field=@nameof(InvestorProspect.Email) />
+      <GridColumn Field=@nameof(InvestorProspect.Phone)>
+        <Template>
+          @{ var user = context as InvestorProspect; }
+          @user.Phone.ToPhoneNumberMask()
+        </Template>
+      </GridColumn>
+      <GridColumn Field=@nameof(InvestorProspect.LookingToInvest) DisplayFormat="{0:C}" />
+      <GridColumn Field=@nameof(InvestorProspect.Timezone) />
+      <GridColumn Field=@nameof(InvestorProspect.Contacted)>
+        <Template>
+          @{ var model = context as InvestorProspect; }
+          @if(model.Contacted)
+          {
+            <span>Yes</span>
+          }
+          else
+          {
+            <span>No</span>
+          }
+        </Template>
+      </GridColumn>
+    </GridColumns>
+  </TelerikGrid>
+</Animation>

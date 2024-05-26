@@ -1,0 +1,116 @@
+<div class="container">
+  <div class="row">
+    <div class="col-1">
+      <label for="floor-name" class="form-label mt-4">Name</label>
+    </div>
+    <div class="col-11 my-3">
+      <TelerikTextBox Id="floor-name"
+                      Class="form-control w-100 mx-2"
+                      @bind-Value="@FloorPlan.Name"/>
+    </div>
+    <div class="col-1 my-3">
+      <label for="floor-beds" class="form-label mt-1">Beds</label>
+    </div>
+    <div class="col-5 my-3">
+      <TelerikNumericTextBox Class="form-control w-100"
+                             Min="1"
+                             Id="floor-beds"
+                             Arrows=@false
+                             @bind-Value="@FloorPlan.Beds"/>
+    </div>
+    <div class="col-1 my-3">
+      <label for="floor-baths" class="form-label mt-1">Baths</label>
+    </div>
+    <div class="col-5 my-3">
+      <TelerikNumericTextBox Class="form-control w-100"
+                             Min="1"
+                             Id="floor-baths"
+                             Arrows=@false
+                             @bind-Value="@FloorPlan.Baths"/>
+    </div>
+    <div class="col-1 my-3">
+      <label for="floor-sqft" class="form-label mt-1">Sqft</label>
+    </div>
+    <div class="col-5 my-3">
+      <TelerikNumericTextBox Class="form-control w-100"
+                             Min="1"
+                             Id="floor-sqft"
+                             Arrows=@false
+                             @bind-Value=@FloorPlan.Area />
+    </div>
+    <div class="col-1 my-3">
+      <label for="floor-upgrade" class="form-label mt-2">Upgraded</label>
+    </div>
+    <div class="col-5 my-3 text-end">
+      <TelerikSwitch Id="floor-upgrade"
+                     Class="mt-2 me-2"
+                     @bind-Value="@FloorPlan.Upgraded"/>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-3 my-2">
+      <label for="floor-avgrent" class="form-label mt-1">Units</label>
+    </div>
+    <div class="col-9 my-2">
+      <TelerikNumericTextBox Class="form-control w-100"
+                             Min="1"
+                             Max=@(Property.Units - (Property.Models == null ? 0 : Property.Models.Sum(x => x.TotalUnits)))
+                             Id="floor-avgrent"
+                             Arrows=@false
+                             @bind-Value="@FloorPlan.TotalUnits"/>
+    </div>
+    <div class="col-3 my-2">
+      <label for="floor-avgrent" class="form-label mt-2">Current Rent</label>
+    </div>
+    <div class="col-9 my-2">
+      <TelerikNumericTextBox  Class="form-control w-100"
+                              Min="100"
+                              Id="floor-avgrent"
+                              Arrows=@false
+                              Format="C"
+                              @bind-Value="@FloorPlan.CurrentRent"/>
+    </div>
+    <div class="col-3 my-2">
+      <label for="floor-mktrent" class="form-label mt-2">Market Rent</label>
+    </div>
+    <div class="col-9 my-2">
+      <TelerikNumericTextBox  Class="form-control w-100"
+                              Min="100"
+                              Id="floor-mktrent"
+                              Arrows=@false
+                              Format="C"
+                              @bind-Value="@FloorPlan.MarketRent" />
+    </div>
+  </div>
+  <div class="row my-3">
+    <div class="col-md-3 offset-md-2">
+    @if (FloorPlan.Id == default)
+    {
+      <button class="btn btn-secondary w-100 my-2" @onclick="@CloseAsync">
+        Close
+      </button>
+    }
+    else
+    {
+      <button class="btn btn-danger w-100 my-2" @onclick="@DeleteFloorAsync">
+        Remove
+      </button>
+    }
+    </div>
+    <div class="col-md-3 offset-md-2">
+    @if (FloorPlan.Id == default)
+    {
+      <button class="btn btn-primary w-100 my-2" @onclick="AddFloorAsync">
+        Add
+      </button>
+    }
+    else
+    {
+      <button class="btn btn-success w-100 my-2" @onclick="@EditFloorAsync">
+        Save
+      </button>
+    }
+    </div>
+  </div>
+</div>

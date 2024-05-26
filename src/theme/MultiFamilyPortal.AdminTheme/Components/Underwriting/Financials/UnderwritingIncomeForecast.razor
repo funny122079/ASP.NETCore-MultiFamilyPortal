@@ -1,0 +1,116 @@
+﻿@using MultiFamilyPortal.Data.Models
+@inherits ResponsiveComponent
+
+@{ base.BuildRenderTree(__builder); }
+<div class="row g-3 pt-3 pb-4">
+  <label for="HoldYears" class="col-sm-2 col-form col-form-label">Hold Period (Yrs)</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.HoldYears
+                    Min="0"
+                    Max="50"
+                    Arrows=@false
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+  <label for="StartDate" class="col-sm-2 col-form col-form-label">Start Date</label>
+  <div class="col-sm-4">
+    <DateTimeOffsetPicker @bind-Value=@Property.StartDate
+                       Min=@Property.Timestamp.Date
+                       Enabled=@_editable
+                       Class="form-control" />
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-hover table-borderless align-middle">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center col-width">Year</th>
+        <th scope="col" class="text-center col-width">Increase Type</th>
+        <th scope="col" class="text-center col-width">Per Unit Increase</th>
+        <th scope="col" class="text-center col-width">Units Applied To</th>
+        <th scope="col" class="text-center col-width">Increase On Remaining Units</th>
+        <th scope="col" class="text-center col-width">Vacancy</th>
+        <th scope="col" class="text-center col-width">Other Losses Percent</th>
+        <th scope="col" class="text-center col-width">Utility Increases</th>
+        <th scope="col" class="text-center col-width">Other Income Percent</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var forecast in Property.IncomeForecast)
+      {
+        <tr class="">
+          <th scope="row">
+            @if (forecast.Year == 0)
+            {
+              <span>Start Year*: @Property.StartDate.Year</span>
+            }
+            else
+            {
+              <span>Year @(forecast.Year): @(Property.StartDate.Year + forecast.Year)</span>
+            }
+          </th>
+          <td>
+            <TelerikDropDownList Data=@(Enum.GetValues<IncomeForecastIncreaseType>()) 
+                                 @bind-Value=@forecast.IncreaseType
+                                 Width="100%" 
+                                 Context="fContext">
+              <ItemTemplate>
+                @{
+                  var type = (IncomeForecastIncreaseType)fContext; 
+                    }
+                    @type.Humanize(LetterCasing.Title)
+                  </ItemTemplate>
+                  <ValueTemplate>
+                    @{
+                  var type = (IncomeForecastIncreaseType)fContext; 
+                    }
+                    @type.Humanize(LetterCasing.Title)
+                  </ValueTemplate>
+                </TelerikDropDownList>
+              </td>
+              <td>
+                @if (forecast.IncreaseType == IncomeForecastIncreaseType.Percent)
+            {
+              <PercentageInput @bind-Value=@forecast.PerUnitIncrease />
+            }
+            else
+            {
+              <TelerikNumericTextBox @bind-Value=@forecast.PerUnitIncrease 
+                                     Format="C" 
+                                     Arrows=@false 
+                                     Class="form-control" />
+            }
+          </td>
+          <td>
+            <TelerikNumericTextBox @bind-Value=@forecast.UnitsAppliedTo 
+                                   Format="N0"
+                                   Arrows=@false
+                                   Class="form-control" />
+          </td>
+          <td>
+            <TelerikNumericTextBox @bind-Value=@forecast.FixedIncreaseOnRemainingUnits
+                                   Format="C"
+                                   Arrows=@false
+                                   Class="form-control" />
+          </td>
+          <td>
+            <PercentageInput @bind-Value=@forecast.Vacancy />
+          </td>
+          <td>
+            <PercentageInput @bind-Value=@forecast.OtherLossesPercent />
+          </td>
+          <td>
+            <TelerikNumericTextBox @bind-Value=@forecast.UtilityIncreases 
+                                   Format="C"
+                                   Arrows=@false
+                                   Class="form-control" />
+          </td>
+          <td>
+            <PercentageInput @bind-Value=@forecast.OtherIncomePercent />
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

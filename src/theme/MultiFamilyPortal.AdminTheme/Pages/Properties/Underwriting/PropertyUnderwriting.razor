@@ -1,0 +1,109 @@
+@page "/admin/underwriting/property/{propertyId:guid}"
+@using MultiFamilyPortal.AdminTheme.Components.Underwriting
+@using MultiFamilyPortal.AdminTheme.Components.Underwriting.Wizard
+@inherits ResponsiveComponent
+
+@{ base.BuildRenderTree(__builder); }
+@if(Property is null)
+{
+  <SiteTitle Title="Underwriting" />
+  <div class="container text-center py-5 my-5">
+    <TelerikLoader Type="LoaderType.ConvergingSpinner" />
+    <br />
+    <span class="py-2">Loading...</span>
+  </div>
+}
+else
+{
+  <SiteTitle Title=@Property.Name />
+  <Animation OptionsName="Page">
+    <UnderwritingSummary Property=@Property />
+    <div class="container">
+      <div class="row my-2">
+        <div class="col-md-4 col-xl-3 col-12 portfolio-btn my-1">
+          @if(Property.Status == Data.Models.UnderwritingStatus.OfferAccepted && _editable)
+          {
+            <TelerikButton ThemeColor="primary"
+                           Enabled=@(Property.AssetId is null)
+                           OnClick=@OnAddToPortfolio>Add to Portfolio</TelerikButton>
+          }
+        </div>
+        <div class="col-md-4 offset-md-4 col-xl-3 offset-xl-6 offset-1 col-10 my-1">
+          <select class="form-select"
+                  aria-label="Select Underwriting Status"
+                  disabled ="@(!_editable || Property.AssetId is not null)"
+                  @bind="@Property.Status" >
+            @foreach (var status in AvailableStatus)
+            {
+              <option value="@status" selected="@(status == Property.Status)">
+                @status.Humanize(LetterCasing.Title)
+              </option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <TelerikWizard ShowPager=@false @bind-Value=@currentIndex>
+          <WizardSettings>
+            <WizardStepperSettings Linear=@false />
+          </WizardSettings>
+          <WizardSteps>
+            <WizardStep Label="@(IsSmallScreen? null : "Property Info")"
+                        IconClass="fa-duotone fa-city">
+              <Content>
+                <PropertyInfoWizardStep Property=@Property />
+              </Content>
+            </WizardStep>
+            <WizardStep Label="@(IsSmallScreen? null : "Financials")"
+                        IconClass="fa-duotone fa-money-bills">
+              <Content>
+                <FinancialsWizardStep Property=@Property ExpensesUpdated=@OnExpensesUpdated />
+              </Content>
+            </WizardStep>
+            <WizardStep Label="@(IsSmallScreen? null : "Closing")"
+                        IconClass="fa-duotone fa-piggy-bank">
+              <Content>
+                <ClosingWizardStep Property=@Property />
+              </Content>
+            </WizardStep>
+            <WizardStep Label="@(IsSmallScreen? null : "Rent Roll")"
+                        IconClass="fa-duotone fa-list">
+              <Content>
+                <RentRollWizardStep Property=@Property />
+              </Content>
+            </WizardStep>
+            <WizardStep Label="@(IsSmallScreen? null : "Reports")"
+                        IconClass="fa-duotone fa-file-chart-column">
+              <Content>
+                <ReportsWizardStep Property=@Property />
+              </Content>
+            </WizardStep>
+          </WizardSteps>
+          <WizardButtons>
+            @if(showPrevious)
+            {
+              <TelerikButton ButtonType="ButtonType.Button" OnClick=@Previous>Previous</TelerikButton>
+            }
+            @if(showNext)
+            {
+              <TelerikButton ButtonType="ButtonType.Button" ThemeColor="primary" OnClick=@Next>Next</TelerikButton>
+              <AuthorizedPolicy Policy=@PortalPolicy.Underwriter>
+                <TelerikButton Title="Update"
+                               ThemeColor="primary"
+                               ButtonType=@ButtonType.Button
+                               OnClick=@OnUpdateProperty>
+                  Update
+                </TelerikButton>
+              </AuthorizedPolicy>
+            }
+          </WizardButtons>
+        </TelerikWizard>
+      </div>
+    </div>
+  </Animation>
+}
+
+<PortalNotification @ref="notification" />

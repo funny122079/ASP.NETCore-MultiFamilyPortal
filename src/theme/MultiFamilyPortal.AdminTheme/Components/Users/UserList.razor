@@ -1,0 +1,79 @@
+﻿<div class="row gt-3 pt-2 pb-4">
+  <div class="col-md-4">
+    <TelerikTextBox @bind-Value=@Model.Query Class="form-control" />
+  </div>
+</div>
+
+<TelerikGrid Data=@Model.Users
+              ConfirmDelete="true"
+              OnDelete="DeleteUser"
+              EnableLoaderContainer="true">
+  <GridToolBar>
+    @if(AllowEditing)
+    {
+      <GridCommandButton Command="CustomAdd" Title="Add" IconClass="fa-duotone fa-plus" ThemeColor="primary" OnClick=@OnAddUser>Add</GridCommandButton>
+    }
+  </GridToolBar>
+  <GridColumns>
+    <GridColumn Field="Email" Title=" ">
+      <Template>
+        @{ var user = context as UserAccountResponse; }
+        <div class="text-center">
+          <Gravatar Email=@user.Email/>
+        </div>
+      </Template>
+    </GridColumn>
+    <GridColumn Field=@(nameof(UserAccountResponse.FirstName)) Title="First"/>
+    <GridColumn Field=@(nameof(UserAccountResponse.LastName)) Title="Last"/>
+    <GridColumn Field=@(nameof(UserAccountResponse.Email))/>
+    <GridColumn Field=@(nameof(UserAccountResponse.Phone))>
+      <Template>
+        @{ var user = context as UserAccountResponse; }
+        @user.Phone.ToPhoneNumberMask()
+      </Template>
+    </GridColumn>
+    <GridColumn Field=@(nameof(UserAccountResponse.Roles))>
+      <Template>
+        @{ var user = context as UserAccountResponse; }
+        <ul>
+          @foreach(var role in user.Roles)
+          {
+            <li>@role.Humanize(LetterCasing.Title)</li>
+          }
+        </ul>
+      </Template>
+    </GridColumn>
+    @if(AllowEditing)
+    {
+      <GridCommandColumn>
+        @{ var user = context as UserAccountResponse; }
+        @if(user.Email != User.FindFirstValue(ClaimTypes.Email))
+        {
+          <GridCommandButton Command="Custom" OnClick=@OnEditUser Title="Edit Roles">Edit Roles</GridCommandButton>
+          @if(user.LocalAccount)
+          {
+            <GridCommandButton Command="Custom" Enabled=@false Title="Reset Password">Reset Password</GridCommandButton>
+          }
+          <GridCommandButton Command="Delete" Icon="delete" Title="Delete">Delete</GridCommandButton>
+        }
+      </GridCommandColumn>
+    }
+  </GridColumns>
+  <NoDataTemplate>
+    <div class="text-center">
+      <h2 class="px-3">No Users</h2>
+      <img src="/_content/MultiFamilyPortal.AdminTheme/img/addusers.svg" style="max-height:400px" />
+    </div>
+  </NoDataTemplate>
+</TelerikGrid>
+
+<CreateUser User=@_createUser
+            UserChanged=@OnUserUpdated
+            Roles=@Roles />
+
+<EditUser UserId=@_editId
+          User=@_editUser
+          Roles=@Roles
+          UserChanged=@OnUserUpdated />
+
+<PortalNotification @ref="notification" />

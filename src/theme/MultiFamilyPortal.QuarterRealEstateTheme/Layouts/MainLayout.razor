@@ -1,0 +1,33 @@
+﻿@inherits LayoutComponentBase
+@using MultiFamilyPortal.QuarterRealEstateTheme.Layouts.Sections
+
+<SiteTitle />
+
+<CascadingValue Value=@User>
+  <!-- HEADER AREA START (header-5) -->
+  <HeaderArea />
+  <!-- HEADER AREA END -->
+
+  <!-- Utilize Cart Menu Start -->
+  @*<UtilizeCartMenu />*@
+  <!-- Utilize Cart Menu End -->
+
+  <!-- Utilize Mobile Menu Start -->
+  <UtilizeMobileMenu />
+  <!-- Utilize Mobile Menu End -->
+
+  <div class="ltn__utilize-overlay"></div>
+
+  <TelerikRootComponent>
+    <themecontent />
+    @Body
+  </TelerikRootComponent>
+
+  <!-- CALL TO ACTION START (call-to-action-6) -->
+  <CallToAction />
+  <!-- CALL TO ACTION END -->
+
+  <!-- FOOTER AREA START -->
+  <FooterArea />
+  <!-- FOOTER AREA END -->
+</CascadingValue>

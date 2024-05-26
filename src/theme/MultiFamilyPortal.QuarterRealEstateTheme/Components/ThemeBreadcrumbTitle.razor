@@ -1,0 +1,26 @@
+﻿<SiteTitle Title=@Title />
+
+<!-- BREADCRUMB AREA START -->
+<div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image " data-bs-bg="_content/MultiFamilyPortal.QuarterRealEstateTheme/img/bg/14.jpg">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ltn__breadcrumb-inner">
+          <h1 class="page-title">@Title</h1>
+          <div class="ltn__breadcrumb-list">
+            <ul>
+              <li><a href="/"><span class="ltn__secondary-color"><i class="fa-solid fa-home"></i></span> Home</a></li>
+              <li>@Title</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- BREADCRUMB AREA END -->
+
+@code {
+  [Parameter]
+  public string Title { get; set; } = default!;
+}

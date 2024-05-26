@@ -1,0 +1,71 @@
+<div class="border" style="min-height: 13%;">
+    <div class="text-secondary m-2">
+        <b>Reminders</b>
+    </div>
+</div>
+<div style="height: 87%">
+    @if (_reminders != null && _reminders.Count() > 0)
+    {
+        <Animation Effect="@Effect.FadeIn" Speed="@Speed.Slower">
+            <table class="table  align-middle">
+                <tbody>
+                    @foreach (var reminder in _reminders)
+                    {
+                        <tr data-bs-toggle="tooltip" data-bs-placement="top" title="@GetFullName(reminder)" style="cursor: default">
+                            <td>
+                                <TelerikCheckBox Id="myCheckBox"
+                                                 Class="mb-1"
+                                                 Value="@reminder.Dismissed"
+                                                 ValueChanged="@((bool value) => DismissReminder(reminder,value))" />
+                            </td>
+                            <td class="text-center my-auto">
+                                @if (reminder.SystemGenerated)
+                                {
+                                    <span class="text-primary">
+                                        <i class="fa-solid fa-message-bot"></i>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-success">
+                                        <i class="fa-solid fa-user-hair"></i>
+                                    </span>
+                                }
+                            </td>
+                            <td style="width : 60%">
+                                <small>
+                                    @if (reminder.Description?.Length <= 40)
+                                    {
+                                        @reminder.Description
+                                    }
+                                    else
+                                    {
+                                        @(reminder.Description?.Substring(0, 40) + "...")
+                                    }
+                                </small>
+                            </td>
+                            <td>
+                                <small class="text-secondary">
+                                    @reminder.Date.ToString("MMM dd, yyyy")
+                                </small>
+                            </td>
+                            <td>
+                                <span class="text-secondary clickable" @onclick=@(() => RedictToContact(reminder.ContactId))>
+                                    <i class="fa-duotone fa-up-right-from-square"></i>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </Animation>
+    }
+    else
+    {
+        <div class="row text-center">
+            <div class="text-secondary lead my-5">
+                No New Reminders Yet.
+            </div>
+        </div>
+    }
+</div>

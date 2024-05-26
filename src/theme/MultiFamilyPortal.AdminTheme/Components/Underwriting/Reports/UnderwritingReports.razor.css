@@ -1,0 +1,14 @@
+﻿.file-link {
+  color: var(--bs-primary);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.file-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.file-list > li {
+  margin-top: 10px;
+}

@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="row underwriting-summary-bar">
+    <div class="col-12">
+      <h1 class="text-center my-3 display-5">@Property.Name</h1>
+    </div>
+    <div class="col-12 summary-section d-none d-md-block">
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <UnderwritingInfoBar Title="Start Date"
+                                 Color="ColorCode.Info"
+                                 Value=@Property.StartDate.ToString("MM/dd/yyyy") />
+            <UnderwritingInfoBar Title="Hold Period"
+                                 Color="ColorCode.Info"
+                                 Value=@($"{Property.HoldYears} {(Property.HoldYears == 1 ? "Year" : "Years")}") />
+            <UnderwritingInfoBar Title="Price"
+                                 Color="ColorCode.Info"
+                                 Value=@(Property.PurchasePrice.ToString("C0")) />
+            <UnderwritingInfoBar Title="Number of Units"
+                                 Color="ColorCode.Info"
+                                 Value=@Property.Units.ToString("N0") />
+            <UnderwritingInfoBar Title="Price Per Door"
+                                 Color="ColorCode.Info"
+                                 Value=@Property.CostPerUnit.ToString("C") />
+            <UnderwritingInfoBar Title="Total SqFt"
+                                 Color="ColorCode.Info"
+                                 Value=@Property.RentableSqFt.ToString("N0") />
+            <UnderwritingInfoBar Title="Price per SqFt"
+                                 Color="ColorCode.Info"
+                                 Value=@Property.PricePerSqFt.ToString("C") />
+            <UnderwritingInfoBar Title="Reversion Cap"
+                                 Color="ColorCode.Info"
+                                 Value=@Property.ReversionCapRate.ToString("P") />
+            <UnderwritingInfoBar Title="Reversion Value"
+                                 Color=@GetReversionColor()
+                                 Value=@Property.Reversion.ToString("C0") />
+            @*<UnderwritingInfoBar Title="Ann. CoC Return"
+                                 Color=@GetColor(Property.AnnualCashOnCashReturn, 0.09, .12)
+                                 Value=@Property.AnnualCashOnCashReturn.ToString("P") />*@
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="row">
+            <UnderwritingInfoBar Title="Actual Cap Rate"
+                                 Color=@GetColor(Property.CapRate, 0.05, 0.7)
+                                 Value=@Property.CapRate.ToString("P2") />
+            <UnderwritingInfoBar Title="Purchase DSCR"
+                                 Color=@GetColor(Property.DebtCoverage, 1.2, 1.6)
+                                 Value=@Property.DebtCoverage.ToString("N2") />
+            <UnderwritingInfoBar Title="Purchase CoC"
+                                 Color=@GetColor(Property.CashOnCash, 0.09, .12)
+                                 Value=@Property.CashOnCash.ToString("P2") />
+            <UnderwritingInfoBar Title="Raise"
+                                 Color=@GetRaiseColor()
+                                 Value=@Property.Raise.ToString("C") />
+            <UnderwritingInfoBar Title="LTV"
+                                 Color=@GetColor(Property.LTV, 0.7, 0.75)
+                                 Value=@Property.LTV.ToString("P2") />
+            <UnderwritingInfoBar Title="Year Built"
+                                 Color="ColorCode.Info"
+                                 Value=@Property.Vintage.ToString("0000") />
+            <UnderwritingInfoBar Title="Desired Yield"
+                                 Color="ColorCode.Info"
+                                 Value=@Property.DesiredYield.ToString("P2") />
+            <UnderwritingInfoBar Title="NPV"
+                                 Color=@GetNPVColor()
+                                 Value=@Property.NetPresentValue.ToString("C0") />
+            <UnderwritingInfoBar Title="IRR"
+                                 Color=@GetColor(Property.InternalRateOfReturn, 0.09, .12)
+                                 Value=@Property.InternalRateOfReturn.ToString("P") />
+            @*<UnderwritingInfoBar Title="Total Ann. Return"
+                                 Color=@GetColor(Property.TotalAnnualReturn, 0.09, .12)
+                                 Value=@Property.TotalAnnualReturn.ToString("P") />*@
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

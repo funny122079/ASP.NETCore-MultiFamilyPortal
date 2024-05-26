@@ -1,0 +1,33 @@
+﻿@inherits LayoutComponentBase
+
+<SiteTitle />
+
+<CascadingValue Value="User">
+  <div class="page">
+    <div class="sidebar">
+      @if(SideBar != null)
+      {
+        <PortalErrorBoundary>
+          <DynamicComponent Type=@SideBar />
+        </PortalErrorBoundary>
+      }
+    </div>
+
+    <main>
+      <div class="top-row px-4 auth">
+        <LoginDisplay />
+      </div>
+
+      <article class="content px-4">
+        <themecontent />
+        <TelerikRootComponent>
+          <PortalErrorBoundary>
+            @Body
+          </PortalErrorBoundary>
+        </TelerikRootComponent>
+      </article>
+    </main>
+  </div>
+</CascadingValue>
+
+

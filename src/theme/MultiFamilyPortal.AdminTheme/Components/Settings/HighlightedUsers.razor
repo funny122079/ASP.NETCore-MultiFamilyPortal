@@ -1,0 +1,42 @@
+﻿<p>If you are using a full website front end theme, highlighted users here will have their bio and information displayed on the website. Additionally they may have an individual profile page with a downloadable Contact Card.</p>
+
+@if(false)
+{
+  
+}
+<TelerikGrid Data=@_users
+             Reorderable=@true
+             RowDraggable=@true
+             TItem="Models.HighlightableUser"
+             OnRowDrop="@((GridRowDropEventArgs<Models.HighlightableUser> args) => OnRowDropHandler(args))">
+  <GridToolBar>
+    <div class="row">
+      <div class="col-3">
+        @if(_selectable.Any())
+        {
+          <TelerikDropDownList Data=@_selectable
+                               TextField=@nameof(Models.HighlightableUser.DisplayName)
+                               ValueField=@nameof(Models.HighlightableUser.UserId)
+                               @bind-Value=@_addUser
+                               OnChange=@OnUserAdded />
+        }
+      </div>
+    </div>
+  </GridToolBar>
+  <GridColumns>
+    <GridColumn Title=" "
+                TextAlign=@ColumnTextAlign.Center
+                Width="150px">
+      <Template>
+        @{ var user = context as Models.HighlightableUser; }
+        <Gravatar Email=@user.Email />
+      </Template>
+    </GridColumn>
+    <GridColumn Field=@nameof(Models.HighlightableUser.DisplayName)
+                Title="Name" />
+    <GridColumn Field=@nameof(Models.HighlightableUser.Title) />
+    <GridCommandColumn Width="100px">
+      <GridCommandButton Class="btn-danger" Command="Delete" Icon="delete" OnClick="OnDeleteUser" />
+    </GridCommandColumn>
+  </GridColumns>
+</TelerikGrid>

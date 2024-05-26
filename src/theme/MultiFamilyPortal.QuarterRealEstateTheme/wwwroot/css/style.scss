@@ -1,0 +1,23 @@
+﻿@import "../scss/flaticon.scss";
+@import "../scss/icomoon.scss";
+
+/*@import "../lib/bootstrap/scss/bootstrap.scss";
+@import "../lib/bootstrap/scss/bootstrap-grid.scss";
+@import "../lib/bootstrap/scss/bootstrap-reboot.scss";
+@import "../lib/bootstrap/scss/bootstrap-utilities.scss";*/
+
+$slick-font-path: "../lib/slick-slider/slick/fonts/";
+$slick-loader-path: "../lib/slick-slider/slick/";
+@import "../lib/slick-slider/slick/slick-theme.scss";
+@import "../lib/slick-slider/slick/slick.scss";
+
+@import "../lib/animate.css/animate.min.css";
+@import "../lib/lightcase/src/scss/lightcase.scss";
+@import "../lib/niceselect/jquery.niceselect.css";
+
+@import "../lib/jquery-ui/themes/base/core.css";
+@import "../lib/jquery-ui/themes/base/slider.css";
+@import "../lib/jquery-ui/themes/base/theme.css";
+
+@import "../scss/blazor.scss";
+@import "../scss/style.scss";

@@ -1,0 +1,9 @@
+﻿.underwriting-summary-bar {
+  font-size: small;
+}
+
+.summary-section {
+  background-color: var(--portal-menu-bg);
+  color: var(--portal-menu-bg);
+  padding-top: 3px;
+}

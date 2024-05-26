@@ -1,0 +1,27 @@
+@if (_unit != null)
+{
+  <UnderwritingRentRollAddition @bind-Unit=@_unit />
+}
+else
+{
+  <TelerikGrid Data="@FloorPlan.Units"
+               Height="560px"
+               Pageable="true"
+               Resizable="true">
+    <GridToolBar>
+      <span class="k-toolbar-spacer"></span>
+      <GridCommandButton Icon="add"
+                         ThemeColor="primary"
+                         OnClick=@ShowAddUnit
+                         Enabled=@(FloorPlan.Units?.Count() < FloorPlan.TotalUnits)>
+        Add Unit
+      </GridCommandButton>
+    </GridToolBar>
+    <GridColumns>
+      <GridColumn Field="@(nameof(UnderwritingAnalysisUnit.Unit))" Width="135px" Title="Apartment Name" />
+      <GridColumn Field="@(nameof(UnderwritingAnalysisUnit.LeaseStart))" Title="Lease Start" DisplayFormat="{0:MM/dd/yyyy}" />
+      <GridColumn Field="@(nameof(UnderwritingAnalysisUnit.LeaseEnd))" Title="Lease End" DisplayFormat="{0:MM/dd/yyyy}" />
+      <GridColumn Field="@(nameof(UnderwritingAnalysisUnit.Rent))" Title="Rent" DisplayFormat="{0:C}" />
+    </GridColumns>
+  </TelerikGrid>
+}

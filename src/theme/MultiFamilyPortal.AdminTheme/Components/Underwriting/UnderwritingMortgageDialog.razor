@@ -1,0 +1,80 @@
+﻿<ResponsiveWindow Visible="@(Mortgage != null)">
+  <WindowTitle>@Title</WindowTitle>
+  <WindowActions>
+      <WindowAction Name="Close" OnClick="@(() => Mortgage = null)"/>
+  </WindowActions>
+  <WindowContent>
+    <div class="row g-3">
+      <label for="LoanAmount" class="col-sm-2 col-form-label">Loan Amount</label>
+      <div class="col-sm-4">
+        <TelerikNumericTextBox @bind-Value=@Mortgage.LoanAmount
+                        Enabled=@enableLoanAmountEdit
+                        Format="C"
+                        Min="0"
+                        Arrows=@false
+                        Class="form-control" />
+      </div>
+
+      <label for="InterestRate" class="col-sm-2 col-form-label">Interest Rate</label>
+      <div class="col-sm-4">
+        <PercentageInput @bind-Value=@Mortgage.InterestRate
+                         Precision="3"
+                         Id="InterestRate" />
+      </div>
+
+      <label for="TermInYears" class="col-sm-2 col-form-label">Term (years)</label>
+      <div class="col-sm-4">
+        <TelerikNumericTextBox @bind-Value=@Mortgage.TermInYears
+                        Format="G"
+                        Min="0"
+                        Max="45"
+                        Arrows=@false
+                        Class="form-control" />
+      </div>
+
+      <label for="InterestOnly" class="col-sm-2 col-form-label">Interest Only</label>
+      <div class="col-sm-4">
+        <TelerikCheckBox @bind-Value=@Mortgage.InterestOnly />
+      </div>
+
+      <label for="HasBalloon" class="col-sm-2 col-form-label">Has Balloon</label>
+      <div class="col-sm-4">
+        <TelerikCheckBox @bind-Value=@showBalloon />
+      </div>
+
+      @if(showBalloon)
+      {
+        <label for="BallonMonths" class="col-sm-2 col-form-label">Months</label>
+        <div class="col-sm-4">
+          <TelerikNumericTextBox @bind-Value=@Mortgage.BalloonMonths
+                          Format="G"
+                          Min="0"
+                          Max="360"
+                          Arrows=@false
+                          Class="form-control" />
+        </div>
+      }
+      else
+      {
+        <div class="col-sm-6"></div>
+      }
+
+      <label for="Points" class="col-sm-2 col-form-label">Points</label>
+      <div class="col-sm-4">
+        <PercentageInput @bind-Value=@Mortgage.Points
+                         Id="Points" />
+      </div>
+
+      <div class="col-sm-12 text-center">
+        <TelerikButton ButtonType="ButtonType.Button"
+                       Title="Cancel"
+                       OnClick="@(() => Mortgage = null)">Cancel</TelerikButton>
+
+        <TelerikButton ButtonType="ButtonType.Button"
+                       ThemeColor="primary"
+                       Title=@SaveBtn
+                       OnClick=@SaveMortgage>@SaveBtn</TelerikButton>
+      </div>
+    </div>
+  </WindowContent>
+</ResponsiveWindow>

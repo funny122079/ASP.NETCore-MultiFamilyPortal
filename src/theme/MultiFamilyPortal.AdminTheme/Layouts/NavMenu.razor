@@ -1,0 +1,72 @@
+﻿<div class="top-row ps-3 navbar navbar-dark" style="border-bottom: 1px grey solid;">
+  <div class="container">
+    <a class="navbar-brand" href="/admin">
+      <img src="/theme/branding/logo-dark-side" class="img img-fluid logo" alt="company logo"/>
+    </a>
+
+    <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+  <ul class="nav flex-column">
+    @if(MenuProvider != null)
+    {
+      @foreach(var rootItem in MenuProvider.Menu)
+      {
+        if(!rootItem.IsVisible(User))
+        {
+          continue;
+        }
+
+        @if(rootItem.Children?.Any() ?? false)
+        {
+          <li class="nav-item" id="@(_selected == rootItem ? "sideline" : "")">
+            <a class="nav-link px-3" role="button" @onclick=@(() => SetOption(rootItem))>
+              <i class="@rootItem.IconClass" aria-hidden="true"></i>&nbsp;&nbsp;@rootItem.Title
+              <span class="w-75"></span>
+              @if(_selected == rootItem)
+              {
+                var icon = collapseSubMenu ? "right" : "down";
+                <span><i class="fas fa-chevron-@icon"></i></span>
+              }
+              else
+              {
+                <span> <i class="fas fa-chevron-right"></i></span>
+              }
+            </a>
+            @if(_selected == rootItem && !collapseSubMenu)
+            {
+              <ul>
+                @foreach(var childItem in rootItem.Children)
+                {
+                  @if(!childItem.IsVisible(User))
+                  {
+                    continue;
+                  }
+                  <li><NavLink class="dropdown-item" href="@childItem.Link" Match=@childItem.Match>@childItem.Title</NavLink></li>
+                }
+              </ul>
+            }
+          </li>
+        }
+        else
+        {
+          <li class="nav-item">
+            <NavLink class="nav-link" href="@rootItem.Link" Match=@rootItem.Match>
+              <i class="@rootItem.IconClass" aria-hidden="true"></i>&nbsp;&nbsp;@rootItem.Title
+            </NavLink>
+          </li>
+        }
+      }
+    }
+
+    <li class="nav-item">
+      <NavLink class="nav-link" href="/logout">
+        <i class="fa-duotone fa-sign-out-alt" aria-hidden="true"></i>&nbsp;&nbsp;Logout
+      </NavLink>
+    </li>
+  </ul>
+</div>

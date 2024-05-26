@@ -1,0 +1,63 @@
+﻿@page "/profile/{name}"
+
+@if(notFound)
+{
+  <_404 />
+}
+else if(_user is not null)
+{
+  <ThemeBreadcrumbTitle Title=@GetTitle() />
+
+  <ThemeSection>
+    <!-- TEAM DETAILS AREA START -->
+    <div class="ltn__team-details-area mb-120">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="ltn__team-details-member-info text-center mb-40">
+              <div class="team-details-img">
+                <Gravatar Email=@_user.Email Size="600" Alt=@_user.DisplayName />
+              </div>
+              <h2>@_user.DisplayName</h2>
+              <h6 class="text-uppercase ltn__secondary-color">@_user.Title</h6>
+              <div class="ltn__social-media-3">
+                <ul>
+                  @foreach(var link in _user.Links)
+                  {
+                    <li>
+                      <a href="@link.Link" title="@link.Name" target="_blank">
+                        <i class="@link.Icon" aria-hidden="true"></i>
+                      </a>
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="ltn__team-details-member-info-details">
+              @((MarkupString)_user.Bio)
+
+              <div class="ltn__form-box contact-form-box box-shadow white-bg mt-50">
+                <h4 class="title-2">Download my Contact Information</h4>
+                <div class="row">
+                  <div class="col-md-12">
+                    <i class="fa-duotone fa-address-card"></i> <a href="/api/about/profile/vcard/@_user.Id" target="_blank">Download Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- TEAM DETAILS AREA END -->
+  </ThemeSection>
+}
+else
+{
+  <ThemeBreadcrumbTitle Title=@GetTitle() />
+  <ThemeSection>
+    <TelerikLoader />
+  </ThemeSection>
+}

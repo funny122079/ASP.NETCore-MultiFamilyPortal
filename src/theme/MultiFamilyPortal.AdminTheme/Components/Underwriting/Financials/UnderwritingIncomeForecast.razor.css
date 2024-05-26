@@ -1,0 +1,8 @@
+﻿.table-header {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.col-width {
+  min-width: 170px;
+}

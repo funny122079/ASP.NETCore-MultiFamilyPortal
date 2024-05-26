@@ -1,0 +1,31 @@
+﻿<div class="my-3">
+  <TelerikGrid Data=@Unit.Ledger
+               Height="350px"
+               EditMode=@GridEditMode.Inline
+               OnCreate=@CreateHandler
+               OnUpdate=@UpdateHandler
+               OnEdit=@EditHandler
+               OnDelete=@DeleteHandler>
+    <GridToolBar>
+      <span class="k-toolbar-spacer"></span>
+      <GridCommandButton Icon="add"
+                         ThemeColor="primary"
+                         Command="Add">
+        Add
+      </GridCommandButton>
+    </GridToolBar>
+    <GridColumns>
+      <GridColumn Field="Type" />
+      <GridColumn Field="Rent" DisplayFormat="{0:C}" />
+      <GridColumn Field="ChargesCredits" DisplayFormat="{0:C}" />
+      <GridCommandColumn>
+        <div class="text-center">
+          <GridCommandButton Command="Save" Icon="save" ShowInEdit="true" />
+          <GridCommandButton Command="Edit" Icon="edit" />
+          <GridCommandButton Command="Delete" Icon="delete" />
+          <GridCommandButton Command="Cancel" Icon="cancel" ShowInEdit="true" />
+        </div>
+      </GridCommandColumn>
+    </GridColumns>
+  </TelerikGrid>
+</div>

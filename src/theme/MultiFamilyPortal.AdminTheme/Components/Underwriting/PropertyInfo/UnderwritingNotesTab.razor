@@ -1,0 +1,123 @@
+﻿<AuthorizedPolicy Policy=@PortalPolicy.Underwriter>
+  <div class="row">
+    <div class="d-flex justify-content-end mb-2">
+      <TelerikButton ButtonType="ButtonType.Button"
+                      ThemeColor="primary"
+                      Title="Add Note"
+                      OnClick="AddNote">
+        Add Note
+      </TelerikButton>
+    </div>
+  </div>
+</AuthorizedPolicy>
+
+<div class="row">
+  <div class="col-12">
+    <TelerikGrid Data="@Notes"
+                 TItem="UnderwritingAnalysisNote"
+                 EditMode="GridEditMode.Popup"
+                 ConfirmDelete="true"
+                 OnEdit=@OnEditNote
+                 OnDelete=@OnDeleteNote>
+      <GridColumns>
+        <GridColumn Field="@(nameof(UnderwritingAnalysisNote.UnderwriterEmail))"
+                    Title="Underwriter"
+                    Width="150px"
+                    Editable="false">
+          <Template>
+            @{ var note = context as UnderwritingAnalysisNote; }
+            <div class="text-center">
+              <div class="row">
+                <div class="col">
+                  <Gravatar Email=@note.UnderwriterEmail Size="75" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  @note.Underwriter
+                </div>
+              </div>
+            </div>
+          </Template>
+        </GridColumn>
+        <GridColumn Field="@nameof(UnderwritingAnalysisNote.Timestamp)" Title="Date"
+                    Width="180px"
+                    Editable="false">
+          <Template>
+            @{ var record = context as UnderwritingAnalysisNote; }
+            <strong>@record.Timestamp.ToString("MMMM dd, yyyy")</strong>
+            <br />
+            <em>@record.Timestamp.ToString("h:mm tt")</em>
+          </Template>
+        </GridColumn>
+        <GridColumn Field="@nameof(UnderwritingAnalysisNote.Note)"
+                    Title="Note">
+          <Template>
+            @{ var record = context as UnderwritingAnalysisNote; }
+            @((MarkupString)record.Note)
+          </Template>
+        </GridColumn>
+        <GridCommandColumn Width="160px">
+          @if((context as UnderwritingAnalysisNote).UnderwriterEmail == User.FindFirstValue(ClaimTypes.Email))
+          {
+            <GridCommandButton Command="CustomEdit" Icon="edit" Title="Edit" OnClick=@OnEditNote>Edit</GridCommandButton>
+            <GridCommandButton Command="Save" Icon="save" Title="Save" ShowInEdit="true">Save</GridCommandButton>
+            <GridCommandButton Command="Cancel" Icon="cancel" Title="Cancel" ShowInEdit="true">Cancel</GridCommandButton>
+          }
+        </GridCommandColumn>
+      </GridColumns>
+    </TelerikGrid>
+  </div>
+</div>
+
+<AuthorizedPolicy Policy=@PortalPolicy.Underwriter>
+  <ResponsiveWindow Visible="@(NewNote != null)">
+    <WindowTitle>
+      Add Note
+    </WindowTitle>
+    <WindowContent>
+      <div class="row">
+        <div class="col mb-3">
+          <label for="note" class="form-label">Note</label>
+          <PortalWysiwyg @bind-Value=@NewNote.Note />
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col">
+          <TelerikButton ButtonType="ButtonType.Button"
+                         ThemeColor="primary"
+                         OnClick="@SaveNote">Save</TelerikButton>
+        </div>
+      </div>
+    </WindowContent>
+    <WindowActions>
+      <WindowAction Name="Close" OnClick=@(() => NewNote = null)></WindowAction>
+    </WindowActions>
+  </ResponsiveWindow>
+
+  <ResponsiveWindow Visible="@(UpdateNote != null)">
+    <WindowTitle>
+      Update Note
+    </WindowTitle>
+    <WindowContent>
+      <div class="row">
+        <div class="col mb-3">
+          <label for="note" class="form-label">Note</label>
+          <PortalWysiwyg @bind-Value=@UpdateNote.Note />
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col">
+          <TelerikButton ButtonType="ButtonType.Button"
+                         ThemeColor="primary"
+                         OnClick="@SaveUpdateNote">Update</TelerikButton>
+        </div>
+      </div>
+    </WindowContent>
+    <WindowActions>
+      <WindowAction Name="Close" OnClick=@(() => UpdateNote = null)></WindowAction>
+    </WindowActions>
+  </ResponsiveWindow>
+</AuthorizedPolicy>
+
+<PortalNotification @ref="notification" />

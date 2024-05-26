@@ -1,0 +1,52 @@
+﻿@page "/admin/properties/underwriting"
+@using MultiFamilyPortal.AdminTheme.Components.Underwriting
+
+<SiteTitle Title="Underwriting" />
+<Animation OptionsName="Page">
+  <div class="row pt-3">
+    <div class="offset-md-8 col-md-2 col-sm-12 mb-3 mb-md-1">
+      <TelerikDropDownList @bind-Value=@ProfileId
+                           Data=@Underwriters
+                           TextField=@(nameof(UnderwriterResponse.DisplayName))
+                           ValueField=@(nameof(UnderwriterResponse.Id))
+                           Width="100%"
+                           OnChange=@UpdateAsync />
+    </div>
+    <div class="col-md-2 col-sm-12 mb-3 mb-md-1">
+      <TelerikDropDownList @bind-Value=@Status
+                           Data=@AvailableStatus
+                           Width="100%"
+                           OnChange=@UpdateAsync />
+    </div>
+  </div>
+
+  <div class="row my-1">
+    <div class="offset-md-8 col-md-4 col-sm-12">
+      <div class="d-flex justify-content-between">
+        <TelerikDateRangePicker @bind-StartValue="@Start"
+                                @bind-EndValue="@End"
+                                Class="space-control"
+                                OnChange=@UpdateAsync />
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-5">
+    <TelerikTabStrip TabPosition=@TabPosition.Top Class="res-tabstrip">
+      <TabStripTab Title="Underwriting">
+        <PortalErrorBoundary>
+          <UnderwritingList @ref="underwritingList"
+                            @bind-Profile=@Profile
+                            @bind-Start=@Start
+                            @bind-End=@End
+                            Status=@Status />
+        </PortalErrorBoundary>
+      </TabStripTab>
+      <TabStripTab Title="Defaults">
+        <PortalErrorBoundary>
+          <UnderwritingGuidanceDefaults />
+        </PortalErrorBoundary>
+      </TabStripTab>
+    </TelerikTabStrip>
+  </div>
+</Animation>

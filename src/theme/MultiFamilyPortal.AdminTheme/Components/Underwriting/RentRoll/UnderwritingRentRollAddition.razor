@@ -1,0 +1,13 @@
+<Animation OptionsName="Page">
+  <div class="row">
+    <div class="col-2 my-3">
+      <span class="clickable" @onclick=@OnNavigateBack>
+        <i class="fa-duotone fa-chevron-left"></i>&nbsp;&nbsp;Back
+      </span>
+    </div>
+    <div class="col-10 my-3">
+      <b class="text-secondary mx-2">@Unit.FloorPlanName</b>
+    </div>
+  </div>
+  <UnderwritingRollUnitsControls Unit=@Unit UnitChanged=@OnNavigateBack />
+</Animation>

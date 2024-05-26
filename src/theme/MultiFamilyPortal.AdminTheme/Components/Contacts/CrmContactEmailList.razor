@@ -1,0 +1,90 @@
+﻿<LoaderContainer Context=@Contact?.Emails>
+  <div class="row gt-3 mt-2 mb-3">
+    <div class="col-md-6">
+      <h5>Emails</h5>
+    </div>
+  </div>
+  <table class="mt-2 mb-3 w-100">
+    <colgroup>
+      <col style="width: 50px;">
+      <col style="width: 175px;">
+      <col style="width: ;">
+      <col style="width: 100px;">
+    </colgroup>
+    <tbody>
+      @foreach(var email in Contact.Emails)
+      {
+        <tr>
+          <td>
+            <span class="clickable" @onclick=@(() => SetPrimaryEmail(email))>
+              @if(email.Primary)
+              {
+                <i class="fa-duotone fa-badge-check" style="color: var(--bs-primary);"></i>
+              }
+              else
+              {
+                <i class="fa-duotone fa-badge"></i>
+              }
+            </span>
+          </td>
+          <td>
+            <TelerikDropDownList Data=_emailTypes
+                                 @bind-Value=@email.Type
+                                 Class="form-control">
+              <ItemTemplate>
+                @{ var type = (Data.Models.CRMContactEmailType)context; }
+                @type.GetDisplayName()
+              </ItemTemplate>
+              <ValueTemplate>
+                @{ var type = (Data.Models.CRMContactEmailType)context; }
+                @type.GetDisplayName()
+              </ValueTemplate>
+            </TelerikDropDownList>
+          </td>
+          <td>
+            <TelerikTextBox @bind-Value=@email.Email
+                            Class="form-control" />
+          </td>
+          <td>
+            <span class="clickable-button" @onclick=@(() => OnDeleteEmail(email))>
+              <i class="fa-solid fa-circle-minus" style="color: red;"></i>
+            </span>
+          </td>
+        </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td></td>
+        <td>
+          <TelerikDropDownList Data=_emailTypes
+                                 @bind-Value=@_newEMail.Type
+                                 Class="form-control">
+              <ItemTemplate>
+                @{ var type = (Data.Models.CRMContactEmailType)context; }
+                @type.GetDisplayName()
+              </ItemTemplate>
+              <ValueTemplate>
+                @{ var type = (Data.Models.CRMContactEmailType)context; }
+                @type.GetDisplayName()
+              </ValueTemplate>
+            </TelerikDropDownList>
+        </td>
+        <td>
+          <TelerikTextBox @bind-Value=@_newEMail.Email
+                            Class="form-control" />
+        </td>
+        <td>
+          @if(CanAddEmail())
+          {
+            <span class="clickable-button" @onclick=@AddEmail>
+              <i class="fa-duotone fa-plus" style="color:green;"></i>
+            </span>
+          }
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</LoaderContainer>
+
+<PortalNotification @ref="notification" />

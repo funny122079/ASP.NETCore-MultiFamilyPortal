@@ -1,0 +1,51 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/admin">
+      <img src="/theme/branding/logo-dark-side" class="img img-fluid logo" />
+    </a>
+
+    <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+  <ul class="nav flex-column">
+    <li class="nav-item px-3">
+      <NavLink class="nav-link" href="/investor-portal" Match="NavLinkMatch.All">
+        <i class="fa-duotone fa-tachometer-alt-fastest" aria-hidden="true"></i>&nbsp;&nbsp;Dashboard
+      </NavLink>
+    </li>
+    <li class="nav-item px-3">
+        <a class="nav-link px-3" role="button" @onclick=@TogglePropertyMenu>
+          <i class="fa-duotone fa-city" aria-hidden="true"></i>&nbsp;&nbsp;Properties
+        </a>
+        @if(showPropertyMenu)
+        {
+          <ul>
+            <li><NavLink class="dropdown-item" href="/investor-portal/prospects">Prospects</NavLink></li>
+            <li><NavLink class="dropdown-item" href="/investor-portal/portfolio">Portfolio</NavLink></li>
+          </ul>
+        }
+      </li>
+  </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+    private bool showPropertyMenu = false;
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+        if (collapseNavMenu)
+            showPropertyMenu = false;
+    }
+
+    private void TogglePropertyMenu()
+    {
+        showPropertyMenu = !showPropertyMenu;
+    }
+}

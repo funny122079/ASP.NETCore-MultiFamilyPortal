@@ -1,0 +1,76 @@
+﻿<div class="mb-3">
+  <label for="GroupName" class="form-label">Group Name</label>
+  <TelerikTextBox @bind-Value=@Name
+                  Class="form-control"
+                  Enabled=@_isNew />
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  @foreach(var tier in Tiers)
+  {
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="TierName" class="form-label">Tier Name</label>
+            <TelerikTextBox @bind-Value=@tier.Name
+                            Class="form-control" />
+          </div>
+          <div class="mb-3">
+            <label for="Investment" class="form-label">Investment</label>
+            <TelerikNumericTextBox @bind-Value=@tier.Investment
+                                   Class="form-control"
+                                   Format="C" />
+          </div>
+          <div class="mb-3">
+            <label for="PreferredRoR" class="form-label">Preferred Rate of Return</label>
+            <PercentageInput @bind-Value=@tier.PreferredRoR />
+          </div>
+          <div class="mb-3">
+            <label for="RoROnSale" class="form-label">Rate of Return on Sale</label>
+            <PercentageInput @bind-Value=@tier.RoROnSale />
+          </div>
+
+
+          @*<h5 class="card-title">Card title</h5>
+          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>*@
+        </div>
+      </div>
+    </div>
+  }
+  <div class="col">
+    <div class="card" style="height: 100%">
+      <div class="card-body align-self-center">
+        <div class="row">
+          <div class="col align-self-center">
+            <TelerikButton ThemeColor="primary"
+                           Enabled=@(!Tiers.Any(x => string.IsNullOrEmpty(x.Name)))
+                           OnClick=@(() => Tiers.Add(new ()))>Add Tier</TelerikButton>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row pt-3 pb-1 px-2">
+  @if(_isNew)
+  {
+    <div class="col-md-6 offset-md-3 text-center">
+      <TelerikButton ThemeColor="primary"
+                     Enabled=@(!Tiers.Any(x => string.IsNullOrEmpty(x.Name)) && !string.IsNullOrEmpty(Name))
+                     OnClick=@OnSave>Save</TelerikButton>
+    </div>
+  }
+  else
+  {
+    <div class="col-md-3 offset-md-3 text-center">
+      <TelerikButton Class="btn-danger" OnClick=@OnDelete>Delete</TelerikButton>
+    </div>
+    <div class="col-md-3 text-center">
+      <TelerikButton ThemeColor="primary"
+                     Enabled=@(!Tiers.Any(x => string.IsNullOrEmpty(x.Name)) && !string.IsNullOrEmpty(Name))
+                     OnClick=@OnSave>Save</TelerikButton>
+    </div>
+  }
+</div>

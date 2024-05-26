@@ -1,0 +1,134 @@
+﻿ <header class="ltn__header-5 ltn__header-transparent--- gradient-color-4---">
+  <!-- ltn__header-top-area start -->
+  <div class="ltn__header-top-area section-bg-6 top-area-color-white---">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7">
+          <div class="ltn__top-bar-menu">
+            <ul>
+              @if(!string.IsNullOrEmpty(SiteInfo.PublicEmail))
+              {
+                <li><a href="mailto:@SiteInfo.PublicEmail"><i class="icon-mail"></i> @SiteInfo.PublicEmail</a></li>
+              }
+              @if(!string.IsNullOrEmpty(SiteInfo.ContactPhone))
+              {
+                <li><a href="tel:@SiteInfo.ContactPhone"><i class="icon-phone-call"></i> @SiteInfo.ContactPhone.ToPhoneNumberMask()</a></li>
+              }
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="top-bar-right text-end">
+            <div class="ltn__top-bar-menu">
+              <ul>
+                <li class="d-none">
+
+                </li>
+                <li>
+                  <!-- ltn__social-media -->
+                  <div class="ltn__social-media">
+                    <ul>
+                      <SocialLink Title="Facebook" Icon="fab fa-facebook-f" Link=@SiteInfo.Facebook />
+                      <SocialLink Title="Twitter" Icon="fab fa-twitter" Link=@SiteInfo.Twitter />
+                      <SocialLink Title="LinkedIn" Icon="fab fa-linkedin" Link=@SiteInfo.LinkedIn />
+                      <SocialLink Title="Instagram" Icon="fab fa-instagram" Link=@SiteInfo.Instagram />
+                      <SocialLink Title="YouTube" Icon="fab fa-youtube" Link=@SiteInfo.YouTube />
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <!-- header-top-btn -->
+                  <div class="header-top-btn">
+                    <a href="/invest-with-us">Invest with Us</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ltn__header-top-area end -->
+
+  <!-- ltn__header-middle-area start -->
+  <div class="ltn__header-middle-area ltn__header-sticky ltn__sticky-bg-white">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="site-logo-wrap">
+            <div class="site-logo">
+              <a href="/"><img src="/theme/branding/logo-side" alt="Logo" class="img img-fluid logo" /></a>
+            </div>
+            <div class="get-support clearfix d-none">
+              <div class="get-support-icon">
+                <i class="icon-call"></i>
+              </div>
+              <div class="get-support-info">
+                <h6>Get Support</h6>
+                <h4><a href="tel:@SiteInfo.ContactPhone">@SiteInfo.ContactPhone</a></h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col header-menu-column">
+          <div class="header-menu d-none d-xl-block">
+            <nav>
+              <div class="ltn__main-menu">
+                @if (MenuProvider != null)
+                {
+                  <ul>
+                    @foreach (var rootItem in MenuProvider.Menu)
+                    {
+                      <li>
+                        <a href="@rootItem.Link">@rootItem.Title</a>
+                      </li>
+                    }
+                  </ul>
+                }
+              </div>
+            </nav>
+          </div>
+        </div>
+        <div class="col ltn__header-options ltn__header-options-2 mb-sm-20">
+          <!-- user-menu -->
+          <div class="ltn__drop-menu user-menu">
+            <ul>
+              <li>
+                <a href="#"><i class="icon-user"></i></a>
+                <ul>
+                  @if(!User.Identity.IsAuthenticated)
+                  {
+                    <li><a href="/account/login">Log in</a></li>
+                  }
+                  else if(User.IsInRole(PortalRoles.Investor) || User.IsInRole(PortalRoles.Sponsor))
+                  {
+                    <li><a @onclick=@InvestorPortal>Investor Portal</a></li>
+                    <li><a href="/logout">Sign out</a></li>
+                  }
+                  else if(User.IsInRole(PortalRoles.BlogAuthor) || User.IsInRole(PortalRoles.Mentor) ||
+                    User.IsInRole(PortalRoles.PortalAdministrator) || User.IsInRole(PortalRoles.Underwriter))
+                  {
+                    <li><a style="cursor: pointer;" @onclick=@AdminPortal>Admin Portal</a></li>
+                    <li><a href="/logout">Sign out</a></li>
+                  }
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <!-- Mobile Menu Button -->
+          <div class="mobile-menu-toggle d-xl-none">
+            <a href="#ltn__utilize-mobile-menu" class="ltn__utilize-toggle"  data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasExample">
+              <svg viewBox="0 0 800 600">
+                <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" id="top"></path>
+                <path d="M300,320 L540,320" id="middle"></path>
+                <path d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190" id="bottom" transform="translate(480, 320) scale(1, -1) translate(-480, -318) "></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ltn__header-middle-area end -->
+</header>

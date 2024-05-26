@@ -1,0 +1,143 @@
+@using Data.Models
+
+<div class="container mb-3">
+  <TelerikGrid Data=@Guidance 
+               Groupable="false" 
+               FilterMode="GridFilterMode.None" 
+               Sortable="false"
+               ShowColumnMenu="false">
+
+    <GridToolBar>
+      <div class="row w-100">
+        <div class="col-4">
+          <div class="text-secondary mt-3"><b>Market</b></div>
+        </div>
+        <div class="col-8">
+          <TelerikAutoComplete @bind-Value=@_newMarket 
+                               Class="form-control form-control-sm w-100" 
+                               ClearButton="true"
+                               Enabled=@(!Editable)
+                               Data=@_markets />
+        </div>
+      </div>
+    </GridToolBar>
+
+    <GridColumns>
+      <GridColumn Field="Category" Groupable="false">
+        <Template>
+          @{
+            var guidance = context as Data.Models.UnderwritingGuidance;
+           }
+           <span>@guidance.Category.Humanize(LetterCasing.Title)</span>
+        </Template>
+      </GridColumn>
+      <GridColumn Field="Type" Groupable="false">
+        <Template>
+          @{
+            var guidance = context as Data.Models.UnderwritingGuidance;
+           }
+          <TelerikDropDownList Data="@_expenseTypes" 
+                               @bind-Value="@guidance.Type"
+                               Class="form-control form-control-sm w-100"
+                               Id="market-cat-ed">
+            <ItemTemplate Context="menu">
+              @(menu.Humanize(LetterCasing.Title))
+            </ItemTemplate>
+            <ValueTemplate Context="menu">
+              @(@menu.Humanize(LetterCasing.Title))
+            </ValueTemplate>
+          </TelerikDropDownList>
+        </Template>
+      </GridColumn>
+      <GridColumn Title="Amount">
+       <Template>
+         @{
+            var guidance = context as Data.Models.UnderwritingGuidance;
+          }
+
+         @if (guidance.Type == CostType.PerDoor)
+         {
+           <div class="row">
+             <div class="col-5">
+               <TelerikNumericTextBox Format="C"
+                                      Min="0" 
+                                      Max=@guidance.Max
+                                      Arrows=@false
+                                      Id="market-min-ed"
+                                      Class="form-control form-control-sm w-100" 
+                                      @bind-Value=@guidance.Min />
+             </div>
+            <div class="col-2">
+              <div class="text-center my-3"> - </div>
+            </div>
+
+            <div class="col-5">
+              <TelerikNumericTextBox Format="C" 
+                                     Min=@guidance.Min 
+                                     Id="market-max-ed"
+                                     Arrows=@false
+                                     Class="form-control form-control-sm w-100" 
+                                     @bind-Value=@guidance.Max />
+            </div>
+           </div>
+         }
+         else if (guidance.Type == CostType.PercentOfPurchase)
+         {
+           <TelerikNumericTextBox @bind-Value=@guidance.Max
+                                  Format="P"
+                                  Min="0"
+                                  Max="1"
+                                  Arrows=@false
+                                  Id="market-max-ed"
+                                  Class="form-control form-control-sm w-100" />  
+        }
+         else
+        {
+          <TelerikNumericTextBox @bind-Value=@guidance.Max
+                                 Format="C"
+                                 Min="0"
+                                 Step="50"
+                                 Arrows=@false
+                                 Id="market-max-ed"
+                                 Class="form-control form-control-sm w-100" />
+        }
+      </Template>
+    </GridColumn>
+   </GridColumns>
+  </TelerikGrid>
+
+  <div class="row my-3">
+    @if(Editable && _newMarket != "Default")
+    {
+      @if(_conformation == false)
+      {
+        <div class="col-11">
+          <button class="btn btn-danger" @onclick=@(()=> _conformation=true)>Remove</button>
+        </div>
+      }
+      else
+      {
+        <div class="col-9 align-self-center">
+          <div class="text-danger">Are you sure you want to do this?</div>
+        </div>
+         <div class="col-1 align-self-center">
+          <div class="text-danger" @onclick=@OnRemoveMarket>
+            <b class="text-decoration-underline" style="cursor: pointer;">Yes</b>
+          </div>
+        </div>
+         <div class="col-1 align-self-center">
+          <div class="text-success" @onclick=@(()=> _conformation=false)>
+            <b class="text-decoration-underline" style="cursor: pointer;">No</b>
+          </div>
+        </div>
+      }
+      
+    }
+    <div class="col">
+      <button class="btn btn-primary" @onclick=@ProcessMarket>Save</button>
+    </div>
+  </div>
+
+</div>
+
+<PortalNotification @ref="notification" />

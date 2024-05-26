@@ -1,0 +1,57 @@
+<div class="w-100 border" style="height: 100%">
+  <div id="title" class="m-2 d-flex justify-content-between">
+    <div class="text-secondary">
+      <b>
+        @Title
+        (@(Underwriting.Active+Underwriting.OfferAccepted+Underwriting.OfferRejected+Underwriting.OfferSubmitted
+        +Underwriting.Passed+Underwriting.LOIAccepted+Underwriting.LOIRejected+Underwriting.LOISubmitted))
+      </b>
+    </div>
+    <div>
+      <span class=@("badge bg-"+TimeFrameColor)>
+        <small>@TimeFrame</small>
+      </span>
+    </div>
+  </div>
+  <hr />
+  <div id="body" class="mx-2">
+    <div class="row">
+      <div class="col-6">
+        <div class="d-flex justify-content-between my-1 small">
+          <div>Active</div>
+          <div>@Underwriting.Active</div>
+        </div>
+        <div class="d-flex justify-content-between my-1 small">
+          <div>Offer Submitted</div>
+          <div>@Underwriting.OfferSubmitted</div>
+        </div>
+        <div class="d-flex justify-content-between my-1 small">
+          <div>Offer Accepted</div>
+          <div>@Underwriting.OfferAccepted</div>
+        </div>
+        <div class="d-flex justify-content-between my-1 small">
+          <div>Offer Rejected</div>
+          <div>@Underwriting.OfferRejected</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="d-flex justify-content-between my-1 small">
+          <div>Passed</div>
+          <div>@Underwriting.Passed</div>
+        </div>
+        <div class="d-flex justify-content-between my-1 small">
+          <div>LOI Submitted</div>
+          <div>@Underwriting.LOISubmitted</div>
+        </div>
+        <div class="d-flex justify-content-between my-1 small">
+          <div>LOI Accepted</div>
+          <div>@Underwriting.LOIAccepted</div>
+        </div>
+        <div class="d-flex justify-content-between my-1 small">
+          <div>LOI Rejected</div>
+          <div>@Underwriting.LOIRejected</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

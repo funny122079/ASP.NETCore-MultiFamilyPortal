@@ -1,0 +1,28 @@
+@if (_pieData != null && _pieData.Count() > 0)
+{
+  <TelerikChart Height="100%">
+  <ChartSeriesItems>
+    <ChartSeries Type="ChartSeriesType.Pie" 
+                 Data="@_pieData" 
+                 Field="@nameof(MyPieChartModel.SegmentValue)"
+                 CategoryField="@nameof(MyPieChartModel.SegmentName)">
+      <ChartSeriesTooltip Visible="true" Context="item">
+        <Template>
+          @TimeSpan.FromMinutes(double.Parse(item.FormattedValue)).ToString(@"hh\:mm")
+        </Template>
+      </ChartSeriesTooltip>
+    </ChartSeries>
+  </ChartSeriesItems>
+
+  <ChartTitle Text=@($"User Activity Chart ({TimeSpan.FromMinutes(_totalTime).ToString(@"hh\:mm")})")></ChartTitle>
+
+  <ChartLegend Position="ChartLegendPosition.Bottom">
+  </ChartLegend>
+ </TelerikChart>
+} 
+else 
+{
+  <div class="row h-100 text-center bg-light">
+    <EmptyGraph Message="No Activity Recorded Yet."/>
+  </div>
+}

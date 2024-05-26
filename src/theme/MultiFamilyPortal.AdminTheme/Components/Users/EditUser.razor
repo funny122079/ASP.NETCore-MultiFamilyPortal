@@ -1,0 +1,30 @@
+﻿<TelerikWindow Visible="@(User != null)"
+                Modal="true"
+                Width="650px">
+  <WindowTitle>
+    Edit @User.FirstName's Roles
+  </WindowTitle>
+  <WindowActions>
+    <WindowAction Name="Close" OnClick="() => User = null"/>
+  </WindowActions>
+  <WindowContent>
+    <div class="row px-3 py-1">
+      <div class="col-12 form-group">
+        <TelerikMultiSelect Data=@Roles
+                            @bind-Value=@User.Roles
+                            TextField=@nameof(SelectableRole.Display)
+                            ValueField=@nameof(SelectableRole.Role)
+                            Class="form-control"
+                            Placeholder="Roles" />
+      </div>
+    </div>
+    <div class="row text-center p-3">
+      <TelerikButton Title="Update User"
+                      ThemeColor="primary"
+                      IconClass="fa-duotone fa-plus"
+                      OnClick=@UpdateUser>Update User</TelerikButton>
+    </div>
+  </WindowContent>
+</TelerikWindow>
+
+<PortalNotification @ref="notification" />

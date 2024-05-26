@@ -1,0 +1,26 @@
+﻿<TelerikWindow Modal=@true
+               Width="600px"
+               Centered=@true
+               Visible=@(Value != null)>
+  <WindowActions>
+    <WindowAction Icon="close" Title="Close" OnClick=@OnClose />
+  </WindowActions>
+  <WindowTitle>
+    <span>@(Value.Id == default ? "New Log" : "Update Log")</span>
+  </WindowTitle>
+  <WindowContent>
+    <div class="row gt-3 py-3">
+      <div class="col-md-12">
+        <PortalWysiwyg @bind-Value=@Value.Notes
+                     Height="400px" />
+      </div>
+      <div class="col-md-12 pt-2 text-center">
+        <TelerikButton ThemeColor="primary"
+                       Enabled=@(!string.IsNullOrEmpty(Value?.Notes))
+                       IconClass="fa-duotone fa-floppy-disk"
+                       Title="Save"
+                       OnClick=@OnSaveExecuted>Save</TelerikButton>
+      </div>
+    </div>
+  </WindowContent>
+</TelerikWindow>

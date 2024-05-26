@@ -1,0 +1,105 @@
+﻿@if(!string.IsNullOrEmpty(_reportName))
+{
+  <BackButton OnNavigateBack=@(() => _reportName = null) />
+  <br />
+  @if(_reportName == "investment-tiers")
+  {
+    <UnderwritingInvestmentTiers Property=@Property />
+  }
+  else
+  {
+     <DocumentViewer Type="@DocumentType.PDF" Link="@_reportLink"/>
+  }
+}
+else if(_comingSoon)
+{
+  <BackButton OnNavigateBack=@(() => _comingSoon = false) />
+  <div class="row gt-3 p-3">
+    <ComingSoon />
+  </div>
+}
+else
+{
+  <SiteTitle Title="Reports" />
+
+  <div class="container">
+    <div class="row px-2 py-3">
+      <div class="col-md-4">
+        <h3>Underwriting</h3>
+        <hr />
+        <ul class="file-list">
+          <li>
+            <span class="file-link" @onclick=@(() => SelectReport("full-report"))><FileIcon FileType=@FileIconType.PDF /> Full Report</span>
+          </li>
+          <li>
+            <span class="file-link" @onclick=@(() => SelectReport("deal-summary"))><FileIcon FileType=@FileIconType.PDF /> Deal Summary</span>
+          </li>
+          <li>
+            <span class="file-link" @onclick=@(() => SelectReport("assumptions"))><FileIcon FileType=@FileIconType.PDF /> Assumptions</span>
+          </li>
+          <li>
+            <span class="file-link" @onclick=@(() => SelectReport("cash-flow"))><FileIcon FileType=@FileIconType.PDF /> Cash Flow</span>
+          </li>
+          <li>
+            <span class="file-link" @onclick=@(() => SelectReport("income-forecast"))><FileIcon FileType=@FileIconType.PDF /> Income Forecast</span>
+          </li>
+          <li>
+            <span class="file-link" @onclick=@(() => SelectReport("capital-expenses"))><FileIcon FileType=@FileIconType.PDF /> Capital Expenses</span>
+          </li>
+          @*<li>
+            <span class="file-link" @onclick=@(() => SelectReport("rent-roll"))><FileIcon FileType=@FileIconType.PDF /> Rent Roll</span>
+          </li>
+          <li>
+            <span class="file-link" @onclick=@(() => SelectReport("lease-exposure"))><FileIcon FileType=@FileIconType.PDF /> Lease Exposure</span>
+          </li>*@
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h3>Investors</h3>
+        <hr />
+        <ul class="file-list">
+          @*<li>
+            <span class="file-link" @onclick=@(() => SelectReport("100k-projections"))><FileIcon FileType=@FileIconType.PDF /> 100k Investment Projections</span>
+          </li>*@
+          <li>
+            <span class="file-link" @onclick=@(() => SelectReport("manager-report"))><FileIcon FileType=@FileIconType.PDF /> Manager Report</span>
+          </li>
+          @*<li>
+            <span class="file-link" @onclick=@(() => SelectReport("investment-tiers"))><FileIcon FileType=@FileIconType.PDF /> Investment Tiers</span>
+          </li>*@
+        </ul>
+      </div>
+      @if(_tenant.IsREMentorStudent)
+      {
+        <div class="col-md-4">
+          <h3>RE Mentor</h3>
+          <hr />
+          <ul class="file-list">
+            <li>
+              <a class="file-link" href="/api/admin/reports/rementor-underwriting-template/@Property.Id" target="_blank"><FileIcon FileType=@FileIconType.Excel /> Underwriting Template</a>
+            </li>
+            <li>
+              <a class="file-link" href="/api/admin/reports/rementor-underwriting-template-v2/@Property.Id" target="_blank"><FileIcon FileType=@FileIconType.Excel /> Underwriting Template v2</a>
+            </li>
+            <li>
+              <a class="file-link" href="/api/admin/reports/rementor-bucketlist/@Property.Id" target="_blank"><FileIcon FileType=@FileIconType.Excel /> Bucketlist</a>
+            </li>
+            <li>
+              <a class="file-link" href="/api/admin/reports/rementor-templates/@Property.Id" target="_blank"><FileIcon FileType=@FileIconType.Zip /> All Templates</a>
+            </li>
+          </ul>
+        </div>
+      }
+      <div class="col-12 text-center py-3">
+        <h4>Comming Soon!</h4>
+        Our team is working hard to bring you several additional reports in the comming weeks.<br />Please keep an eye out for the following reports in the near future.
+        <ul style=" list-style-type: none;">
+          <li>Lease Exposure Report</li>
+          <li>Full Rent Roll</li>
+          <li>100k Investor Returns</li>
+          <li>Customizable Investor Tier Returns</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+}

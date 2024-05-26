@@ -1,0 +1,153 @@
+﻿<table data-role="grid" role="grid" class="k-grid-table">
+  <colgroup>
+    <col style="width: 42%" />
+    <col style="width: 16%" />
+    <col style="width: 42%" />
+  </colgroup>
+  <tbody role="rowgroup">
+    
+    <tr role="row" class="k-master-row">
+      <td role="gridcell" class="px-2">
+        Closing Costs
+      </td>
+      <td role="gridcell" class="px-2">
+        <PercentageInput @bind-Value=@Property.ClosingCostPercent
+                         Enabled=@_editable
+                         Id="ClosingCosts" />
+      </td>
+      <td role="gridcell" class="px-2 text-center">
+        @Property.ClosingCosts.ToString("C")
+      </td>
+    </tr>
+    <tr role="row" class="k-master-row k-alt">
+      <td role="gridcell" class="px-2">
+        Loan Points
+      </td>
+      <td role="gridcell" class="px-2">
+
+      </td>
+      <td role="gridcell" class="px-2 text-center">
+        @_pointCost.ToString("C")
+      </td>
+    </tr>
+    <tr role="row" class="k-master-row">
+      <td role="gridcell" class="px-2">
+        Aquisition Fee
+      </td>
+      <td role="gridcell" class="px-2">
+        <PercentageInput @bind-Value=@Property.AquisitionFeePercent
+                         Enabled=@_editable
+                         Id="AquisitionFee"/>
+      </td>
+      <td role="gridcell" class="px-2 text-center">
+        @Property.AquisitionFee.ToString("C")
+      </td>
+    </tr>
+    <tr role="row" class="k-master-row k-alt">
+      <td role="gridcell" class="px-2">
+        <strong>Subtotal</strong>
+      </td>
+      <td role="gridcell" class="px-2">
+
+      </td>
+      <td role="gridcell" class="px-2 text-center">
+        <strong>@GetSubtotal()</strong>
+      </td>
+    </tr>
+    <tr role="row" style="height:10px">
+      <td colspan="3"></td>
+    </tr>
+
+    <tr role="row" class="k-master-row">
+      <td role="gridcell" class="px-2">
+        Deferred Maintenance
+      </td>
+      <td role="gridcell" class="px-2">
+
+      </td>
+      <td role="gridcell" class="px-2 text-center">
+        <TelerikNumericTextBox @bind-Value=@Property.DeferredMaintenance
+                               Enabled=@_editable
+                               Arrows=@false
+                               Min="0"
+                               Format="C" />
+      </td>
+    </tr>
+    <tr role="row" class="k-master-row k-alt">
+      <td role="gridcell" class="px-2">
+        SEC Attorney
+      </td>
+      <td role="gridcell" class="px-2">
+
+      </td>
+      <td role="gridcell" class="px-2 text-center">
+        <TelerikNumericTextBox @bind-Value=@Property.SECAttorney
+                               Enabled=@_editable
+                               Min="0"
+                               Arrows=@false
+                               Format="C" />
+      </td>
+    </tr>
+    <tr role="row" class="k-master-row">
+      <td role="gridcell" class="px-2">
+        Closing Cost Misc.
+      </td>
+      <td role="gridcell" class="px-2">
+
+      </td>
+      <td role="gridcell" class="px-2 text-center">
+        <TelerikNumericTextBox @bind-Value=@Property.ClosingCostMiscellaneous
+                               Enabled=@_editable
+                               Arrows=@false
+                               Min="0"
+                               Format="C" />
+      </td>
+    </tr>
+    <tr role="row" class="k-master-row k-alt">
+      <td role="gridcell" class="px-2">
+        Insurance - 12 Months
+      </td>
+      <td role="gridcell" class="px-2">
+
+      </td>
+      <td role="gridcell" class="px-2 text-center">
+        @_insurancePrepayment.ToString("C")
+      </td>
+    </tr>
+    <tr role="row" class="k-master-row">
+      <td role="gridcell" class="px-2">
+        2 Months Operating Expenses
+      </td>
+      <td role="gridcell" class="px-2">
+
+      </td>
+      <td role="gridcell" class="px-2 text-center">
+        @_twoMonthReserves.ToString("C")
+      </td>
+    </tr>
+    <tr role="row" class="k-master-row k-alt">
+      <td role="gridcell" class="px-2">
+        <strong>Total Closing Cost Other</strong>
+      </td>
+      <td role="gridcell" class="px-2">
+
+      </td>
+      <td role="gridcell" class="px-2 text-center">
+        <strong>@Property.ClosingCostOther.ToString("C")</strong>
+      </td>
+    </tr>
+    <tr role="row" class="k-master-row">
+      <td role="gridcell" class="px-2">
+        <strong>Total</strong>
+      </td>
+      <td role="gridcell" class="px-2">
+
+      </td>
+      <td role="gridcell" class="px-2 text-center">
+        <strong>@GetTotal()</strong>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+

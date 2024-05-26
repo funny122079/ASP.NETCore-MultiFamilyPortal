@@ -1,0 +1,278 @@
+﻿<div class="row g-3">
+  <label for="name" class="col-sm-2 col-form-label">Property Name</label>
+  <div class="col-sm-10">
+    <TelerikTextBox @bind-Value=@Property.Name
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+</div>
+<div class="row g-3 mt-1">
+  <label for="address" class="col-sm-2 col-form-label">Address</label>
+  <div class="col-sm-10">
+    <TelerikTextBox @bind-Value=@Property.Address
+                    Enabled=@_editable
+                    Class="form-control"
+                    PlaceHolder="Address" />
+  </div>
+</div>
+<div class="row g-3">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-5">
+    <TelerikTextBox @bind-Value=@Property.City
+                    Enabled=@_editable
+                    Class="form-control mt-2"
+                    PlaceHolder="City" />
+  </div>
+  <div class="col-sm">
+    <TelerikTextBox @bind-Value=@Property.State
+                    Enabled=@_editable
+                    Class="form-control mt-2"
+                    PlaceHolder="State" />
+  </div>
+  <div class="col-sm">
+    <TelerikTextBox @bind-Value=@Property.Zip
+                    Enabled=@_editable
+                    Class="form-control mt-2"
+                    PlaceHolder="Zip" />
+  </div>
+</div>
+<div class="row g-3 mt-1">
+  <label for="address" class="col-sm-2 col-form-label">Market</label>
+  <div class="col-sm-10">
+    <TelerikAutoComplete @bind-Value=@Property.Market
+                    Enabled=@_editable
+                    Class="form-control"
+                    ClearButton="true"
+                    Data=@_markets />
+  </div>
+</div>
+
+<hr class="mt-3 mb-3" />
+
+<div class="row g-3">
+  <label for="Units" class="col-sm-2 col-form col-form-label">Units</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.Units
+                    Min="2"
+                    Max="1500"
+                    Arrows=@false
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+
+  <label for="vintage" class="col-sm-2 col-form col-form-label">Vintage</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.Vintage
+                    Min="1900"
+                    Max="@DateTime.Now.Year"
+                    Arrows=@false
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+
+  <label for="RentableSqFt" class="col-sm-2 col-form col-form-label">Rentable SqFt</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.RentableSqFt
+                    Min="0"
+                    Format="G"
+                    Arrows=@false
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+
+  <label for="GrossPotentialRent" class="col-sm-2 col-form col-form-label">Gross Potential Rent</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.GrossPotentialRent
+                    Min="0"
+                    Format="C"
+                    Arrows=@false
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+
+  <label for="MarketVacancy" class="col-sm-2 col-form col-form-label">Market Vacancy</label>
+  <div class="col-sm-4">
+    <PercentageInput @bind-Value=@Property.MarketVacancy
+                     Enabled=@_editable
+                     Id="MarketVacancy" />
+  </div>
+
+  <label for="PhysicalVacancy" class="col-sm-2 col-form col-form-label">Physical Vacancy</label>
+  <div class="col-sm-4">
+    <PercentageInput @bind-Value=@Property.PhysicalVacancy
+                     Enabled=@_editable
+                     Id="PhysicalVacancy"/>
+  </div>
+
+  <label for="Management" class="col-sm-2 col-form col-form-label">Management</label>
+  <div class="col-sm-4">
+    <PercentageInput @bind-Value=@Property.Management
+                     Enabled=@_editable
+                     Id="Management"/>
+  </div>
+
+  <label for="CapX" class="col-sm-2 col-form col-form-label">CapX</label>
+  <div class="col-sm-4">
+    <CapXInput Property="@Property" Enabled="@_editable" Id="Capx"/>
+  </div>
+</div>
+
+<hr class="mt-3 mb-3" />
+
+<div class="row g-3">
+  <label for="StartDate" class="col-sm-2 col-form col-form-label">Start Date</label>
+  <div class="col-sm-4">
+    <DateTimeOffsetPicker @bind-Value=@Property.StartDate
+                       Min=@Property.Timestamp.Date
+                       Enabled=@_editable
+                       Class="form-control" />
+  </div>
+  <label for="HoldYears" class="col-sm-2 col-form col-form-label">Hold Period (Yrs)</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.HoldYears
+                    Min="0"
+                    Max="50"
+                    Arrows=@false
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+  <label for="ReversionCapRate" class="col-sm-2 col-form col-form-label">Reversion Cap Rate</label>
+  <div class="col-sm-4">
+    <PercentageInput @bind-Value=@Property.ReversionCapRate
+                     Enabled=@_editable
+                     Id="ReversionCapRate" />
+  </div>
+  <label for="DesiredYield" class="col-sm-2 col-form col-form-label">Desired Yield</label>
+  <div class="col-sm-4">
+    <PercentageInput @bind-Value=@Property.DesiredYield
+                     Enabled=@_editable
+                     Id="DesiredYield" />
+  </div>
+</div>
+
+<hr class="mt-3 mb-3" />
+
+<div class="row g-3">
+  <label for="AskingPrice" class="col-sm-2 col-form col-form-label">Asking Price</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.AskingPrice
+                    Min="0"
+                    Step="1000"
+                    Format="C"
+                    Arrows=@false
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+
+  <label for="StrikePrice" class="col-sm-2 col-form col-form-label">Strike Price</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.StrikePrice
+                    Min="0"
+                    Step="1000"
+                    Format="C"
+                    Arrows=@false
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+
+  <label for="OfferPrice" class="col-sm-2 col-form col-form-label">Offer Price</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.OfferPrice
+                    Min="0"
+                    Format="C"
+                    Arrows=@false
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+
+  <label for="PurchasePrice" class="col-sm-2 col-form col-form-label">Purchase Price</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.PurchasePrice
+                    Min="0"
+                    Format="C"
+                    Arrows=@false
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+</div>
+
+<hr class="mt-3 mb-3" />
+
+<div class="row g-3">
+
+  <label for="ClosingCosts" class="col-sm-2 col-form col-form-label">Closing Costs</label>
+  <div class="col-sm-4">
+    <PercentageInput @bind-Value=@Property.ClosingCostPercent
+                     Enabled=@_editable
+                     Id="ClosingCosts" />
+  </div>
+
+  <label for="ClosingCostOther" class="col-sm-2 col-form col-form-label">Closing Costs (Miscellaneous)</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.ClosingCostMiscellaneous
+                    Min="0"
+                    Arrows=@false
+                    Format="C"
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+
+  <label for="DeferredMaintenance" class="col-sm-2 col-form col-form-label">Deferred Maintenance</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.DeferredMaintenance
+                    Min="0"
+                    Arrows=@false
+                    Format="C"
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+
+  <label for="SECAttorney" class="col-sm-2 col-form col-form-label">SEC Attorney</label>
+  <div class="col-sm-4">
+    <TelerikNumericTextBox @bind-Value=@Property.SECAttorney
+                    Min="0"
+                    Arrows=@false
+                    Format="C"
+                    Enabled=@_editable
+                    Class="form-control" />
+  </div>
+
+  <label for="AquisitionFeePercent" class="col-sm-2 col-form col-form-label">Aquisition Fee</label>
+  <div class="col-sm-4">
+    <PercentageInput @bind-Value=@Property.AquisitionFeePercent
+                     Enabled=@_editable
+                     Id="AquisitionFeePercent" />
+  </div>
+
+  <div class="col-sm-6"></div>
+
+  <label for="LoanType" class="col-sm-2 col-form col-form-label">Loan Type</label>
+  <div class="col-sm-4">
+    <TelerikDropDownList Data=@UnderwritingLoanTypes
+                         @bind-Value=@Property.LoanType
+                         Enabled=@_editable
+                         Class="form-control">
+      <ValueTemplate>
+        @{ var value = (Data.Models.UnderwritingLoanType)context; }
+        @value.Humanize(LetterCasing.Title)
+      </ValueTemplate>
+      <ItemTemplate>
+        @{ var value = (Data.Models.UnderwritingLoanType)context; }
+        @value.Humanize(LetterCasing.Title)
+      </ItemTemplate>
+    </TelerikDropDownList>
+  </div>
+
+  @if(Property.LoanType == Data.Models.UnderwritingLoanType.Automatic)
+  {
+    <label for="LTV" class="col-sm-2 col-form col-form-label">Loan to Value</label>
+    <div class="col-sm-4">
+      <PercentageInput @bind-Value=@Property.LTV
+                       Enabled=@_editable
+                       Id="LTV" />
+    </div>
+  }
+
+</div>
+
+<PortalNotification @ref="notification" />

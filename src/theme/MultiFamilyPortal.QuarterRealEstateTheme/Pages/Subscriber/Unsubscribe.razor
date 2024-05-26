@@ -1,0 +1,20 @@
+﻿@page "/subscribers/unsubscribe/{email}"
+
+<ThemeSection>
+  @if(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(_code))
+  {
+    <h1>Whoops</h1>
+    <p>It looks like you're missing something. We're unable to verify that you're an active subscriber.</p>
+  }
+  else if(unsubscribed)
+  {
+    <h1>Success</h1>
+    <p>We're sorry to see you go. The email address <strong>@email</strong> has been successfully unsubscribed from our email list. You will no longer get any updates from us.</p>
+  }
+  else
+  {
+    <h1>Whoops</h1>
+    <p>This is embarassing. It looks like something has gone terribly wrong. We were unable to verify the email address or confirmation code to unsubscribe you. Please verify that the you've typed the address from the email exactly as it appears in your email.</p>
+  }
+</ThemeSection>
+

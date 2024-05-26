@@ -1,0 +1,52 @@
+﻿@using MultiFamilyPortal.Data.Models
+<Animation OptionsName="Page">
+  <TelerikGrid Data=@_logs>
+    <GridToolBar>
+      <span class="k-toolbar-spacer"></span>
+      <GridCommandButton ThemeColor="primary"
+                         OnClick=@OnAdd
+                         IconClass="fa-duotone fa-plus"
+                         Title="Add">Add</GridCommandButton>
+    </GridToolBar>
+    <GridColumns>
+      <GridColumn Editable="false" Width="180px">
+       <Template>
+          @{ var log = context as CRMContactLog; }
+          <div class="text-center">
+            <img src="/api/admin/contacts/userImage/@(log.UserId)" class="img-fluid" />
+          </div>
+        </Template>
+      </GridColumn>
+      <GridColumn Field="Timestamp" Title="Created" Width="200px">
+        <Template>
+           @{ var log = context as CRMContactLog; }
+          <div class="text-center">
+            @log.Timestamp.Humanize()
+          </div>
+        </Template>
+      </GridColumn>
+      <GridColumn Field="Notes">
+        <Template>
+          @{ var log = context as CRMContactLog; }
+          @((MarkupString)log.Notes)
+        </Template>
+      </GridColumn>
+      <GridCommandColumn Width="150px">
+        <div class="text-center">
+          <GridCommandButton OnClick=@OnEdit
+                             IconClass="fa-duotone fa-pencil"
+                             Title="Edit" />
+        </div>
+      </GridCommandColumn>
+    </GridColumns>
+  </TelerikGrid>
+
+  @if(_addLog != null)
+  {
+    <CRMContactLogEditor Value=@_addLog OnSave=@OnSaveNewLog />
+  }
+  else if(_editLog != null)
+  {
+    <CRMContactLogEditor Value=@_editLog OnSave=@OnUpdateLog />
+  }
+</Animation>

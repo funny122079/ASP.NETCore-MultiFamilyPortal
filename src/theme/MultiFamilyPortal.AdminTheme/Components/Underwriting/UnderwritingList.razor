@@ -1,0 +1,163 @@
+﻿<div class="row pt-3">
+  <div class="col-12">
+    <TelerikGrid Data=@FilteredProspects
+                  Pageable="true"
+                  PageSize="25"
+                  Height="800px">
+      <GridToolBar>
+        <AuthorizedPolicy Policy=@PortalPolicy.Underwriter>
+          <div class="flex" style="margin-left: auto;">
+            <GridCommandButton Command="NewProperty"
+                                Icon="add"
+                                ThemeColor="primary"
+                                Class="float-right"
+                                OnClick=@CreateProperty>
+              Add Property
+            </GridCommandButton>
+          </div>
+        </AuthorizedPolicy>
+      </GridToolBar>
+
+      <GridColumns>
+        <GridColumn Field="@(nameof(ProspectPropertyResponse.UnderwriterEmail))" Title="Underwriter">
+          <Template>
+            @{ var property = context as ProspectPropertyResponse; }
+            <div class="text-center">
+              <Gravatar Email=@property.UnderwriterEmail
+                        Size="90"
+                        Default="DefaultGravatar.MysteryPerson" />
+              <br />
+              <strong>@property.Underwriter</strong>
+            </div>
+          </Template>
+        </GridColumn>
+        <GridColumn Field="@(nameof(ProspectPropertyResponse.Name))"
+                    Title="Name" />
+        <GridColumn Field="@(nameof(ProspectPropertyResponse.FormattedLocation))"
+                    Title="Location" />
+        <GridColumn Field="@(nameof(ProspectPropertyResponse.Units))"
+                    Title="Units"
+                    Width="120px"
+                    TextAlign=@ColumnTextAlign.Center />
+        <GridColumn Field="@(nameof(ProspectPropertyResponse.CapRate))"
+                    Title="Cap"
+                    Width="120px"
+                    TextAlign=@ColumnTextAlign.Center />
+        <GridColumn Field="@(nameof(ProspectPropertyResponse.CoC))"
+                    Title="Cash on Cash"
+                    Width="120px"
+                    TextAlign=@ColumnTextAlign.Center />
+        <GridColumn Field="@(nameof(ProspectPropertyResponse.Status))"
+                    Width="120px"
+                    TextAlign=@ColumnTextAlign.Center>
+          <Template>
+            @{ var response = context as ProspectPropertyResponse; }
+            @response.Status.Humanize(LetterCasing.Title)
+          </Template>
+        </GridColumn>
+        <GridColumn Field="@(nameof(ProspectPropertyResponse.Created))" Title="Date" Width="160px" TextAlign=@ColumnTextAlign.Center />
+        <GridCommandColumn Width="140px">
+          <GridCommandButton Command="View" IconClass="fa-duotone fa-eye" Class="btn-secondary" OnClick="ViewProperty">View</GridCommandButton>
+        </GridCommandColumn>
+      </GridColumns>
+    </TelerikGrid>
+  </div>
+</div>
+
+<ResponsiveWindow Visible="@(NewProspect != null)">
+  <WindowTitle>Create Property</WindowTitle>
+  <WindowActions>
+      <WindowAction Name="Close" OnClick="@(() => NewProspect = null)" />
+  </WindowActions>
+  <WindowContent>
+    <form>
+    <div class="row g-3">
+      <label for="name" class="col-sm-2 col-form-label">Property Name <span style="color:red">*</span></label>
+      <div class="col-sm-10">
+        <TelerikTextBox @bind-Value=@NewProspect.Name
+                        Class="form-control" />
+      </div>
+    </div>
+    <div class="row g-3 mt-1">
+      <label for="address" class="col-sm-2 col-form-label">Address</label>
+      <div class="col-sm-10">
+        <TelerikTextBox @bind-Value=@NewProspect.Address
+                        Class="form-control"
+                        PlaceHolder="Address" />
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-5">
+        <TelerikTextBox @bind-Value=@NewProspect.City
+                        Class="form-control mt-2"
+                        PlaceHolder="City" />
+      </div>
+      <div class="col-sm">
+        <TelerikTextBox @bind-Value=@NewProspect.State
+                        Class="form-control mt-2"
+                        PlaceHolder="State" />
+      </div>
+      <div class="col-sm">
+        <TelerikTextBox @bind-Value=@NewProspect.Zip
+                        Class="form-control mt-2"
+                        PlaceHolder="Zip" />
+      </div>
+    </div>
+    <div class="row g-3 mt-1">
+      <label for="address" class="col-sm-2 col-form-label">Market</label>
+      <div class="col-sm-10">
+        <TelerikAutoComplete @bind-Value=@NewProspect.Market
+                        Class="form-control"
+                        ClearButton="true"
+                        Data=@_markets
+                        Filterable=@true />
+      </div>
+    </div>
+
+    <hr class="mt-3 mb-3" />
+
+    <div class="row g-3">
+      <label for="Units" class="col-sm-2 col-form col-form-label">Units <span style="color:red">*</span></label>
+      <div class="col-sm-4">
+        <TelerikNumericTextBox @bind-Value=@NewProspect.Units
+                        Min="2"
+                        Max="1500"
+                        Arrows=@false
+                        Class="form-control" />
+      </div>
+
+      <label for="vintage" class="col-sm-2 col-form col-form-label">Vintage</label>
+      <div class="col-sm-4">
+        <TelerikNumericTextBox @bind-Value=@NewProspect.Vintage
+                        Min="1900"
+                        Arrows=@false
+                        Max="@DateTime.Now.Year"
+                        Class="form-control" />
+      </div>
+    </div>
+
+    <div class="row g-3 mt-2">
+      <div class="col-lg-6 text-center">
+        <TelerikButton ButtonType="ButtonType.Reset"
+                        ThemeColor="primary"
+                        Title="Cancel"
+                        OnClick="@(() => NewProspect = null)">
+          Cancel
+        </TelerikButton>
+      </div>
+      <div class="col-lg-6 text-center">
+        <TelerikButton ButtonType="ButtonType.Button"
+                       ThemeColor="primary"
+                       Enabled="@(!string.IsNullOrEmpty(NewProspect.Name) && NewProspect.Name.Length > 3 && NewProspect.Units > 0)"
+                       Title="Start Underwriting"
+                       OnClick="StartUnderwriting">
+          Start Underwriting
+        </TelerikButton>
+      </div>
+    </div>
+    </form>
+  </WindowContent>
+</ResponsiveWindow >
+
+<PortalNotification @ref="notification" />

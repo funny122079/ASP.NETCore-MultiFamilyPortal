@@ -1,0 +1,94 @@
+@using Data.Models
+@if (!Property.OurExpense.Any(x => x.Category == Guidance.Category))
+{
+  <span class="text-danger" id="icon" title="Missing Category">
+    <i class="fad fa-exclamation-triangle"></i>
+  </span>
+}
+else if (Property.OurExpense.Count(x => x.Category == Guidance.Category) > 1)
+{
+  <span class="text-danger" id="icon" title="Multiple Entries">
+    <i class="fad fa-exclamation-triangle"></i>
+  </span>
+}
+else if (Guidance.Type == CostType.PerDoor)
+{
+  var min = Guidance.Min * Property.Units;
+  var max = Guidance.Max * Property.Units;
+  var totalMax = Property.OurExpense.Where(x => x.Category == Guidance.Category).Sum(y => y.AnnualizedTotal);
+  if (min == max)
+  {
+    if (max > totalMax)
+    {
+      <span class="text-warning" id="icon" title="Below Rule of Thumb">
+        <i class="fas fa-shield-check"></i>
+      </span>
+    }
+    else if (max < totalMax)
+    {
+      <span class="text-danger" id="icon" title="Above the Rule of Thumb">
+        <i class="fas fa-exclamation-circle"></i>
+      </span>
+    }
+    else
+    {
+      <span class="text-success" id="icon" title="Within the Rule of Thumb">
+       <i class="fad fa-badge-check"></i>
+      </span>
+    }
+  }
+  else
+  {
+    if (min > totalMax)
+    {
+      <span class="text-warning" id="icon" title="Below Rule of Thumb">
+       <i class="fas fa-shield-check"></i>
+      </span>
+    }
+    else if (max < totalMax)
+    {
+      <span class="text-danger" title="Above the Rule of Thumb">
+       <i class="fas fa-exclamation-circle"></i>
+      </span>
+    }
+    else
+    {
+      <span class="text-success" id="icon" title="Within the Rule of Thumb">
+       <i class="fad fa-badge-check"></i>
+      </span>
+    }
+  }
+}
+else if (Guidance.Type == CostType.PercentOfPurchase)
+{
+  var total = Guidance.Max * Property.PurchasePrice;
+  var totalTaxes = Property.OurExpense.Where(x => x.Category == UnderwritingCategory.Taxes).Sum(y =>
+  y.AnnualizedTotal);
+
+  if (totalTaxes > total)
+  {
+    <span class="text-danger" id="icon" title="Above the Rule of Thumb">
+     <i class="fas fa-exclamation-circle"></i>
+    </span>
+  }
+  else if (totalTaxes == total)
+  {
+    <span class="text-success" id="icon" title="Within the Rule of Thumb">
+     <i class="fad fa-badge-check"></i>
+    </span>
+  }
+  else
+  {
+    <span class="text-warning" id="icon" title="Below Rule of Thumb">
+     <i class="fas fa-shield-check"></i>
+    </span>
+  }
+}
+else
+{
+  <span class="text-secondary" id="icon" title="Unknown Expense">
+    <i class="fas fa-question-circle"></i>
+  </span>
+}
+
+<TelerikTooltip TargetSelector="#icon"/>

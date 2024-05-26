@@ -1,0 +1,112 @@
+﻿<Animation OptionsName="Page">
+  <div class="row gt-3 mt-2">
+    <label for="Prefix" class="col-md-2 my-auto">Prefix</label>
+    <div class="col-md-4 form-group">
+      <TelerikTextBox @bind-Value=@Contact.Prefix
+                      Id="Prefix"
+                      Class="form-control" />
+    </div>
+    <label for="Suffix" class="col-md-2 my-auto">Suffix</label>
+    <div class="col-md-4 form-group">
+      <TelerikTextBox @bind-Value=@Contact.Suffix
+                      Id="Suffix"
+                      Class="form-control" />
+    </div>
+  </div>
+  <div class="row gt-3 mt-2">
+    <label for="FirstName" class="col-md-2 my-auto">First Name</label>
+    <div class="col-md-4 form-group">
+      <TelerikTextBox @bind-Value=@Contact.FirstName
+                      Id="FirstName"
+                      Class="form-control" />
+    </div>
+    <label for="LastName my-auto" class="col-md-2 my-auto">Last Name</label>
+    <div class="col-md-4 form-group">
+      <TelerikTextBox @bind-Value=@Contact.LastName
+                      Id="LastName"
+                      Class="form-control" />
+    </div>
+  </div>
+  <div class="row gt-3 mt-2 mb-3">
+    <label for="Suffix" class="col-md-2 my-auto">Middle Name</label>
+    <div class="col-md-4 form-group">
+      <TelerikTextBox @bind-Value=@Contact.MiddleName
+                      Id="middleName"
+                      Class="form-control" />
+    </div>
+    <label for="Dob" class="col-md-2 my-auto">Birthday</label>
+    <div class="col-md-4 form-group">
+      <TelerikDatePicker @bind-Value=@Contact.DoB
+                         Id="Dob"
+                         Width="100%"
+                         Max=@DateTime.Now
+                         Min=@DateTime.Now.AddYears(-125)
+                         Format="MM/dd/yyyy"
+                         Placeholder="Date of Birth" />
+    </div>
+  </div>
+
+ <hr />
+
+  <div class="row gt-3 mt-2">
+    <label for="Company" class="col-md-2 my-auto">Company</label>
+    <div class="col-md-4 form-group">
+      <TelerikTextBox @bind-Value=@Contact.Company
+                      Id="Company"
+                      Class="form-control" />
+    </div>
+    <label for="Title" class="col-md-2 my-auto">Title</label>
+    <div class="col-md-4 form-group">
+      <TelerikTextBox @bind-Value=@Contact.Title
+                      Id="Title"
+                      Class="form-control" />
+    </div>
+  </div>
+  <div class="row gt-3 mt-2 mb-3">
+    <label for="LicenseNumber" class="col-md-2 my-auto">License Number</label>
+    <div class="col-md-4 form-group">
+      <TelerikTextBox @bind-Value=@Contact.LicenseNumber
+                      Id="LicenseNumber"
+                      Class="form-control" />
+    </div>
+  </div>
+
+  <hr />
+
+  <LoaderContainer Context=@Contact>
+    <div class="row gt-3">
+      <div class="col-md-6">
+        <CrmContactPhoneList Contact="@Contact" />
+      </div>
+      <div class="col-md-6">
+        <CrmContactEmailList Contact=@Contact />
+      </div>
+    </div>
+  </LoaderContainer>
+
+  <hr />
+
+  <LoaderContainer Context=@Contact>
+    <CrmContactAddressList Contact=@Contact />
+  </LoaderContainer>
+
+ <hr />
+
+  <div class="row gt-3 mt-2 mb-3">
+    <div class="col-md-2 text-center my-auto">
+      <span>Contact Type(s)</span>
+    </div>
+    <div class="col-md-4 form-group">
+      <LoaderContainer Context=@_allRoles>
+        <TelerikMultiSelect Value=@_roles
+                            ValueChanged=@OnRolesUpdated
+                            TValue="Guid"
+                            TItem="Data.Models.CRMContactRole"
+                            Data=@_allRoles
+                            TextField="Name"
+                            ValueField="Id"
+                            Class="form-control" />
+      </LoaderContainer>
+    </div>
+  </div>
+</Animation>

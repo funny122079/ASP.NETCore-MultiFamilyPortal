@@ -1,0 +1,32 @@
+﻿<div id="ltn__utilize-mobile-menu" class="ltn__utilize-mobile-menu offcanvas offcanvas-start">
+  <div class="ltn__utilize-menu-inner ltn__scrollbar">
+
+    <div class="offcanvas-header mt-3">
+      <div class="site-logo ms-3" style="width: 85%; height: 100px">
+        <a href="/" data-bs-dismiss="offcanvas" aria-label="Close">
+          <img src="/theme/branding/logo-side" alt="Logo" class="img img-fluid h-100" />
+        </a>
+      </div>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <div class="ltn__utilize-menu mx-5">
+      @if (MenuProvider != null)
+      {
+        <ul>
+          @foreach (var rootItem in MenuProvider.Menu)
+          {
+            <li class="nav-item" data-bs-dismiss="offcanvas" aria-label="Close">
+              <NavLink class="nav-link" href="@rootItem.Link" Match=@rootItem.Match>
+                <i class="@rootItem.IconClass" aria-hidden="true"></i>&nbsp;&nbsp;@rootItem.Title
+              </NavLink>
+            </li>
+          }
+        </ul>
+        <div class="header-top-btn mt-3 w-100" data-bs-dismiss="offcanvas" aria-label="Close">
+          <a href="/invest-with-us" class="w-100 text-center py-md-0 py-2">Invest with Us</a>
+        </div>
+      }
+    </div>
+  </div>
+</div>

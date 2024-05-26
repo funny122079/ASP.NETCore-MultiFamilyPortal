@@ -1,0 +1,16 @@
+﻿@page "/subscriber/confirmation/{confirmationCode:guid}"
+
+@if(string.IsNullOrEmpty(email))
+{
+  <ThemeSection>
+    <h2>Congratulations</h2>
+    <p>Your email address <strong>@email</strong> has been confirmed. You have been successfully subscribed to our newsletters.</p>
+  </ThemeSection>
+}
+else
+{
+  <ThemeSection>
+    <h2>Whoops</h2>
+    <p>It looks like we weren't able to recognize the confirmation code you provided. Please double check the email addres you provided.</p>
+  </ThemeSection>
+}

@@ -1,0 +1,13 @@
+.card-length{
+    max-width: 30rem;
+}
+
+.contact-name{
+    font-size: 1.9em;
+    font-weight: light;
+}
+
+.large{
+    font-weight: bolder;
+    color: var( --portal-title-color);
+}

@@ -1,0 +1,66 @@
+﻿@if (_selected is null)
+{
+  <TelerikGrid Data=@_emailTemplates>
+    <GridColumns>
+      <GridColumn Field=@nameof(Data.Models.EmailTemplate.Key) />
+      <GridColumn Field=@nameof(Data.Models.EmailTemplate.LastUpdated) DisplayFormat="{0:MMMM dd yyyy}" />
+      <GridCommandColumn>
+        <GridCommandButton Title="Edit" Command="CustomEdit" IconClass="fa-duotone fa-pencil" OnClick=@OnEditItem>Edit</GridCommandButton>
+      </GridCommandColumn>
+    </GridColumns>
+    </TelerikGrid>
+}
+else
+{
+  <h3>Edit Email - @_selected.Key</h3>
+  <TelerikTabStrip TabPosition=TabPosition.Left>
+    <TabStripTab Title="HTML">
+      <PortalWysiwyg @bind-Value=@_selected.Html />
+    </TabStripTab>
+    <TabStripTab Title="Plain Text">
+      <div class="row">
+        <div class="col-12 form-group">
+          <TelerikTextArea @bind-Value=@_selected.PlainText
+                           AutoSize=false
+                           Class="form-control" />
+        </div>
+      </div>
+    </TabStripTab>
+    <TabStripTab Title="About">
+      <p>When updating this template, you may include the following parameters which will be automatically injected into the email template.</p>
+      <ul>
+        @foreach(var definition in _definitions)
+        {
+          <li>
+            <div class="row">
+              <div class="col-md-6">
+                <pre>{{@definition.Name}}</pre>
+              </div>
+              <div class="col-md-6">
+                @if(definition.PartialTemplate)
+                {
+                  <span>(Partial List)</span>
+                }
+              </div>
+            </div>
+          </li>
+        }
+      </ul>
+    </TabStripTab>
+  </TelerikTabStrip>
+  <div class="row text-center mt-3">
+    <div class="col-md-2 offset-md-3">
+      <TelerikButton Title="Back"
+                     ButtonType=@ButtonType.Button
+                     OnClick=@(() => _selected = null)>Back</TelerikButton>
+    </div>
+    <div class="col-md-2">
+      <TelerikButton Title="Save"
+                     ButtonType=@ButtonType.Button
+                     ThemeColor="primary"
+                     OnClick=@OnUpdateTemplate>Save</TelerikButton>
+    </div>
+  </div>
+}
+
+<PortalNotification @ref="notification" />

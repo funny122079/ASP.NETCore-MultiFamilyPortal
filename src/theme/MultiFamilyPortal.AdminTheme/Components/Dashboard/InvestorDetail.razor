@@ -1,0 +1,75 @@
+<ResponsiveWindow Visible="@(Investor != null)">
+  <WindowTitle>
+    <strong>Investor Prospect</strong>
+  </WindowTitle>
+  <WindowContent>
+  <TelerikTabStrip Class="res-tabstrip">
+    <TabStripTab Title="Details">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 my-3">
+          <form class="form-floating">
+            <input type="text" class="form-control" value="@Investor.FirstName" id="investorName" disabled>
+            <label for="investorName">Name</label>
+          </form>
+        </div>
+        <div class="col-md-6 my-3">
+          <form class="form-floating">
+            <input type="text" class="form-control" value="@Investor.LastName" id="investorSurname" disabled>
+            <label for="investorSurname">Surname</label>
+          </form>
+        </div>
+        <div class="col-md-6 my-3">
+          <form class="form-floating">
+            <input type="email" class="form-control" value="@Investor.Email" id="investorEmail" disabled>
+            <label for="investEmail">Email</label>
+          </form>
+        </div>
+        <div class="col-md-6 my-3">
+          <form class="form-floating">
+            <input type="text" class="form-control" value="@Investor.Phone.ToPhoneNumberMask()" id="investorPhone" disabled>
+            <label for="investorPhone">Phone</label>
+          </form>
+        </div>
+        <div class="col-md-6 my-3">
+          <form class="form-floating" id="localTime" title=@(string.IsNullOrEmpty(_timezone?.Name)? "Unknown": _timezone.Name)>
+            <input type="text" class="form-control" value="@_localTime" id="investorTimezone" disabled>
+            <label for="investorTimezone">Local Time (@(string.IsNullOrEmpty(_timezone?.Intials)? "Unknown": _timezone.Intials))</label>
+            <TelerikTooltip TargetSelector="#localTimezone" Position="@TooltipPosition.Top"/>
+          </form>
+        </div>
+        <div class="col-md-6 my-3">
+          <form class="form-floating">
+            <input type="text" class="form-control" value=@Investor.LookingToInvest.ToString("C")
+              id="investorCapital" disabled>
+            <label for="investorCapital">Capital</label>
+          </form>
+        </div>
+        <div class="col-md-6 my-3">
+          <span class="text-secondary">Request made : @Investor.Timestamp.Humanize()</span>
+        </div>
+        <div class="col-md-12 text-center my-3">
+          <button class="btn btn-primary" id="investorContactedSubmit" @onclick="UpdateInvestor">
+            Mark as Contacted
+          </button>
+        </div>
+      </div>
+    </div>
+    </TabStripTab>
+    <TabStripTab Title="Notes">
+      <div class="row">
+        <div class="col-12 h-100">
+          <textarea id="investorMotive" 
+                    style="min-height: 390px;"
+                    class="form-control mx-2" 
+                    disabled>@Investor.Reason
+          </textarea>
+        </div>
+      </div>
+    </TabStripTab>
+  </TelerikTabStrip> 
+  </WindowContent>
+  <WindowActions>
+    <WindowAction Name="Close" OnClick="@(() => Investor = null)"/>
+  </WindowActions>
+</ResponsiveWindow>

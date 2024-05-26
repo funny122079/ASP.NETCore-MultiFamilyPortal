@@ -1,0 +1,116 @@
+<div class="card shadow-sm h-100 card-length">
+  <div class="card-body my-2">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-5 my-auto">
+          <div class="row">
+            <div class="col-12">
+              <h1 class="contact-name">@Contact.FirstName</h1>
+            </div>
+            <div class="col-12">
+              <h1 class="contact-name large">@Contact.LastName</h1>
+            </div>
+            <div class="col-12">
+              @Contact.Title
+            </div>
+          </div>
+        </div>
+
+        <div class="col-7 border-start">
+          <div class="row mb-3">
+            <div class="col-2">
+              <i class="fal fa-link"></i>
+            </div>
+            <div class="col-10">
+              <b>@Contact.Company</b>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-2">
+              <i class="fal fa-phone"></i>
+            </div>
+            <div class="col-10">
+              @{
+                var phone = Contact?.Phones?.FirstOrDefault(x => x.Primary);
+                 if (!string.IsNullOrEmpty(phone?.Number))
+                 {
+                  <span>@phone.Number.ToPhoneNumberMask() <small>(@phone.Type.GetDisplayName())</small></span>
+                 }
+                 else
+                 {
+                    <span> - </span>
+                 }
+              }
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-2">
+              <i class="fal fa-at"></i>
+            </div>
+            <div class="col-10">
+              @{
+                var email = Contact?.Emails?.FirstOrDefault(x => x.Primary);
+                if (!string.IsNullOrEmpty(email?.Email))
+                {
+                  <span>@email.Email <small>(@email.Type.GetDisplayName())</small></span>
+                }
+                else
+                {
+                  <span> - </span>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-2">
+              <i class="fal fa-pen"></i>
+            </div>
+            <div class="col-10">
+              @if (!string.IsNullOrEmpty(Contact.MarketNotes))
+              {
+                <span class="text-success">
+                  Has Market Notes
+                </span>
+              }
+              else
+              {
+                <span> - </span>
+              }
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-2">
+             <i class="fal fa-map-marker-alt"></i>
+            </div>
+            <div class="col-10">
+             @{
+                var address = Contact?.Addresses ?.FirstOrDefault(x => x.Primary);
+                if (!string.IsNullOrEmpty(address?.City) && !string.IsNullOrEmpty(address?.State))
+                {
+                  <span>@address.City, @address.State</span>
+                }
+                else if(!string.IsNullOrEmpty(address?.City))
+                {
+                  <span>@address.City</span>
+                }
+                else if(!string.IsNullOrEmpty(address?.State))
+                {
+                  <span>@address.State</span>
+                }
+                else
+                {
+                  <span> - </span>
+                }
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

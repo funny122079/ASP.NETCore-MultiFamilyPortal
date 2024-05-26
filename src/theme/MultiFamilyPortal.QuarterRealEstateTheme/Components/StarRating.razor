@@ -1,0 +1,25 @@
+﻿<div class="product-ratting">
+  <ul>
+    @for(int i = 0; i < count; i++)
+    {
+      <li><a href="#"><i class="fa-solid fa-star"></i></a></li>
+    }
+  </ul>
+</div>
+
+@code {
+    [Parameter]
+    public int Stars { get; set; }
+
+    private int count;
+
+    protected override void OnInitialized()
+    {
+        if (Stars < 0)
+            count = 0;
+        else if (Stars > 5)
+            count = 5;
+        else
+            count = Stars;
+    }
+}

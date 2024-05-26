@@ -1,0 +1,32 @@
+<ResponsiveWindow Visible=@(FloorPlan != null)>
+  <WindowTitle>
+    <strong>@_title</strong>
+  </WindowTitle>
+  <WindowActions>
+    <WindowAction Name="Close" OnClick=@CloseAsync />
+  </WindowActions>
+  <WindowContent>
+    <LoaderContainer Context=@FloorPlan>
+      @if (FloorPlan.Id == default)
+      {
+        <UnderwritingFloorPlansEditor Property="@Property"
+                                      FloorPlan="@FloorPlan"
+                                      FloorPlanChanged=@CloseAsync />
+      }
+      else
+      {
+        <TelerikTabStrip TabPosition="TabPosition.Top" Class="res-tabstrip">
+          <TabStripTab Title="Floor Plan">
+            <UnderwritingFloorPlansEditor Property="@Property"
+                                          FloorPlan="@FloorPlan"
+                                          FloorPlanChanged=@CloseAsync />
+          </TabStripTab>
+          <TabStripTab Title="Roll Units">
+            <UnderwritingUnitListEditor FloorPlan=@FloorPlan />
+          </TabStripTab>
+        </TelerikTabStrip>
+      }
+    </LoaderContainer>
+  </WindowContent>
+
+</ResponsiveWindow>

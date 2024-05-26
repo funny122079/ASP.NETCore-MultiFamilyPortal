@@ -1,0 +1,85 @@
+﻿@using MultiFamilyPortal.Data.Models
+
+<TelerikGrid Data=@Property.CapitalImprovements
+             ConfirmDelete=@true
+             EditMode=@GridEditMode.Inline
+             OnCreate=@OnImprovementAdded
+             OnDelete=@OnImprovementDeleted
+             OnEdit=@OnImprovementEditing
+             OnUpdate=@OnImprovementUpdated>
+  <GridToolBar>
+    <span class="k-toolbar-spacer"></span>
+    @if(_editable)
+    {
+      <GridCommandButton ThemeColor="primary"
+                         Command="Add"
+                         IconClass="fa-duotone fa-plus"
+                         Title="Add">Add</GridCommandButton>
+    }
+  </GridToolBar>
+  <GridColumns>
+    <GridColumn Field="Status" Width="200px">
+      <Template>
+        @{ var capitalImprovement = context as UnderwritingAnalysisCapitalImprovement; }
+        <div class="text-center">
+          @capitalImprovement.Status.Humanize(LetterCasing.Title)
+        </div>
+      </Template>
+      <EditorTemplate>
+        @{ var capitalImprovement = context as UnderwritingAnalysisCapitalImprovement; }
+        <div class="text-center">
+          <TelerikDropDownList Data=@(Enum.GetValues<CapitalImprovementStatus>())
+                               Filterable=@true
+                               Width="180px"
+                               @bind-Value=@capitalImprovement.Status
+                               Context="ddlContext">
+            <ItemTemplate>
+              @{ var improvementStatus = (CapitalImprovementStatus)ddlContext; }
+              @improvementStatus.Humanize(LetterCasing.Title)
+            </ItemTemplate>
+            <ValueTemplate>
+              @{ var improvementStatus = (CapitalImprovementStatus)ddlContext; }
+              @improvementStatus.Humanize(LetterCasing.Title)
+            </ValueTemplate>
+          </TelerikDropDownList>
+        </div>
+      </EditorTemplate>
+    </GridColumn>
+    <GridColumn Field="Cost" DisplayFormat="{0:C}" Width="200px" TextAlign=@ColumnTextAlign.Center>
+      <EditorTemplate>
+        @{ var capitalImprovement = context as UnderwritingAnalysisCapitalImprovement; }
+        <div class="text-center">
+          <TelerikNumericTextBox @bind-Value=@capitalImprovement.Cost
+                                 Format="C"
+                                 Arrows=@false
+                                 Width="180px" />
+        </div>
+      </EditorTemplate>
+    </GridColumn>
+    <GridColumn Field="Description" />
+    <GridCommandColumn Width="200px">
+      @{ var capitalImprovement = context as UnderwritingAnalysisCapitalImprovement; }
+      <div class="text-center">
+        @if(_editable)
+        {
+          <GridCommandButton Command="Edit"
+                             IconClass="fa-duotone fa-pencil"
+                             Enabled=@_editable
+                             Title="Edit" />
+          <GridCommandButton Command="Delete"
+                             IconClass="fa-duotone fa-trash"
+                             Enabled=@_editable
+                             Title="Delete" />
+          <GridCommandButton Command="Cancel"
+                             Icon="cancel"
+                             Title="Cancel"
+                             ShowInEdit=@true />
+          <GridCommandButton Command="Save"
+                             IconClass="fa-duotone fa-floppy-disk"
+                             Title="Save"
+                             ShowInEdit=@true />
+        }
+      </div>
+    </GridCommandColumn>
+  </GridColumns>
+</TelerikGrid>

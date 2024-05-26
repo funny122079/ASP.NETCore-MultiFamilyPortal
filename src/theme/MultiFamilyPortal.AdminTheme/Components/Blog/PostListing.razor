@@ -1,0 +1,28 @@
+﻿@using Humanizer
+
+<tr>
+  <td>
+    <NavLink href="@Link">
+      @Post?.Title
+    </NavLink>
+  </td>
+  <td>
+    @Post?.Name
+  </td>
+  <td>
+    @Post?.Published.Humanize()
+  </td>
+  <td>
+    @GetStatus(Post)
+  </td>
+  <td>
+    @if(Post != null && Post.Views > 0)
+    {
+      <span>Viewed: @Post.Views</span>
+    }
+    else
+    {
+      <span>No Views Yet!</span>
+    }
+  </td>
+</tr>

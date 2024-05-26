@@ -1,0 +1,40 @@
+﻿<TelerikGrid Data=@_logos
+             @ref="grid">
+  <GridColumns>
+    <GridColumn Field="DisplayName" />
+    <GridColumn Title="Logo" TextAlign=@ColumnTextAlign.Center>
+      <Template>
+        @{ var logo = context as Logo; }
+        <img src="@($"{logo.Href}id={DateTime.Now.Ticks}")" alt="@logo.DisplayName" class="img img-fluid my-3" style="max-width:250px;max-height:125px;" />
+      </Template>
+    </GridColumn>
+    <GridColumn Field="Size" TextAlign=@ColumnTextAlign.Center />
+    <GridCommandColumn>
+       <div class="text-center">
+          <GridCommandButton Command="ReplaceLogo"
+                              Title="Update Logo"
+                              ThemeColor="primary"
+                              IconClass="fa-duotone fa-upload"
+                              OnClick=@UpdateLogo>Update Logo
+               </GridCommandButton>
+         </div>
+     </GridCommandColumn>
+   </GridColumns>
+</TelerikGrid>
+<TelerikWindow Visible=@_showWindow Modal=@true>
+  <WindowTitle>Update @_selected.DisplayName</WindowTitle>
+  <WindowActions>
+    <WindowAction Name="Close" OnClick=@(() => _showWindow = false) />
+  </WindowActions>
+  <WindowContent>
+    <p>
+      You may upload a JPEG, PNG, or SVG. We recommend that you upload an SVG any time it is possible as they will scale the best across all devices.
+    </p>
+    <TelerikUpload AllowedExtensions="@_allowedFileTypes"
+                    MaxFileSize="2048000"
+                    SaveField="file"
+                    Multiple="false"
+                    OnSuccess="@OnSuccessHandler"
+                    SaveUrl=@LogoUrl(_selected.Name) />
+  </WindowContent>
+</TelerikWindow>

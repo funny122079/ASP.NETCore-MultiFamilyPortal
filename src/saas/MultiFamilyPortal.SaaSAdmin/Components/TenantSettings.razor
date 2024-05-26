@@ -1,0 +1,81 @@
+﻿<TelerikWindow Visible=@(Tenant != null)
+               Width="650px"
+               Modal=@true>
+  <WindowTitle>@Tenant!.Host</WindowTitle>
+  <WindowActions>
+    <WindowAction Icon="close" OnClick=@Close />
+  </WindowActions>
+  <WindowContent>
+    @if(didLoad)
+    {
+      <TelerikTabStrip Class="res-tabstrip">
+        <TabStripTab Title="Application Settings">
+          <Content>
+            <TelerikGrid Data=@_settings
+                         EditMode=GridEditMode.Inline
+                         OnUpdate=@OnSettingUpdated
+                         Pageable=@true
+                         PageSize=@(10)>
+              <GridColumns>
+                <GridColumn Field="Key" Editable=@false Width="200px" />
+                <GridColumn Field="Value" />
+                <GridCommandColumn Width="100px">
+                  <div class="text-center">
+                    <GridCommandButton Command="Edit"
+                                       IconClass="fa-duotone fa-pencil"
+                                       Title="Edit" />
+                    <GridCommandButton Command="Cancel"
+                                       Icon="cancel"
+                                       Title="Cancel"
+                                       ShowInEdit=@true />
+                    <GridCommandButton Command="Save"
+                                       IconClass="fa-duotone fa-floppy-disk"
+                                       Title="Save"
+                                       ShowInEdit=@true />
+                  </div>
+                </GridCommandColumn>
+              </GridColumns>
+            </TelerikGrid>
+          </Content>
+        </TabStripTab>
+        <TabStripTab Title="Tenant Settings">
+          <Content>
+            <TelerikLoaderContainer OverlayThemeColor="dark"
+                                    ThemeColor="tertiary"
+                                    Visible=@updating />
+            <div class="row mt-5">
+              <label class="col-md-4">Enable RE Mentor</label>
+              <div class="col-md-8">
+                <TelerikSwitch @bind-Value=@_editableTenant!.IsREMentorStudent />
+              </div>
+            </div>
+            <div class="row mt-2">
+              <label class="col-md-4" style="vertical-align:middle">Google Verification</label>
+              <div class="col-md-8">
+                <TelerikTextBox @bind-Value=@_editableTenant!.GoogleSiteVerification
+                                Width="100%" />
+              </div>
+            </div>
+            <div class="row mt-2 mb-5 text-center">
+              <TelerikButton ThemeColor="primary"
+                             Title="Update"
+                             IconClass="fa-duotone fa-floppy-disk"
+                             OnClick=@UpdateTenant>Update</TelerikButton>
+            </div>
+          </Content>
+        </TabStripTab>
+      </TelerikTabStrip>
+    }
+    else
+    {
+      <div class="my-auto py-5 text-center">
+        <TelerikLoader />
+        <p>
+          @status
+        </p>
+      </div>
+    }
+  </WindowContent>
+</TelerikWindow>
+
+

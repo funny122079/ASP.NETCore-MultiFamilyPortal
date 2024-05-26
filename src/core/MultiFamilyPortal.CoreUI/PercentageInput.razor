@@ -1,0 +1,12 @@
+<div class="w-100" id="percent-parent">
+  <TelerikNumericTextBox @bind-Value=@Value
+                         Id=@Id
+                         Format=@($"P{Precision}")
+                         Min=@Min
+                         Max=@Max
+                         Arrows=@false
+                         Decimals="6"
+                         Enabled=@Enabled
+                         Class="form-control"
+                         OnBlur=@HandleValueChangedAsync />
+</div>

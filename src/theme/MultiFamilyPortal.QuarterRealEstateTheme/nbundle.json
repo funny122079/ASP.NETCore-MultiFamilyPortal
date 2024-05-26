@@ -1,0 +1,27 @@
+{
+  "css": {
+    "bundles": [
+      {
+        "destinationFilePath": "wwwroot/css/style.css",
+        "sourceFilePaths": [
+          "wwwroot/css/style.scss"
+        ],
+        "minify": false,
+        "addSourceFilePathComments": true
+      },
+      {
+        "destinationFilePath": "wwwroot/css/style.min.css",
+        "sourceFilePaths": [
+          "wwwroot/css/style.scss"
+        ],
+        "minify": true,
+        "addSourceFilePathComments": false
+      }
+    ]
+  },
+  "js": {
+    "bundles": [
+
+    ]
+  }
+}

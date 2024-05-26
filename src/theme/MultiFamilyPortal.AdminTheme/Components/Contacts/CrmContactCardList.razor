@@ -1,0 +1,22 @@
+﻿<div class="row row-cols-1 row-cols-md-3 g-3 mb-3">
+  @if (Contacts.Any())
+  {
+    var pageData = Contacts.Skip((_page - 1) * _pageSize).Take(_pageSize).ToList();
+    @foreach (var contact in pageData)
+    {
+      <div class="col" @onclick=@(async () => await ShowContactDetails.InvokeAsync(contact)) >
+        <CrmContactCard Contact="@contact" />
+      </div>
+    }
+  }
+  else
+  {
+    <div class="col">
+      <div class="alert alert-info">
+        No contacts found.
+      </div>
+    </div>
+  }
+</div>
+
+<TelerikPager Total="@Contacts.Count()" PageSize="@_pageSize" @bind-Page="@_page" />

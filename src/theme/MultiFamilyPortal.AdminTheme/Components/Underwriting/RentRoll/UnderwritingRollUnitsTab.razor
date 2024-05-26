@@ -1,0 +1,100 @@
+@inherits ResponsiveComponent
+
+@{ base.BuildRenderTree(__builder); }
+<TelerikGrid Data="@_filteredUnits"
+             Height="600px"
+             Sortable="true"
+             Pageable="true"
+             Resizable="true"
+             Reorderable="true">
+  <GridToolBar>
+    <TelerikTextBox @bind-Value=@_query />
+    <span class="k-toolbar-spacer"></span>
+    @if(_editable)
+    {
+      <GridCommandButton ThemeColor="primary"
+                         IconClass="fa-duotone fa-plus"
+                         OnClick="@OnAddFloorUnits">Add</GridCommandButton>
+    }
+  </GridToolBar>
+  <GridColumns>
+    <GridColumn Field="@(nameof(DisplayUnit.UnitName))" Title="Unit" Width=@(IsSmallScreen ? "150px" : "12%")/>
+    <GridColumn Field="@(nameof(DisplayUnit.Renter))" Title="Tenant Name" Width=@(IsSmallScreen ? "150px" : "15%")>
+      <Template>
+        @{ var unit = context as DisplayUnit; }
+        @(string.IsNullOrEmpty(unit.Renter) ? "N/A" : unit.Renter)
+      </Template>
+    </GridColumn>
+    <GridColumn Field="@(nameof(DisplayUnit.FloorPlanName))" Title="Floor Plan" Width=@(IsSmallScreen ? "150px" : "10%")/>
+    <GridColumn Field="@(nameof(DisplayUnit.Rent))" Title="Monthly Rent ($)" DisplayFormat="{0:C}" Width=@(IsSmallScreen ? "150px" : "10%")/>
+    <GridColumn Field="@(nameof(DisplayUnit.Balance))" Title="Balance ($)" DisplayFormat="{0:C}"Width=@(IsSmallScreen ? "150px" : "10%") />
+    <GridColumn Field="@(nameof(DisplayUnit.DepositOnHand))" Title="Deposit ($)" DisplayFormat="{0:C}" Width=@(IsSmallScreen ? "150px" : "10%")/>
+    <GridColumn Field="@(nameof(DisplayUnit.LeaseStart))" Title="Lease Start" Width=@(IsSmallScreen ? "150px" : "10%")>
+      <Template>
+        @{ var unit = context as DisplayUnit; }
+        @(unit.LeaseStart.HasValue ? unit.LeaseStart.Value.ToString($"MM/yyyy") : "N/A")
+      </Template>
+    </GridColumn>
+    <GridColumn Field="@(nameof(DisplayUnit.LeaseEnd))" Title="Lease End" Width=@(IsSmallScreen ? "150px" : "10%")>
+      <Template>
+        @{ var unit = context as DisplayUnit; }
+        @(unit.LeaseEnd.HasValue ? unit.LeaseEnd.Value.ToString($"MM/yyyy") : "N/A")
+      </Template>
+    </GridColumn>
+    <GridCommandColumn Width=@(IsSmallScreen ? "150px" : "10%")>
+      <div class="text-center">
+        <GridCommandButton OnClick="UpdateUnit" Icon="edit">
+          Edit
+        </GridCommandButton>
+      </div>
+    </GridCommandColumn>
+  </GridColumns>
+</TelerikGrid>
+
+@if (_unit != null)
+{
+  <ResponsiveWindow Visible=@(_unit != null)>
+    <WindowTitle>
+      <strong>Edit @_unit?.UnitName</strong>
+    </WindowTitle>
+    <WindowActions>
+      <WindowAction Name="Close" />
+    </WindowActions>
+    <WindowContent>
+      <UnderwritingRollUnitsControls @bind-Unit=@_unit />
+    </WindowContent>
+  </ResponsiveWindow>
+}
+
+@if (_showAddUnit)
+{
+  <ResponsiveWindow Visible=@_showAddUnit>
+    <WindowTitle>
+      <strong>Add New Unit(s)</strong>
+    </WindowTitle>
+    <WindowActions>
+      <WindowAction Name="Close" OnClick=@(() => _showAddUnit = false) />
+    </WindowActions>
+    <WindowContent>
+      <div class="row">
+        <div class="col-12 my-3">
+          <select class="form-select" aria-label="Select Floor Plan" @onchange="ChooseFloor">
+            <option value="">Select Floor Plan</option>
+            @foreach (var floor in _allFloors)
+            {
+              <option selected="@Equals(floor?.Id, _floor?.Id)" value="@floor.Id">@floor.Name</option>
+           }
+          </select>
+        </div>
+      </div>
+      <Animation OptionsName="Page">
+        @if(_newUnit != null)
+        {
+          <UnderwritingRollUnitsControls Unit="@_newUnit"
+                                         UnitChanged="@HideWindow"
+                                         OnAddFloorUnits="RefreshFloors"/>
+        }
+      </Animation>
+    </WindowContent>
+  </ResponsiveWindow>
+}

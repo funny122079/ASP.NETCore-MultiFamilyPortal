@@ -1,0 +1,103 @@
+﻿@using Data.Models
+@inherits ResponsiveComponent
+
+@{ base.BuildRenderTree(__builder); }
+<TelerikGrid Data=@_rules>
+  <GridColumns>
+    <GridColumn Field="Market" Groupable="true" Width=@(IsSmallScreen ? "150px" : "15%")>
+      <Template>
+        @{ var guidance = context as UnderwritingGuidance; }
+        @if(string.IsNullOrEmpty(guidance.Market))
+        {
+          <span>Default</span>
+        }
+        else
+        {
+          <span>@guidance.Market</span>
+        }
+      </Template>
+    </GridColumn>
+    <GridColumn Field="Category" Groupable="false" Width=@(IsSmallScreen ? "150px" : "15%")>
+      <Template>
+        @{ var guidance = context as UnderwritingGuidance; }
+          <span>@guidance.Category.Humanize(LetterCasing.Title)</span>
+      </Template>
+    </GridColumn>
+    <GridColumn Title="Amount" TextAlign=@ColumnTextAlign.Center Width=@(IsSmallScreen ? "150px" : "15%")>
+      <Template>
+        @{ var guidance = context as UnderwritingGuidance; }
+        @if(guidance.Type == CostType.PerDoor)
+        {
+          if(guidance.Min == guidance.Max)
+          {
+            <span>@guidance.Max.ToString("C") Per Door</span>
+          }
+          else
+          {
+            <span>@guidance.Min.ToString("C") - @guidance.Max.ToString("C") Per Door</span>
+          }
+        }
+        else if(guidance.Type == CostType.PercentOfPurchase)
+        {
+          <span>@guidance.Max.ToString("P") of Purchase</span>
+        }
+        else
+        {
+          <span>@guidance.Max.ToString("C")</span>
+        }
+      </Template>
+    </GridColumn>
+    <GridColumn Title="Total" TextAlign=@ColumnTextAlign.Center Width=@(IsSmallScreen ? "150px" : "15%")>
+      <Template>
+        @{ var guidance = context as UnderwritingGuidance; }
+        @if(guidance.Type == CostType.PerDoor)
+        {
+          var min = guidance.Min * Property.Units;
+          var max = guidance.Max * Property.Units;
+          if(min == max)
+          {
+            <span>@max.ToString("C")</span>
+          }
+          else
+          {
+            <span>@min.ToString("C") - @max.ToString("C")</span>
+          }
+        }
+        else if(guidance.Type == CostType.PercentOfPurchase)
+        {
+          var total = guidance.Max * Property.PurchasePrice;
+          <span>@total.ToString("C")</span>
+        }
+        else
+        {
+          <span>@guidance.Max.ToString("C")</span>
+        }
+      </Template>
+    </GridColumn>
+    <GridColumn Title="Status" TextAlign=@ColumnTextAlign.Center Width ="70px">
+      <Template>
+        @{ var guidance = context as UnderwritingGuidance; }
+        <UnderwritingExpenseStatus Guidance=@guidance Property=@Property />
+      </Template>
+    </GridColumn>
+    <GridCommandColumn Width=@(IsSmallScreen ? "150px" : "20%")>
+      <div class="text-center">
+        @{ var guidance = context as UnderwritingGuidance; }
+        <AuthorizedPolicy Policy=@PortalPolicy.Underwriter>
+          <GridCommandButton ThemeColor="primary"
+                             Title="Update Underwriting"
+                             Enabled=@IsCleanExpense(guidance)
+                             OnClick=@ShowUpdateUnderwriting>
+             Update
+           </GridCommandButton>
+        </AuthorizedPolicy>
+      </div>
+    </GridCommandColumn>
+  </GridColumns>
+</TelerikGrid>
+<UnderwritingMarketRuleOfThumbUpdate Show=@showSelectedGuidance
+                                     Property=@Property
+                                     Guidance=@_selected
+                                     UpdateCurrent=@UpdateExpense />
+
+<PortalNotification @ref="_notification" />

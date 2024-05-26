@@ -1,0 +1,75 @@
+﻿<div class="row p-2">
+  <div class="col-md-3">
+    <div class="card my-2">
+      <div class="card-header">
+        Investor Groups
+      </div>
+      <div class="card-body text-center">
+        <TelerikDropDownList Data=@_groups.Keys
+                             DefaultText="Please Select"
+                             @bind-Value=@_selectedGroup />
+
+        @if(!string.IsNullOrEmpty(_selectedGroup))
+        {
+          <TelerikButton IconClass="fa-solid fa-pencil"
+                         Class="mt-3 mx-2"
+                         OnClick=@OnEdit>Edit Group</TelerikButton>
+        }
+
+        <TelerikButton ThemeColor="primary"
+                       IconClass="fa-solid fa-plus"
+                       Class="mt-3 mx-2"
+                       OnClick=@OnAdd>Add Group</TelerikButton>
+      </div>
+    </div>
+    @if(_group != null)
+    {
+      @foreach(var tier in _group)
+      {
+        <div class="card my-2">
+          <div class="card-header">
+            @tier.Name
+          </div>
+          <ul class="list-group list-group-flush pr-1">
+            <li class="list-group-item">Investment: <span class="float-end">@tier.Investment.ToString("C")</span></li>
+            <li class="list-group-item">Preferred Rate of Return <span class="float-end">@tier.PreferredRoR.ToString("P2")</span></li>
+            <li class="list-group-item">Rate of Return on Sale <span class="float-end">@tier.RoROnSale.ToString("P2")</span></li>
+          </ul>
+        </div>
+      }
+    }
+  </div>
+  <div class="col-md-9">
+    @if(_group != null && !string.IsNullOrEmpty(_reportLink))
+    {
+      @*<DocumentViewer Type="@DocumentType.PDF" Link="@_reportLink"/>*@
+      <ComingSoon />
+    }
+  </div>
+</div>
+
+<TelerikWindow @bind-Visible=@_addReportGroup Modal="@true">
+  <WindowActions>
+    <WindowAction Name="Close" OnClick=@Refresh />
+  </WindowActions>
+  <WindowContent>
+    <div class="px-3 py-2">
+      <InvestmentTierEditor PropertyId=@Property.Id
+                            OnUpdated=@Refresh />
+    </div>
+  </WindowContent>
+</TelerikWindow>
+
+<TelerikWindow @bind-Visible=@_editReportGroup>
+  <WindowActions>
+    <WindowAction Name="Close" OnClick=@Refresh />
+  </WindowActions>
+  <WindowContent>
+    <div class="px-3 py-2">
+      <InvestmentTierEditor PropertyId=@Property.Id
+                            Name=@_selectedGroup
+                            Tiers=@_group
+                            OnUpdated=@Refresh />
+    </div>
+  </WindowContent>
+</TelerikWindow>
